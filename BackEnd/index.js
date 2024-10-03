@@ -1,11 +1,23 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const port = 5000;
+const userRouter = require('./src/routes/users.routes'); 
+const mongoose = require('mongoose');
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
 
-app.listen(port, () => {
-  console.log(`Server Is Running On Port: ${port}`);
+// Connect to MongoDB
+const url = process.env.mongoUrl;
+mongoose.connect(url)
+    .then(() => console.log("mongodb connected successfully"))
+    .catch(error => console.log("error is ", error));
+
+// Middleware
+app.use(express.json());
+
+// Use the routers
+app.use('/', userRouter);
+
+// Start the server
+app.listen(process.env.port || 3000, () => {
+    console.log("server is running successfully...");
 });
+     
