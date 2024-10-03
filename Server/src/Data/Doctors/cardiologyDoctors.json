@@ -1,0 +1,55 @@
+[
+  {
+    "name": "Dr. Sarah Johnson",
+    "age": 45,
+    "gender": "Female",
+    "ProfileImage": "https://example.com/images/dr-sarah.jpg",
+    "phoneNumber": "123-456-7890",
+    "email": "sarah.johnson@hospital.com",
+    "specialty": "Cardiologist",
+    "yearsOfExperience": 20,
+    "availability": [
+      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Cardiology",
+    "fees": { "consultation": 150 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Robert Smith",
+    "age": 50,
+    "gender": "Male",
+    "ProfileImage": "https://example.com/images/dr-robert.jpg",
+    "phoneNumber": "123-555-7890",
+    "email": "robert.smith@hospital.com",
+    "specialty": "Cardiologist",
+    "yearsOfExperience": 25,
+    "availability": [
+      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Friday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Cardiology",
+    "fees": { "consultation": 180 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Emily Davis",
+    "age": 38,
+    "gender": "Female",
+    "ProfileImage": "https://example.com/images/dr-emily.jpg",
+    "phoneNumber": "123-777-7890",
+    "email": "emily.davis@hospital.com",
+    "specialty": "Cardiologist",
+    "yearsOfExperience": 15,
+    "availability": [
+      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Cardiology",
+    "fees": { "consultation": 160 },
+    "appointmentDuration": 30
+  }
+]

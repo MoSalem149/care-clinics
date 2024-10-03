@@ -1,0 +1,209 @@
+[
+  {
+    "name": "Dr. Sarah Johnson",
+    "age": 45,
+    "gender": "Female",
+    "ProfileImage": "Doctor.jpg",
+    "phoneNumber": "123-456-7890",
+    "email": "sarah.johnson@hospital.com",
+    "specialty": "Cardiologist",
+    "yearsOfExperience": 20,
+    "availability": [
+      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Cardiology",
+    "fees": { "consultation": 150 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Robert Smith",
+    "age": 50,
+    "gender": "Male",
+    "ProfileImage": "Doctor.jpg",
+    "phoneNumber": "123-555-7890",
+    "email": "robert.smith@hospital.com",
+    "specialty": "Cardiologist",
+    "yearsOfExperience": 25,
+    "availability": [
+      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Friday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Cardiology",
+    "fees": { "consultation": 180 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Emily Davis",
+    "age": 38,
+    "gender": "Female",
+    "ProfileImage": "Doctor.jpg",
+    "phoneNumber": "123-777-7890",
+    "email": "emily.davis@hospital.com",
+    "specialty": "Cardiologist",
+    "yearsOfExperience": 15,
+    "availability": [
+      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Cardiology",
+    "fees": { "consultation": 160 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Benjamin Clark",
+    "age": 33,
+    "gender": "Male",
+    "ProfileImage": "Doctor.jpg",
+    "phoneNumber": "123-777-7891",
+    "email": "benjamin.clark@hospital.com",
+    "specialty": "General Dentist",
+    "yearsOfExperience": 5,
+    "availability": [
+      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "General Dental Care",
+    "fees": { "consultation": 100 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Clara Adams",
+    "age": 28,
+    "gender": "Female",
+    "ProfileImage": "Doctor.jpg",
+    "phoneNumber": "123-888-7891",
+    "email": "clara.adams@hospital.com",
+    "specialty": "General Dentist",
+    "yearsOfExperience": 3,
+    "availability": [
+      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "General Dental Care",
+    "fees": { "consultation": 120 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Emily Robinson",
+    "age": 30,
+    "gender": "Female",
+    "ProfileImage": "Doctor.jpg",
+    "phoneNumber": "123-999-7891",
+    "email": "emily.robinson@hospital.com",
+    "specialty": "General Dentist",
+    "yearsOfExperience": 4,
+    "availability": [
+      { "day": "Monday", "startTime": "10:00 AM", "endTime": "06:00 PM" },
+      { "day": "Thursday", "startTime": "10:00 AM", "endTime": "06:00 PM" },
+      { "day": "Saturday", "startTime": "09:00 AM", "endTime": "02:00 PM" }
+    ],
+    "department": "General Dental Care",
+    "fees": { "consultation": 110 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Alice Taylor",
+    "age": 39,
+    "gender": "Female",
+    "ProfileImage": "Doctor.jpg",
+    "phoneNumber": "123-444-7890",
+    "email": "alice.taylor@hospital.com",
+    "specialty": "Internal Medicine",
+    "yearsOfExperience": 12,
+    "availability": [
+      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Internal Medicine",
+    "fees": { "consultation": 120 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Richard Lee",
+    "age": 50,
+    "gender": "Male",
+    "ProfileImage": "Doctor.jpg",
+    "phoneNumber": "123-555-7891",
+    "email": "richard.lee@hospital.com",
+    "specialty": "Internal Medicine",
+    "yearsOfExperience": 25,
+    "availability": [
+      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Internal Medicine",
+    "fees": { "consultation": 140 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Jessica White",
+    "age": 45,
+    "gender": "Female",
+    "ProfileImage": "Doctor.jpg",
+    "phoneNumber": "123-666-7890",
+    "email": "jessica.white@hospital.com",
+    "specialty": "Internal Medicine",
+    "yearsOfExperience": 18,
+    "availability": [
+      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Friday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Internal Medicine",
+    "fees": { "consultation": 130 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Michael Brown",
+    "age": 40,
+    "gender": "Male",
+    "ProfileImage": "Doctor.jpg",
+    "phoneNumber": "123-111-7890",
+    "email": "michael.brown@hospital.com",
+    "specialty": "Orthopedic Surgeon",
+    "yearsOfExperience": 18,
+    "availability": [
+      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Orthopedics",
+    "fees": { "consultation": 200 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Linda Wilson",
+    "age": 55,
+    "gender": "Female",
+    "ProfileImage": "Doctor.jpg",
+    "phoneNumber": "123-222-7890",
+    "email": "linda.wilson@hospital.com",
+    "specialty": "Orthopedic Surgeon",
+    "yearsOfExperience": 30,
+    "availability": [
+      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Orthopedics",
+    "fees": { "consultation": 250 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. David Green",
+    "age": 42,
+    "gender": "Male",
+    "ProfileImage": "Doctor.jpg",
+    "phoneNumber": "123-333-7890",
+    "email": "david.green@hospital.com",
+    "specialty": "Orthopedic Surgeon",
+    "yearsOfExperience": 20,
+    "availability": [
+      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Friday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Orthopedics",
+    "fees": { "consultation": 210 },
+    "appointmentDuration": 30
+  }
+]

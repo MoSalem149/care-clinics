@@ -1,0 +1,53 @@
+[
+  {
+    "name": "Dr. Alice Taylor",
+    "age": 39,
+    "gender": "Female",
+    "ProfileImage": "https://example.com/images/dr-alice.jpg",
+    "phoneNumber": "123-444-7890",
+    "email": "alice.taylor@hospital.com",
+    "specialty": "Internal Medicine",
+    "yearsOfExperience": 12,
+    "availability": [
+      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Internal Medicine",
+    "fees": { "consultation": 120 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Richard Lee",
+    "age": 50,
+    "gender": "Male",
+    "ProfileImage": "https://example.com/images/dr-richard.jpg",
+    "phoneNumber": "123-555-7891",
+    "email": "richard.lee@hospital.com",
+    "specialty": "Internal Medicine",
+    "yearsOfExperience": 25,
+    "availability": [
+      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Internal Medicine",
+    "fees": { "consultation": 140 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Jessica White",
+    "age": 45,
+    "gender": "Female",
+    "ProfileImage": "https://example.com/images/dr-jessica.jpg",
+    "phoneNumber": "123-666-7890",
+    "email": "jessica.white@hospital.com",
+    "specialty": "Internal Medicine",
+    "yearsOfExperience": 18,
+    "availability": [
+      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Friday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Internal Medicine",
+    "fees": { "consultation": 130 },
+    "appointmentDuration": 30
+  }
+]

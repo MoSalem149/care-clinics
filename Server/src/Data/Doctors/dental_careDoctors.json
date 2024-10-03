@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Dr. Benjamin Clark",
+    "age": 33,
+    "gender": "Male",
+    "ProfileImage": "https://example.com/images/dr-benjamin.jpg",
+    "phoneNumber": "123-777-7891",
+    "email": "benjamin.clark@hospital.com",
+    "specialty": "General Dentist",
+    "yearsOfExperience": 5,
+    "availability": [
+      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "General Dental Care",
+    "fees": { "consultation": 100 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Clara Adams",
+    "age": 28,
+    "gender": "Female",
+    "ProfileImage": "https://example.com/images/dr-clara.jpg",
+    "phoneNumber": "123-888-7891",
+    "email": "clara.adams@hospital.com",
+    "specialty": "General Dentist",
+    "yearsOfExperience": 3,
+    "availability": [
+      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "General Dental Care",
+    "fees": { "consultation": 120 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Emily Robinson",
+    "age": 30,
+    "gender": "Female",
+    "ProfileImage": "https://example.com/images/dr-emily.jpg",
+    "phoneNumber": "123-999-7891",
+    "email": "emily.robinson@hospital.com",
+    "specialty": "General Dentist",
+    "yearsOfExperience": 4,
+    "availability": [
+      { "day": "Monday", "startTime": "10:00 AM", "endTime": "06:00 PM" },
+      { "day": "Thursday", "startTime": "10:00 AM", "endTime": "06:00 PM" },
+      { "day": "Saturday", "startTime": "09:00 AM", "endTime": "02:00 PM" }
+    ],
+    "department": "General Dental Care",
+    "fees": { "consultation": 110 },
+    "appointmentDuration": 30
+  }
+]

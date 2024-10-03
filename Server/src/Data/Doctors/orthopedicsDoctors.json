@@ -1,0 +1,53 @@
+[
+  {
+    "name": "Dr. Michael Brown",
+    "age": 40,
+    "gender": "Male",
+    "ProfileImage": "https://example.com/images/dr-michael.jpg",
+    "phoneNumber": "123-111-7890",
+    "email": "michael.brown@hospital.com",
+    "specialty": "Orthopedic Surgeon",
+    "yearsOfExperience": 18,
+    "availability": [
+      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Orthopedics",
+    "fees": { "consultation": 200 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. Linda Wilson",
+    "age": 55,
+    "gender": "Female",
+    "ProfileImage": "https://example.com/images/dr-linda.jpg",
+    "phoneNumber": "123-222-7890",
+    "email": "linda.wilson@hospital.com",
+    "specialty": "Orthopedic Surgeon",
+    "yearsOfExperience": 30,
+    "availability": [
+      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Orthopedics",
+    "fees": { "consultation": 250 },
+    "appointmentDuration": 30
+  },
+  {
+    "name": "Dr. David Green",
+    "age": 42,
+    "gender": "Male",
+    "ProfileImage": "https://example.com/images/dr-david.jpg",
+    "phoneNumber": "123-333-7890",
+    "email": "david.green@hospital.com",
+    "specialty": "Orthopedic Surgeon",
+    "yearsOfExperience": 20,
+    "availability": [
+      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
+      { "day": "Friday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+    ],
+    "department": "Orthopedics",
+    "fees": { "consultation": 210 },
+    "appointmentDuration": 30
+  }
+]
