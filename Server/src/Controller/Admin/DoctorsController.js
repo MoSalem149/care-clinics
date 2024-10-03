@@ -1,8 +1,18 @@
+const bcrypt = require("bcrypt");
 const { models } = require("mongoose");
-const DoctorModel = require("../models/Doctor");
-const departmentModel = require("../models/Departments");
+const DoctorModel = require("../../models/Doctor.js");
+const departmentModel = require("../../models/Departments");
 const { json } = require("express");
-const { updateDepartment } = require("./Admin/DepartmentController.js");
+const { updateDepartment } = require("../Admin/DepartmentController.js");
+const {
+  generateAdvancedPassword,
+  generateResetToken,
+  generateToken,
+} = require("../../Tools/GeneratePassword.js");
+const sendResetPasswordEmail = require("../../Tools/SendEmailToDoctors.js");
+
+const emailRegex =
+  /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/i;
 
 const GetAllDoctors = async (req, res) => {
   try {
@@ -51,6 +61,13 @@ const CreateDoctor = async (req, res) => {
       fees,
       appointmentDuration,
     } = req.body;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: "Invalid email format." });
+    }
+    const existingDoctor = await DoctorModel.findOne({ email });
+    if (existingDoctor) {
+      return res.status(400).json({ error: "Email already exists." });
+    }
     const foundDepartment = await departmentModel.findOne({ name: department });
     if (!foundDepartment) {
       return res
@@ -58,6 +75,8 @@ const CreateDoctor = async (req, res) => {
         .json({ error: `Department '${department}' does not exist.` });
     }
     const ProfileImage = req.file ? req.file.filename : null;
+    const tempPassword = generateAdvancedPassword();
+    hashedPassword = await bcrypt.hash(tempPassword, 10);
     const newDoctor = new DoctorModel({
       name,
       age,
@@ -65,6 +84,7 @@ const CreateDoctor = async (req, res) => {
       ProfileImage,
       phoneNumber,
       email,
+      password: hashedPassword,
       specialty,
       yearsOfExperience,
       availability: JSON.parse(availability),
@@ -73,6 +93,18 @@ const CreateDoctor = async (req, res) => {
       appointmentDuration,
     });
     const saveDoctor = await newDoctor.save();
+    const resetToken = generateToken({ email });
+    const resetUrl = `http://localhost:5000/reset-password?token=${resetToken}`;
+    await sendResetPasswordEmail({
+      to: email,
+      subject: "Welcome to the Clinic - Reset Your Password",
+      html: `
+        <p>Dear Dr. ${name},</p>
+        <p>Welcome to our clinic! Please use the following link to reset your temporary password and set a new one:</p>
+        <p><a href="${resetUrl}">Reset Your Password</a></p>
+        <p>Best regards,<br>The Clinic Team</p>
+      `,
+    });
     res.status(201).json(saveDoctor);
   } catch (error) {
     console.error("Error Creating Doctor", error);
@@ -109,6 +141,13 @@ const UpdateDoctor = async (req, res) => {
     let updatedProfileImage;
     if (req.file) {
       updatedProfileImage = req.file.filename;
+    }
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: "Invalid email format." });
+    }
+    const existingDoctor = await DoctorModel.findOne({ email });
+    if (existingDoctor) {
+      return res.status(400).json({ error: "Email already exists." });
     }
 
     const UpdateDoctor = await DoctorModel.findByIdAndUpdate(

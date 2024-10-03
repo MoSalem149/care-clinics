@@ -10,7 +10,7 @@ const {
   CreateDoctor,
   UpdateDoctor,
   DeleteDoctor,
-} = require("../../Controller/DoctorsController");
+} = require("../../Controller/Admin/DoctorsController");
 
 router.get("/", GetAllDoctors);
 

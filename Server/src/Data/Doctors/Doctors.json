@@ -9,13 +9,26 @@
     "specialty": "Cardiologist",
     "yearsOfExperience": 20,
     "availability": [
-      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
-      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
-      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+      {
+        "day": "Monday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Tuesday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Wednesday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      }
     ],
     "department": "Cardiology",
     "fees": { "consultation": 150 },
-    "appointmentDuration": 30
+    "appointmentDuration": 30,
+    "password": "Kitoked555"
   },
   {
     "name": "Dr. Robert Smith",
@@ -27,12 +40,21 @@
     "specialty": "Cardiologist",
     "yearsOfExperience": 25,
     "availability": [
-      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
-      { "day": "Friday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+      {
+        "day": "Thursday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Friday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      }
     ],
     "department": "Cardiology",
     "fees": { "consultation": 180 },
-    "appointmentDuration": 30
+    "appointmentDuration": 30,
+    "password": "Kitoked555"
   },
   {
     "name": "Dr. Emily Davis",
@@ -44,13 +66,26 @@
     "specialty": "Cardiologist",
     "yearsOfExperience": 15,
     "availability": [
-      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
-      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
-      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+      {
+        "day": "Monday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Wednesday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Thursday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      }
     ],
     "department": "Cardiology",
     "fees": { "consultation": 160 },
-    "appointmentDuration": 30
+    "appointmentDuration": 30,
+    "password": "Kitoked555"
   },
   {
     "name": "Dr. Benjamin Clark",
@@ -62,12 +97,21 @@
     "specialty": "General Dentist",
     "yearsOfExperience": 5,
     "availability": [
-      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
-      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+      {
+        "day": "Monday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Wednesday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      }
     ],
     "department": "General Dental Care",
     "fees": { "consultation": 100 },
-    "appointmentDuration": 30
+    "appointmentDuration": 30,
+    "password": "Kitoked555"
   },
   {
     "name": "Dr. Clara Adams",
@@ -79,12 +123,21 @@
     "specialty": "General Dentist",
     "yearsOfExperience": 3,
     "availability": [
-      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
-      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+      {
+        "day": "Tuesday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Thursday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00"
+      }
     ],
     "department": "General Dental Care",
     "fees": { "consultation": 120 },
-    "appointmentDuration": 30
+    "appointmentDuration": 30,
+    "password": "Kitoked555"
   },
   {
     "name": "Dr. Emily Robinson",
@@ -96,13 +149,26 @@
     "specialty": "General Dentist",
     "yearsOfExperience": 4,
     "availability": [
-      { "day": "Monday", "startTime": "10:00 AM", "endTime": "06:00 PM" },
-      { "day": "Thursday", "startTime": "10:00 AM", "endTime": "06:00 PM" },
-      { "day": "Saturday", "startTime": "09:00 AM", "endTime": "02:00 PM" }
+      {
+        "day": "Monday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Thursday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Saturday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      }
     ],
     "department": "General Dental Care",
     "fees": { "consultation": 110 },
-    "appointmentDuration": 30
+    "appointmentDuration": 30,
+    "password": "Kitoked555"
   },
   {
     "name": "Dr. Alice Taylor",
@@ -114,12 +180,21 @@
     "specialty": "Internal Medicine",
     "yearsOfExperience": 12,
     "availability": [
-      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
-      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+      {
+        "day": "Monday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Thursday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      }
     ],
     "department": "Internal Medicine",
     "fees": { "consultation": 120 },
-    "appointmentDuration": 30
+    "appointmentDuration": 30,
+    "password": "Kitoked555"
   },
   {
     "name": "Dr. Richard Lee",
@@ -131,12 +206,21 @@
     "specialty": "Internal Medicine",
     "yearsOfExperience": 25,
     "availability": [
-      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
-      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+      {
+        "day": "Tuesday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Wednesday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      }
     ],
     "department": "Internal Medicine",
     "fees": { "consultation": 140 },
-    "appointmentDuration": 30
+    "appointmentDuration": 30,
+    "password": "Kitoked555"
   },
   {
     "name": "Dr. Jessica White",
@@ -148,12 +232,21 @@
     "specialty": "Internal Medicine",
     "yearsOfExperience": 18,
     "availability": [
-      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
-      { "day": "Friday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+      {
+        "day": "Monday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Friday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      }
     ],
     "department": "Internal Medicine",
     "fees": { "consultation": 130 },
-    "appointmentDuration": 30
+    "appointmentDuration": 30,
+    "password": "Kitoked555"
   },
   {
     "name": "Dr. Michael Brown",
@@ -165,12 +258,21 @@
     "specialty": "Orthopedic Surgeon",
     "yearsOfExperience": 18,
     "availability": [
-      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
-      { "day": "Thursday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+      {
+        "day": "Tuesday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Thursday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      }
     ],
     "department": "Orthopedics",
     "fees": { "consultation": 200 },
-    "appointmentDuration": 30
+    "appointmentDuration": 30,
+    "password": "Kitoked555"
   },
   {
     "name": "Dr. Linda Wilson",
@@ -182,12 +284,21 @@
     "specialty": "Orthopedic Surgeon",
     "yearsOfExperience": 30,
     "availability": [
-      { "day": "Monday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
-      { "day": "Wednesday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+      {
+        "day": "Monday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Wednesday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      }
     ],
     "department": "Orthopedics",
     "fees": { "consultation": 250 },
-    "appointmentDuration": 30
+    "appointmentDuration": 30,
+    "password": "Kitoked555"
   },
   {
     "name": "Dr. David Green",
@@ -199,11 +310,20 @@
     "specialty": "Orthopedic Surgeon",
     "yearsOfExperience": 20,
     "availability": [
-      { "day": "Tuesday", "startTime": "09:00 AM", "endTime": "05:00 PM" },
-      { "day": "Friday", "startTime": "09:00 AM", "endTime": "05:00 PM" }
+      {
+        "day": "Tuesday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      },
+      {
+        "day": "Friday",
+        "startTime": "2024-10-02T09:00:00.000Z",
+        "endTime": "2024-10-02T17:00:00.000Z"
+      }
     ],
     "department": "Orthopedics",
     "fees": { "consultation": 210 },
-    "appointmentDuration": 30
+    "appointmentDuration": 30,
+    "password": "Kitoked555"
   }
 ]
