@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import SignInPage from "./pages/SignInPage";
+// import SignUpPage from "./pages/SignUpPage";
 import "./App.css";
-import axios from "axios";
-import TestImages from "./Components/testImage";
 
-function App() {
+const App = () => {
   return (
-    <div>
-      <TestImages />
-    </div>
+    <>
+      <SignInPage />
+      {/* <SignUpPage /> */}
+    </>
   );
-}
+};
 
 export default App;
