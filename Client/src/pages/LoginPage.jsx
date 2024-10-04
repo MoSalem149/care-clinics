@@ -88,7 +88,9 @@ function LoginPage() {
 
   /* JSX */
   return (
+    /* Login Page */
     <AnimatePresence>
+      {/* Motion */}
       <motion.div
         initial={{ opacity: 0, x: 100 }}
         animate={{ opacity: 1, x: 0 }}
@@ -100,12 +102,12 @@ function LoginPage() {
           {/* Container */}
           <div className="login-container">
             <Helmet>
-              <title>Sign In Page</title>
+              <title>Login Page</title>
             </Helmet>
             {/* Left Side */}
             <div className="login-left-side">
               <h3>Don’t have an account?</h3>
-              <Link to={"/signup"} className="login-btn">
+              <Link to={"/signup"} className="sign-up-btn">
                 <span>Sign Up</span>
                 <img
                   src={whiteArrowIcon}
