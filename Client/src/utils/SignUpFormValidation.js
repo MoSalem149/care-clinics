@@ -9,9 +9,9 @@ export const validateForm = ({ fullName, email, password, role }) => {
   }
 
   // Email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email) {
-    validationErrors.email = "Please provide a valid email";
+  const emailRegex = /^[^\s@]+[^.][^\s@]*@[^\s@]+\.[^\s@]+$/i;
+  if (!email.trim()) {
+    validationErrors.email = "Email is required";
   } else if (!emailRegex.test(email)) {
     validationErrors.email = "Invalid email format";
   }
@@ -24,7 +24,7 @@ export const validateForm = ({ fullName, email, password, role }) => {
   }
 
   // Role validation
-  if (!role) {
+  if (!role.trim()) {
     validationErrors.role = "Role is required";
   }
 

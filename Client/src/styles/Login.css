@@ -6,7 +6,7 @@
 }
 
 /* Left Side Styles */
-.left-side {
+.login-left-side {
   width: 40%;
   background-image: url(../assets/images/SignUp-SignIn-img/left-side-wave-img.png);
   background-size: 100% 100%;
@@ -17,7 +17,7 @@
 }
 
 /* Illustration Image */
-.illustration-img {
+.login-illustration-img {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,7 +37,7 @@ h3 {
 }
 
 /* Sign Up Button */
-.sign-up-btn {
+.login-btn {
   display: inline-flex;
   align-items: center;
   background-color: #eff8ff;
@@ -53,12 +53,12 @@ h3 {
   transition: background-color 0.3s ease;
 }
 
-.sign-up-btn:hover {
+.login-btn:hover {
   background-color: #d0e8f7;
   box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-.sign-up-btn span {
+.login-btn span {
   margin-right: 10px;
 }
 
@@ -68,7 +68,7 @@ h3 {
 }
 
 /* Right Side Styles */
-.right-side {
+.login-right-side {
   width: 60%;
   display: flex;
   align-items: center;
@@ -93,7 +93,7 @@ h1 {
   margin-bottom: 10px;
 }
 
-.social-btn {
+.login-social-btn {
   background-color: #2479a9;
   border: none;
   border-radius: 50%;
@@ -105,7 +105,7 @@ h1 {
   cursor: pointer;
 }
 
-.social-btn img {
+.login-social-btn img {
   width: 24px;
   height: 24px;
 }
@@ -189,17 +189,17 @@ h1 {
     height: auto;
   }
 
-  .left-side,
-  .right-side {
+  .login-left-side,
+  .login-right-side {
     width: 100%;
     padding: 20px;
   }
 
-  .left-side {
+  .login-left-side {
     align-items: center;
   }
 
-  .right-side {
+  .login-right-side {
     text-align: center;
     background-size: 100% auto;
   }
@@ -217,20 +217,20 @@ h1 {
     justify-content: center;
   }
 
-  .left-side {
+  .login-left-side {
     width: 100%;
     padding: 20px;
     text-align: center;
     background: none;
   }
 
-  .right-side {
+  .login-right-side {
     width: 100%;
     padding: 20px;
     text-align: left;
   }
 
-  .left-side img {
+  .login-left-side img {
     display: none;
   }
 
@@ -243,14 +243,14 @@ h1 {
     gap: 10px;
   }
 
-  .sign-up-btn {
+  .login-btn {
     width: auto;
     justify-content: center;
     padding: 10px 20px;
     margin-bottom: 0;
   }
 
-  .sign-up-btn img {
+  .login-btn img {
     display: inline-block;
   }
 
@@ -272,3 +272,12 @@ h1 {
     display: inline-block;
   }
 }
+.login-success{
+  color: #28a745;
+  text-align: center;
+}
+.login-error{
+  color: red;
+  text-align: center;
+}
+

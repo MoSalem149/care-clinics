@@ -1,13 +1,17 @@
-import SignInPage from "./pages/SignInPage";
-// import SignUpPage from "./pages/SignUpPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SignUpPage from "./pages/SignUpPage";
+import Login from "./pages/Login";
 import "./App.css";
 
 const App = () => {
   return (
-    <>
-      <SignInPage />
-      {/* <SignUpPage /> */}
-    </>
+    <BrowserRouter>
+      <Routes>
+         <Route path="/login" element={<Login />} /> 
+        <Route path="/signup" element={<SignUpPage />} /> 
+        <Route path="/" element={<SignUpPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
