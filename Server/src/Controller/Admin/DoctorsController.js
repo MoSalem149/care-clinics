@@ -93,8 +93,8 @@ const CreateDoctor = async (req, res) => {
       appointmentDuration,
     });
     const saveDoctor = await newDoctor.save();
-    const resetToken = generateToken({ email });
-    const resetUrl = `http://localhost:5000/reset-password?token=${resetToken}`;
+    const resetToken = generateToken({ email }, "24h");
+    const resetUrl = `http://localhost:5000/doctors/reset-password?token=${resetToken}`;
     await sendResetPasswordEmail({
       to: email,
       subject: "Welcome to the Clinic - Reset Your Password",
