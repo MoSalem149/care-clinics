@@ -262,10 +262,6 @@ h1 {
     margin-bottom: 0;
   }
 
-  .login-btn img {
-    display: inline-block;
-  }
-
   h3 {
     display: block;
     color: #1e84b5;
@@ -278,9 +274,5 @@ h1 {
     justify-content: center;
     padding: 10px 20px;
     margin-top: 10px;
-  }
-
-  .login-btn img {
-    display: inline-block;
   }
 }

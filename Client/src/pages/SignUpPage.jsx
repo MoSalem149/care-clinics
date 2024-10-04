@@ -258,7 +258,7 @@ function SignUpPage() {
               {/* Sign Up Button */}
               <button
                 type="button"
-                className="login-btn"
+                className="sign-up-btn-left-side"
                 onClick={handleSignUpClick}
               >
                 <span>Sign Up</span>
@@ -269,7 +269,7 @@ function SignUpPage() {
             {/* Right Side */}
             <div className="sign-up-right-side">
               <h3>Already have an account?</h3>
-              <Link to="/login" className="sign-up-btn">
+              <Link to="/login" className="login-btn-right-side">
                 <span>Login</span>
                 <img
                   src={whiteArrowIcon}
