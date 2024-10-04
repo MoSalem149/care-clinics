@@ -9,7 +9,8 @@ const Images = require("./src/routes/Images");
 const seedDoctors = require("./src/seeding/SeedingDoctorData");
 const seedDepartments = require("./src/seeding/SeedingDepartments");
 const Departments = require("./src/routes/Admin/Deaprtments");
-const Doctors = require("./src/routes/Admin/Doctors");
+const DoctorsByAdmin = require("./src/routes/Admin/Doctors");
+const Doctors = require("./src/routes/Doctors/Doctors");
 dotenv.config();
 
 const app = express();
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 
 app.use("/images", Images);
 app.use("/departments", Departments);
+app.use("/Admin/doctors", DoctorsByAdmin);
 app.use("/doctors", Doctors);
 
 mongoose
