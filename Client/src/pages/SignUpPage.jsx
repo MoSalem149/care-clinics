@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { validateForm } from "../utils/SignUpFormValidation";
@@ -12,7 +13,6 @@ import whiteArrowIcon from "../assets/images/SignUp-SignIn-img/white-arrow-icon.
 import illustrationImg from "../assets/images/SignUp-SignIn-img/illustration-img.png";
 /* Import CSS */
 import "../styles/SignUpPage.css";
-import { Link } from "react-router-dom";
 
 function SignUpPage() {
   /* State */
@@ -46,7 +46,7 @@ function SignUpPage() {
       fullName,
       email,
       password,
-      role, 
+      role,
     };
 
     try {
@@ -71,7 +71,7 @@ function SignUpPage() {
         setFullName("");
         setEmail("");
         setPassword("");
-        setRole("patient"); 
+        setRole("patient");
       } else {
         setFeedbackMessage(result.message || "An error occurred.");
         setFeedbackType("error");
@@ -195,7 +195,9 @@ function SignUpPage() {
                     type="text"
                     id="full-name"
                     value={fullName}
-                    onChange={(e) => handleInputChange("fullName", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("fullName", e.target.value)
+                    }
                     placeholder="Full Name"
                     required
                   />
@@ -229,7 +231,9 @@ function SignUpPage() {
                     type="password"
                     id="password"
                     value={password}
-                    onChange={(e) => handleInputChange("password", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("password", e.target.value)
+                    }
                     placeholder="Password"
                     required
                   />
@@ -265,12 +269,12 @@ function SignUpPage() {
             <div className="signUp-right-side">
               <h3>Already have an account?</h3>
               <Link to="/login" className="signUp-btn">
-               <span>Login</span>
-               <img
-               src={whiteArrowIcon}
-               alt="White Arrow Icon"
-               className="arrow-icon"
-               />
+                <span>Login</span>
+                <img
+                  src={whiteArrowIcon}
+                  alt="White Arrow Icon"
+                  className="arrow-icon"
+                />
               </Link>
               <img
                 src={illustrationImg}
@@ -283,6 +287,6 @@ function SignUpPage() {
       </motion.div>
     </AnimatePresence>
   );
-};
+}
 
 export default SignUpPage;

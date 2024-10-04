@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 /* Import assets */
@@ -8,10 +9,9 @@ import blueArrowIcon from "../assets/images/SignUp-SignIn-img/blue-arrow-icon.pn
 import whiteArrowIcon from "../assets/images/SignUp-SignIn-img/white-arrow-icon.png";
 import illustrationImg from "../assets/images/SignUp-SignIn-img/illustration-img.png";
 /* Import CSS */
-import "../styles/Login.css";
-import { Link } from "react-router-dom";
+import "../styles/LoginPage.css";
 
-function Login(){
+function LoginPage() {
   /* State */
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -59,7 +59,7 @@ function Login(){
       if (response.ok && result.token) {
         // Store the token and user details
         localStorage.setItem("token", result.token); // Storing token
-        
+
         // Display success feedback
         displayFeedback("Login successful!", "login-success");
 
@@ -98,14 +98,14 @@ function Login(){
         {/* Helmet */}
         <HelmetProvider>
           {/* Container */}
-          <div className="sign-in-container">
+          <div className="login-container">
             <Helmet>
               <title>Sign In Page</title>
             </Helmet>
             {/* Left Side */}
             <div className="login-left-side">
               <h3>Don’t have an account?</h3>
-              <Link to={'/signup'} className="login-btn">
+              <Link to={"/signup"} className="login-btn">
                 <span>Sign Up</span>
                 <img
                   src={whiteArrowIcon}
@@ -133,7 +133,7 @@ function Login(){
                 </button>
               </div>
               {/* Form */}
-              <form className="sign-in-form" onSubmit={handleSubmit}>
+              <form className="login-form" onSubmit={handleSubmit}>
                 <label htmlFor="email">Email Address</label>
                 <input
                   type="email"
@@ -160,8 +160,12 @@ function Login(){
                   </p>
                 )}
               </form>
-              {/* Sign In Button */}
-              <button className="sign-in-btn" type="submit" onClick={handleSubmit}>
+              {/* Login Button */}
+              <button
+                className="login-btn"
+                type="submit"
+                onClick={handleSubmit}
+              >
                 <span>Login</span>
                 <img src={blueArrowIcon} alt="Blue Arrow Icon" />
               </button>
@@ -171,6 +175,6 @@ function Login(){
       </motion.div>
     </AnimatePresence>
   );
-};
+}
 
-export default Login;
+export default LoginPage;
