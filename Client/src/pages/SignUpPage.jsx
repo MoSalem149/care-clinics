@@ -121,21 +121,24 @@ function SignUpPage() {
 
   /* JSX */
   return (
+    /* Sign Up Page */
     <AnimatePresence>
+      {/* Motion */}
       <motion.div
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 100 }}
         transition={{ duration: 0.5 }}
       >
+        {/* Helmet */}
         <HelmetProvider>
+          {/* Container */}
           <div className="sign-up-container">
             <Helmet>
               <title>Sign Up Page</title>
             </Helmet>
-
             {/* Left Side */}
-            <div className="signUp-left-side">
+            <div className="sign-up-left-side">
               <div className="user-switch">
                 <div className="button-container">
                   <img
@@ -166,14 +169,14 @@ function SignUpPage() {
                   </button>
                 </div>
               </div>
-
+              {/* Header */}
               <h1>Welcome!</h1>
-
-              <div className="signUp-social-login">
-                <button className="signUp-social-btn">
+              {/* Social Sign Up */}
+              <div className="social-sign-up">
+                <button className="sign-up-social-btn">
                   <img src={facebookIcon} alt="Facebook Icon" />
                 </button>
-                <button className="signUp-social-btn google">
+                <button className="sign-up-social-btn google">
                   <img src={gmailIcon} alt="Google Icon" />
                 </button>
               </div>
@@ -202,7 +205,6 @@ function SignUpPage() {
                     required
                   />
                 </div>
-
                 <div className="input-container">
                   <div className="label-error-container">
                     <label htmlFor="email">Email Address</label>
@@ -219,7 +221,6 @@ function SignUpPage() {
                     required
                   />
                 </div>
-
                 <div className="input-container">
                   <div className="label-error-container">
                     <label htmlFor="password">Password</label>
@@ -257,18 +258,18 @@ function SignUpPage() {
               {/* Sign Up Button */}
               <button
                 type="button"
-                className="sign-up-btn"
+                className="sign-up-btn-left-side"
                 onClick={handleSignUpClick}
               >
-                <span className="sign-up-span">Sign Up</span>
+                <span>Sign Up</span>
                 <img src={blueArrowIcon} alt="Blue Arrow Icon" />
               </button>
             </div>
 
             {/* Right Side */}
-            <div className="signUp-right-side">
+            <div className="sign-up-right-side">
               <h3>Already have an account?</h3>
-              <Link to="/login" className="signUp-btn">
+              <Link to="/login" className="login-btn-right-side">
                 <span>Login</span>
                 <img
                   src={whiteArrowIcon}
@@ -279,7 +280,7 @@ function SignUpPage() {
               <img
                 src={illustrationImg}
                 alt="Medical Illustration"
-                className="signUp-illustration-img"
+                className="sign-up-illustration-img"
               />
             </div>
           </div>

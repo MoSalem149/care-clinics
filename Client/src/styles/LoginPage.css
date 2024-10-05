@@ -37,7 +37,7 @@ h3 {
 }
 
 /* Sign Up Button */
-.login-btn {
+.sign-up-btn {
   display: inline-flex;
   align-items: center;
   background-color: #eff8ff;
@@ -53,12 +53,12 @@ h3 {
   transition: background-color 0.3s ease;
 }
 
-.login-btn:hover {
+.sign-up-btn:hover {
   background-color: #d0e8f7;
   box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-.login-btn span {
+.sign-up-btn span {
   margin-right: 10px;
 }
 
@@ -148,7 +148,7 @@ h1 {
   text-decoration: underline;
 }
 
-/* Sign In Button */
+/* Login Button */
 .login-btn {
   display: inline-flex;
   align-items: center;
@@ -179,6 +179,18 @@ h1 {
 .login-btn img {
   width: 25px;
   height: 25px;
+}
+
+.feedback-message {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.login-success {
+  color: #28a745;
+}
+.login-error {
+  color: red;
 }
 
 /* Media Queries */
@@ -250,10 +262,6 @@ h1 {
     margin-bottom: 0;
   }
 
-  .login-btn img {
-    display: inline-block;
-  }
-
   h3 {
     display: block;
     color: #1e84b5;
@@ -267,16 +275,4 @@ h1 {
     padding: 10px 20px;
     margin-top: 10px;
   }
-
-  .login-btn img {
-    display: inline-block;
-  }
-}
-.login-success {
-  color: #28a745;
-  text-align: center;
-}
-.login-error {
-  color: red;
-  text-align: center;
 }
