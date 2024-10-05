@@ -11,6 +11,8 @@ const seedDepartments = require("./src/seeding/SeedingDepartments");
 const Departments = require("./src/routes/Admin/Deaprtments");
 const DoctorsByAdmin = require("./src/routes/Admin/Doctors");
 const Doctors = require("./src/routes/Doctors/Doctors");
+const userRouter = require("./src/routes/users.routes");
+
 dotenv.config();
 
 const app = express();
@@ -25,16 +27,16 @@ app.get("/", (req, res) => {
 });
 
 app.use("/images", Images);
-app.use("/departments", Departments);
+app.use("/Admin/departments", Departments);
 app.use("/Admin/doctors", DoctorsByAdmin);
 app.use("/doctors", Doctors);
+app.use("/users", userRouter);
 
 mongoose
   .connect(process.env.MONGO_URI)
   .then(async () => {
     console.log("MongoDB Connected");
     await seedDepartments();
-    await seedDoctors();
 
     app.listen(PORT, () => {
       console.log(`Server Is Running On Port: ${PORT}`);
