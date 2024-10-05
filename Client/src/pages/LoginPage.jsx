@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 /* Import assets */
@@ -17,6 +17,9 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [feedback, setFeedback] = useState(""); // For displaying feedback messages
   const [feedbackType, setFeedbackType] = useState(""); // For feedback type (success/error)
+
+  /* Navigate */
+  const navigate = useNavigate();
 
   /* Function to display feedback */
   const displayFeedback = (message, type) => {
@@ -86,6 +89,11 @@ function LoginPage() {
     }
   };
 
+  /* Function to handle forget password */
+  const handleForgetPassword = () => {
+    navigate("/reset-password");
+  };
+
   /* JSX */
   return (
     /* Login Page */
@@ -107,7 +115,7 @@ function LoginPage() {
             {/* Left Side */}
             <div className="login-left-side">
               <h3>Don’t have an account?</h3>
-              <Link to={"/signup"} className="sign-up-btn">
+              <Link to="/signup" className="sign-up-btn">
                 <span>Sign Up</span>
                 <img
                   src={whiteArrowIcon}
@@ -154,7 +162,14 @@ function LoginPage() {
                   placeholder="Password"
                   required
                 />
-                <span className="forget-password">Forget password ?</span>
+                {/* Forget Password Button */}
+                <button
+                  type="button"
+                  className="forget-password"
+                  onClick={handleForgetPassword}
+                >
+                  Forget password?
+                </button>
                 {/* Feedback Message */}
                 {feedback && (
                   <p className={`feedback-message ${feedbackType}`}>
