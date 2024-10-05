@@ -94,16 +94,19 @@ const CreateDoctor = async (req, res) => {
       email,
       specialty,
       yearsOfExperience,
-      availability: JSON.parse(availability),
+      availability:
+        typeof availability === "string"
+          ? JSON.parse(availability)
+          : availability,
       department: foundDepartment._id,
-      fees: JSON.parse(fees),
+      fees: typeof fees === "string" ? JSON.parse(fees) : fees,
       appointmentDuration,
       isApproved: true,
       user: newUser._id,
     });
     const saveDoctor = await newDoctor.save();
     const resetToken = generateToken({ email }, "24h");
-    const resetUrl = `http://localhost:5000/doctors/reset-password?token=${resetToken}`;
+    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
     await sendResetPasswordEmail({
       to: email,
       subject: "Welcome to the Clinic - Reset Your Password",

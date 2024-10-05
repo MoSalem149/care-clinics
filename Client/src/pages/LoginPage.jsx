@@ -50,7 +50,7 @@ function LoginPage() {
 
     try {
       // Send POST request to the server
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("http://localhost:5000/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

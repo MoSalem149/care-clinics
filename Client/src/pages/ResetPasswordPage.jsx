@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 /* Import assets */
 import blueArrowIcon from "../assets/images/SignUp-SignIn-img/blue-arrow-icon.png";
@@ -18,6 +18,9 @@ const ResetPasswordPage = () => {
 
   /* Reference to form */
   const formRef = useRef(null);
+  const { token } = useParams();
+
+  console.log("Received token:", token);
 
   /* Function to handle external button click */
   const handleExternalButtonClick = () => {
@@ -27,24 +30,24 @@ const ResetPasswordPage = () => {
   };
 
   /* Function to handle form submission */
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    /* Clear error message */
+    /* Clear messages */
     setErrorMessage("");
     setSuccessMessage("");
 
-    /* Function to handle form submission */
-    const isSubmitted = submitForm(
+    /* Perform validation */
+    const validation = submitForm(
       newPassword,
       confirmNewPassword,
       setErrorMessage,
-      setSuccessMessage
+      setSuccessMessage,
+      token
     );
-
-    /* Check if form was submitted successfully */
-    if (isSubmitted) {
-      console.log("Form submitted successfully");
+    if (!validation.isValid) {
+      setErrorMessage(validation.message);
+      return;
     }
   };
 
