@@ -3,6 +3,7 @@ import facebookIcon from "../assets/images/SignUp-SignIn-img/facebook-icon.png";
 import gmailIcon from "../assets/images/SignUp-SignIn-img/gmail-icon.png";
 
 const LoginPageSocialIcon = () => {
+  /* JSX */
   return (
     <>
       {/* Social Login */}

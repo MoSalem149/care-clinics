@@ -100,6 +100,7 @@ const SignUpForm = () => {
     }
   };
 
+  /* Handle external button click */
   const handleSignUpClick = () => {
     // Manually trigger form submission
     if (formRef.current) {
