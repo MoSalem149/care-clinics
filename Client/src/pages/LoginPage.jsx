@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 /* Import assets */
-import whiteArrowIcon from "../assets/images/SignUp-SignIn-img/white-arrow-icon.png";
-import illustrationImg from "../assets/images/SignUp-SignIn-img/illustration-img.png";
+import whiteArrowIcon from "../assets/images/SignUp-Login-img/white-arrow-icon.png";
+import illustrationImg from "../assets/images/SignUp-Login-img/illustration-img.png";
 /* Import Components */
-import LoginPageSocialIcon from "../components/LoginPageSocialIcon";
+import LoginSocialIcon from "../components/LoginSocialIcon";
 import LoginForm from "../components/LoginForm";
 /* Import CSS */
 import "../styles/LoginPage.css";
@@ -51,7 +51,7 @@ function LoginPage() {
               {/* Header */}
               <h1>Welcome Back</h1>
               {/* Social Login Components */}
-              <LoginPageSocialIcon />
+              <LoginSocialIcon />
               {/* Login Form */}
               <LoginForm />
             </div>

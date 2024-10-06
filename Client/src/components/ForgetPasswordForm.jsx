@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 /* Import assets */
-import blueArrowIcon from "../assets/images/SignUp-SignIn-img/blue-arrow-icon.png";
+import blueArrowIcon from "../assets/images/SignUp-Login-img/blue-arrow-icon.png";
 
 const ForgetPasswordForm = () => {
   /* State */

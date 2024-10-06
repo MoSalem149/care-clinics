@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 /* Import assets */
-import blueArrowIcon from "../assets/images/SignUp-SignIn-img/blue-arrow-icon.png";
+import blueArrowIcon from "../assets/images/SignUp-Login-img/blue-arrow-icon.png";
 const LoginForm = () => {
   /* State */
   const [email, setEmail] = useState("");

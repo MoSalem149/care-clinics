@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 /* Import assets */
-import blueArrowIcon from "../assets/images/SignUp-SignIn-img/blue-arrow-icon.png";
+import blueArrowIcon from "../assets/images/SignUp-Login-img/blue-arrow-icon.png";
 /* Import Components */
 import ResetPasswordForm from "../components/ResetPasswordForm";
 /* Import CSS */

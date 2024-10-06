@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 /* Import assets */
-import whiteArrowIcon from "../assets/images/SignUp-SignIn-img/white-arrow-icon.png";
+import whiteArrowIcon from "../assets/images/SignUp-Login-img/white-arrow-icon.png";
 /* Import JS */
 import { submitForm } from "../utils/resetPasswordFormValidation";
 

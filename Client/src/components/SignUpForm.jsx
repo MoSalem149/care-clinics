@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
+/* Import assets */
+import blueArrowIcon from "../assets/images/SignUp-Login-img/blue-arrow-icon.png";
 /* Import JS */
 import { validateForm } from "../utils/signUpFormValidation";
-/* Import assets */
-import blueArrowIcon from "../assets/images/SignUp-SignIn-img/blue-arrow-icon.png";
 
 const SignUpForm = () => {
   /* State */

@@ -1,6 +1,6 @@
 /* Import assets */
-import facebookIcon from "../assets/images/SignUp-SignIn-img/facebook-icon.png";
-import gmailIcon from "../assets/images/SignUp-SignIn-img/gmail-icon.png";
+import facebookIcon from "../assets/images/SignUp-Login-img/facebook-icon.png";
+import gmailIcon from "../assets/images/SignUp-Login-img/gmail-icon.png";
 
 const LoginPageSocialIcon = () => {
   /* JSX */

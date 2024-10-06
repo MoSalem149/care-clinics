@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 /* Import assets */
-import patientIcon from "../assets/images/SignUp-SignIn-img/patient-icon.png";
-import doctorIcon from "../assets/images/SignUp-SignIn-img/doctor-icon.png";
-import whiteArrowIcon from "../assets/images/SignUp-SignIn-img/white-arrow-icon.png";
-import illustrationImg from "../assets/images/SignUp-SignIn-img/illustration-img.png";
+import patientIcon from "../assets/images/SignUp-Login-img/patient-icon.png";
+import doctorIcon from "../assets/images/SignUp-Login-img/doctor-icon.png";
+import whiteArrowIcon from "../assets/images/SignUp-Login-img/white-arrow-icon.png";
+import illustrationImg from "../assets/images/SignUp-Login-img/illustration-img.png";
 /* Import Components */
-import SignUpPageSocialIcon from "../components/LoginPageSocialIcon";
+import SignUpSocialIcon from "../components/LoginSocialIcon";
 import SignUpForm from "../components/SignUpForm";
 /* Import CSS */
 import "../styles/SignUpPage.css";
@@ -70,7 +70,7 @@ function SignUpPage() {
               {/* Header */}
               <h1>Welcome!</h1>
               {/* Social Sign Up */}
-              <SignUpPageSocialIcon />
+              <SignUpSocialIcon />
               {/*   Sign Up Form */}
               <SignUpForm />
             </div>
