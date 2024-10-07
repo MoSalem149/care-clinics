@@ -82,6 +82,7 @@ const CreateDoctor = async (req, res) => {
       email,
       password: hashedPassword,
       role: "doctor",
+      createdBy: "admin",
     });
     await newUser.save();
     const ProfileImage = req.file ? req.file.filename : null;
@@ -106,7 +107,7 @@ const CreateDoctor = async (req, res) => {
     });
     const saveDoctor = await newDoctor.save();
     const resetToken = generateToken({ email }, "24h");
-    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetUrl = `http://localhost:5173/reset-password/${resetToken}?createdBy=${newUser.createdBy}`;
     await sendResetPasswordEmail({
       to: email,
       subject: "Welcome to the Clinic - Reset Your Password",

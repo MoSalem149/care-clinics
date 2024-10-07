@@ -18,25 +18,32 @@ export const validateResetPasswords = (newPassword, confirmNewPassword) => {
   return { isValid: true, message: "Password is valid!" };
 };
 
-/* Function to handle form submission */
-
 export const submitForm = async (
   newPassword,
   confirmNewPassword,
   setErrorMessage,
   setSuccessMessage,
-  token
+  token,
+  createdBy
 ) => {
   const validation = validateResetPasswords(newPassword, confirmNewPassword);
+  console.log("Validation result:", validation);
 
   if (!validation.isValid) {
     setErrorMessage(validation.message);
-    return false;
+    return { isValid: false, message: validation.message };
   }
 
-  // Proceed with the fetch request
+  console.log("Validation passed. CreatedBy:", createdBy);
+  const url =
+    createdBy === "admin"
+      ? `http://localhost:5000/doctors/reset-password`
+      : `http://localhost:5000/users/reset-password`;
+
+  console.log("URL:", url);
+
   try {
-    const res = await fetch(`http://localhost:5000/doctors/reset-password`, {
+    const res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,18 +52,24 @@ export const submitForm = async (
       body: JSON.stringify({ newPassword }),
     });
 
+    console.log("Response Status:", res.status);
+
     const data = await res.json();
+    console.log("Response Data:", data);
 
     if (!res.ok) {
       setErrorMessage(data.error || "An error occurred.");
-      return false;
+      return { isValid: false, message: data.error || "An error occurred." };
     } else {
       setSuccessMessage("Password has been reset successfully!");
-      return true;
+      return {
+        isValid: true,
+        message: "Password has been reset successfully!",
+      };
     }
   } catch (error) {
     console.error("Error during password reset:", error);
     setErrorMessage("An error occurred. Please try again.");
-    return false;
+    return { isValid: false, message: "An error occurred. Please try again." };
   }
 };

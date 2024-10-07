@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 /* Import assets */
 import whiteArrowIcon from "../assets/images/SignUp-Login-img/white-arrow-icon.png";
 /* Import JS */
-import { submitForm } from "../utils/resetPasswordFormValidation";
+import { submitForm } from "../utils/resetPasswordFormValidation.js";
 
 const ResetPasswordForm = () => {
   /* State */
@@ -16,9 +16,9 @@ const ResetPasswordForm = () => {
   const formRef = useRef(null);
   const { token } = useParams();
 
-  console.log("Received token:", token);
+  const queryParams = new URLSearchParams(window.location.search);
+  const createdBy = queryParams.get("createdBy");
 
-  /* Function to handle external button click */
   const handleExternalButtonClick = () => {
     if (formRef.current) {
       formRef.current.requestSubmit();
@@ -28,22 +28,26 @@ const ResetPasswordForm = () => {
   /* Function to handle form submission */
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     /* Clear messages */
     setErrorMessage("");
     setSuccessMessage("");
 
     /* Perform validation */
-    const validation = submitForm(
+    const validation = await submitForm(
       newPassword,
       confirmNewPassword,
       setErrorMessage,
       setSuccessMessage,
-      token
+      token,
+      createdBy
     );
     if (!validation.isValid) {
+      console.log("Setting error message:", validation.message);
       setErrorMessage(validation.message);
       return;
+    } else {
+      console.log("Setting success message:", validation.message);
+      setSuccessMessage(validation.message);
     }
   };
 

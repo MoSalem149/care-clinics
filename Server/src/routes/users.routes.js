@@ -27,6 +27,10 @@ router
         .optional()
         .isIn(["user", "doctor", "admin"])
         .withMessage("Invalid role"),
+      body("createdBy")
+        .optional()
+        .isIn(["admin", "user"])
+        .withMessage("Invalid createdBy value"),
     ],
     (req, res) => {
       const errors = validationResult(req);
@@ -55,5 +59,9 @@ router
       userController.login(req, res);
     }
   );
+
+router.post("/forgot-password", userController.ForgetPasswordForm);
+
+router.post("/reset-password", userController.ResetPassword);
 
 module.exports = router;
