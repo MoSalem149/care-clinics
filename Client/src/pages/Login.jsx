@@ -59,7 +59,6 @@ function Login(){
       if (response.ok && result.token) {
         // Store the token and user details
         localStorage.setItem("token", result.token); // Storing token
-        localStorage.setItem("fullName", `${result.firstName} ${result.lastName}`);
         
         // Display success feedback
         displayFeedback("Login successful!", "login-success");

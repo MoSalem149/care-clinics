@@ -3,6 +3,9 @@ const router = express.Router();
 const userController = require('../Controller/user.controller');
 const { verifyToken } = require('../middleWares/verifyToken');
 const { body, validationResult } = require('express-validator');
+const authMiddleware=require('../middleWares/authMiddleWare')
+const userProfile = require('../Controller/userProfile.controller')
+
 
 router
   .route('/')
@@ -52,5 +55,15 @@ router
       userController.login(req, res);
     }
   );
+  router
+  .route('/profile/add-info')
+  .post(authMiddleware, userProfile.addProfileInfo);
+  
+  router
+  .route('/profile/update')
+  .put( authMiddleware, userProfile.updateUser)
+  router
+  .route('/profile/delete')
+  .delete( authMiddleware, userProfile.deleteAccount)
 
 module.exports = router;
