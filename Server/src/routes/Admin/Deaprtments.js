@@ -9,13 +9,14 @@ const {
   updateDepartment,
   deleteDepartment,
 } = require("../../Controller/Admin/DepartmentController.js.js");
+const authAdmin = require("../../middleWares/authAdmin.js");
 
-router.get("/", GetDepartment);
+router.get("/", authAdmin, GetDepartment);
 
-router.post("/", upload.single("image"), createDepartment);
+router.post("/", authAdmin, upload.single("image"), createDepartment);
 
-router.put("/:id", upload.single("image"), updateDepartment);
+router.put("/:id", authAdmin, upload.single("image"), updateDepartment);
 
-router.delete("/:id", deleteDepartment);
+router.delete("/:id", authAdmin, deleteDepartment);
 
 module.exports = router;

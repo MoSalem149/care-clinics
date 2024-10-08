@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const { models } = require("mongoose");
 const DoctorModel = require("../../models/Doctor.js");
 const departmentModel = require("../../models/Departments");
+const User = require("../../models/userModel.js");
 const { json } = require("express");
 const { updateDepartment } = require("../Admin/DepartmentController.js");
 const {
@@ -64,8 +65,8 @@ const CreateDoctor = async (req, res) => {
     if (!emailRegex.test(email)) {
       return res.status(400).json({ error: "Invalid email format." });
     }
-    const existingDoctor = await DoctorModel.findOne({ email });
-    if (existingDoctor) {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return res.status(400).json({ error: "Email already exists." });
     }
     const foundDepartment = await departmentModel.findOne({ name: department });
@@ -74,9 +75,17 @@ const CreateDoctor = async (req, res) => {
         .status(400)
         .json({ error: `Department '${department}' does not exist.` });
     }
-    const ProfileImage = req.file ? req.file.filename : null;
     const tempPassword = generateAdvancedPassword();
     hashedPassword = await bcrypt.hash(tempPassword, 10);
+    const newUser = new User({
+      fullName: name,
+      email,
+      password: hashedPassword,
+      role: "doctor",
+      createdBy: "admin",
+    });
+    await newUser.save();
+    const ProfileImage = req.file ? req.file.filename : null;
     const newDoctor = new DoctorModel({
       name,
       age,
@@ -84,17 +93,21 @@ const CreateDoctor = async (req, res) => {
       ProfileImage,
       phoneNumber,
       email,
-      password: hashedPassword,
       specialty,
       yearsOfExperience,
-      availability: JSON.parse(availability),
+      availability:
+        typeof availability === "string"
+          ? JSON.parse(availability)
+          : availability,
       department: foundDepartment._id,
-      fees: JSON.parse(fees),
+      fees: typeof fees === "string" ? JSON.parse(fees) : fees,
       appointmentDuration,
+      isApproved: true,
+      user: newUser._id,
     });
     const saveDoctor = await newDoctor.save();
-    const resetToken = generateToken({ email });
-    const resetUrl = `http://localhost:5000/reset-password?token=${resetToken}`;
+    const resetToken = generateToken({ email }, "24h");
+    const resetUrl = `http://localhost:5173/reset-password/${resetToken}?createdBy=${newUser.createdBy}`;
     await sendResetPasswordEmail({
       to: email,
       subject: "Welcome to the Clinic - Reset Your Password",
@@ -196,10 +209,29 @@ const DeleteDoctor = async (req, res) => {
   }
 };
 
+const approveDoctor = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+    if (doctor.isApproved) {
+      return res.json({ message: "Doctor is already approved" });
+    }
+    doctor.isApproved = true;
+    await doctor.save();
+    return res.status(201).json({ message: "Doctor approved successfully" });
+  } catch (error) {
+    console.error("Error Approving Doctor: ", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 module.exports = {
   GetAllDoctors,
   GetOneDoctor,
   CreateDoctor,
   UpdateDoctor,
   DeleteDoctor,
+  approveDoctor,
 };

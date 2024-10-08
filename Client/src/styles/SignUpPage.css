@@ -6,7 +6,7 @@
 }
 
 /* Left Side Styles */
-.signUp-left-side {
+.sign-up-left-side {
   width: 60%;
   display: flex;
   align-items: center;
@@ -38,7 +38,8 @@
   background: none;
   border: none;
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 600;
+  font-family: "poppins", sans-serif;
   color: #1e84b5;
   opacity: 0.5;
   cursor: pointer;
@@ -79,15 +80,15 @@ h1 {
   text-align: center;
 }
 
-/* Social Login Buttons */
-.signUp-social-login {
+/* Social Sign Up Buttons */
+.social-sign-up {
   display: flex;
   justify-content: center;
   gap: 20px;
   margin-bottom: 10px;
 }
 
-.signUp-social-btn {
+.sign-up-social-btn {
   background-color: #2479a9;
   border: none;
   border-radius: 50%;
@@ -99,7 +100,7 @@ h1 {
   cursor: pointer;
 }
 
-.signUp-social-btn img {
+.sign-up-social-btn img {
   width: 24px;
   height: 24px;
 }
@@ -134,37 +135,39 @@ h1 {
 }
 
 /* Sign Up Button */
-.sign-up-btn {
+.sign-up-btn-left-side {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background-color: #1e84b5;
   color: #fff;
   font-weight: 700;
+  font-family: "poppins", sans-serif;
   font-size: 16px;
   padding: 10px 20px;
   border-radius: 30px;
   border: none;
   cursor: pointer;
+  margin-top: 10px;
   text-decoration: none;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
+  -webkit-transition: background-color 0.3s ease;
+  -moz-transition: background-color 0.3s ease;
+  -ms-transition: background-color 0.3s ease;
+  -o-transition: background-color 0.3s ease;
 }
 
-.sign-up-btn:hover {
+.sign-up-btn-left-side:hover {
   background-color: #1e6889;
   box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-.sign-up-btn span {
+.sign-up-btn-left-side span {
   margin-right: 10px;
 }
 
-.sign-up-span {
-  margin-right: 10px;
-}
-
-.sign-up-btn img {
+.sign-up-btn-left-side img {
   width: 25px;
   height: 25px;
 }
@@ -194,9 +197,9 @@ h1 {
 }
 
 /* Right Side Styles */
-.signUp-right-side {
+.sign-up-right-side {
   width: 40%;
-  background-image: url(../assets/images/SignUp-SignIn-img/right-side-wave-img.png);
+  background-image: url(../assets/images/SignUp-Login-img/right-side-wave-img.png);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
@@ -205,7 +208,7 @@ h1 {
 }
 
 /* Illustration Image */
-.signUp-illustration-img {
+.sign-up-illustration-img {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -224,10 +227,11 @@ h3 {
   line-height: 45px;
 }
 
-/* Sign In Button */
-.signUp-btn {
+/* Login Button */
+.login-btn-right-side {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   background-color: #eff8ff;
   color: #1e84b5;
   font-weight: 700;
@@ -239,20 +243,28 @@ h3 {
   text-decoration: none;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
+  -webkit-transition: background-color 0.3s ease;
+  -moz-transition: background-color 0.3s ease;
+  -ms-transition: background-color 0.3s ease;
+  -o-transition: background-color 0.3s ease;
 }
 
-.signUp-btn:hover {
+.login-btn-right-side:hover {
   background-color: #d0e8f7;
   box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-.signUp-btn span {
+.login-btn-right-side span {
   margin-right: 10px;
 }
 
 .arrow-icon {
   width: 25px;
   height: 25px;
+}
+
+.success {
+  color: #28a745;
 }
 
 /* Media Queries */
@@ -263,17 +275,17 @@ h3 {
     height: auto;
   }
 
-  .signUp-left-side,
-  .signUp-right-side {
+  .sign-up-left-side,
+  .sign-up-right-side {
     width: 100%;
     padding: 20px;
   }
 
-  .signUp-left-side {
+  .sign-up-left-side {
     align-items: center;
   }
 
-  .signUp-right-side {
+  .sign-up-right-side {
     text-align: center;
     background-size: 100% auto;
   }
@@ -291,19 +303,19 @@ h3 {
     justify-content: center;
   }
 
-  .signUp-right-side {
+  .sign-up-right-side {
     width: 100%;
     text-align: center;
     background: none;
   }
 
-  .signUp-left-side {
+  .sign-up-left-side {
     width: 100%;
     padding: 20px;
     text-align: left;
   }
 
-  .signUp-right-side img {
+  .sign-up-right-side img {
     display: none;
   }
 
@@ -311,18 +323,18 @@ h3 {
     font-size: 36px;
   }
 
-  .signUp-social-login {
+  .sign-up-social-login {
     justify-content: center;
   }
 
-  .sign-up-btn {
+  .sign-up-btn-left-side {
     width: auto;
     justify-content: center;
     padding: 10px 20px;
     margin-bottom: 0;
   }
 
-  .sign-up-btn img {
+  .sign-up-illustration-img {
     display: inline-block;
   }
 
@@ -333,17 +345,10 @@ h3 {
     margin-top: -30px;
   }
 
-  .signUp-btn {
+  .login-btn-right-side {
     width: auto;
     justify-content: center;
     padding: 10px 20px;
     margin-top: 10px;
   }
-
-  .signUp-btn img {
-    display: inline-block;
-  }
-}
-.success{
-  color: #28a745;
 }

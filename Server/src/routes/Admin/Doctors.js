@@ -10,16 +10,20 @@ const {
   CreateDoctor,
   UpdateDoctor,
   DeleteDoctor,
+  approveDoctor,
 } = require("../../Controller/Admin/DoctorsController");
+const authAdmin = require("../../middleWares/authAdmin.js");
 
-router.get("/", GetAllDoctors);
+router.get("/", authAdmin, GetAllDoctors);
 
-router.get("/:id", GetOneDoctor);
+router.get("/:id", authAdmin, GetOneDoctor);
 
-router.post("/", upload.single("ProfileImage"), CreateDoctor);
+router.post("/", authAdmin, upload.single("ProfileImage"), CreateDoctor);
 
-router.put("/:id", upload.single("ProfileImage"), UpdateDoctor);
+router.put("/:id", authAdmin, upload.single("ProfileImage"), UpdateDoctor);
 
-router.delete("/:id", DeleteDoctor);
+router.delete("/:id", authAdmin, DeleteDoctor);
+
+router.put("/:id", authAdmin, approveDoctor);
 
 module.exports = router;

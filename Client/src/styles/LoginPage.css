@@ -1,5 +1,5 @@
 /* Container */
-.sign-in-container {
+.login-container {
   display: flex;
   width: 100%;
   height: 100vh;
@@ -8,7 +8,7 @@
 /* Left Side Styles */
 .login-left-side {
   width: 40%;
-  background-image: url(../assets/images/SignUp-SignIn-img/left-side-wave-img.png);
+  background-image: url(../assets/images/SignUp-Login-img/left-side-wave-img.png);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
@@ -37,7 +37,7 @@ h3 {
 }
 
 /* Sign Up Button */
-.login-btn {
+.sign-up-btn {
   display: inline-flex;
   align-items: center;
   background-color: #eff8ff;
@@ -51,14 +51,18 @@ h3 {
   text-decoration: none;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
+  -webkit-transition: background-color 0.3s ease;
+  -moz-transition: background-color 0.3s ease;
+  -ms-transition: background-color 0.3s ease;
+  -o-transition: background-color 0.3s ease;
 }
 
-.login-btn:hover {
+.sign-up-btn:hover {
   background-color: #d0e8f7;
   box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-.login-btn span {
+.sign-up-btn span {
   margin-right: 10px;
 }
 
@@ -110,8 +114,8 @@ h1 {
   height: 24px;
 }
 
-/* Sign In Form */
-.sign-in-form {
+/* Login Form */
+.login-form {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -119,7 +123,7 @@ h1 {
   max-width: 400px;
 }
 
-.sign-in-form input {
+.login-form input {
   padding: 15px;
   border: 2px solid #1e84b5;
   border-radius: 30px;
@@ -129,13 +133,13 @@ h1 {
   background-color: #eff8ff;
 }
 
-.sign-in-form label {
+.login-form label {
   font-size: 20px;
   color: #1e84b5;
   margin-bottom: 0 !important;
 }
 
-.sign-in-form input::placeholder {
+.login-form input::placeholder {
   color: #52728280;
 }
 
@@ -145,17 +149,22 @@ h1 {
   color: #527282;
   font-size: 16px;
   font-weight: 300;
+  font-family: "poppins", sans-serif;
   text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
 }
 
-/* Sign In Button */
-.sign-in-btn {
+/* Login Button */
+.login-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background-color: #1e84b5;
   color: #fff;
   font-weight: 700;
+  font-family: "poppins", sans-serif;
   font-size: 16px;
   padding: 10px 20px;
   border-radius: 30px;
@@ -165,26 +174,42 @@ h1 {
   text-decoration: none;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
+  -webkit-transition: background-color 0.3s ease;
+  -moz-transition: background-color 0.3s ease;
+  -ms-transition: background-color 0.3s ease;
+  -o-transition: background-color 0.3s ease;
 }
 
-.sign-in-btn:hover {
+.login-btn:hover {
   background-color: #1e6889;
   box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-.sign-in-btn span {
+.login-btn span {
   margin-right: 10px;
 }
 
-.sign-in-btn img {
+.login-btn img {
   width: 25px;
   height: 25px;
+}
+
+.feedback-message {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.login-success {
+  color: #28a745;
+}
+.login-error {
+  color: red;
 }
 
 /* Media Queries */
 /* For tablets (screen width between 768px and 1024px) */
 @media (max-width: 1024px) and (min-width: 768px) {
-  .sign-in-container {
+  .login-container {
     flex-direction: column;
     height: auto;
   }
@@ -211,7 +236,7 @@ h1 {
 
 /* For mobile (screen width less than 768px) */
 @media (max-width: 768px) {
-  .sign-in-container {
+  .login-container {
     flex-direction: column-reverse;
     align-items: center;
     justify-content: center;
@@ -250,10 +275,6 @@ h1 {
     margin-bottom: 0;
   }
 
-  .login-btn img {
-    display: inline-block;
-  }
-
   h3 {
     display: block;
     color: #1e84b5;
@@ -261,23 +282,10 @@ h1 {
     margin-top: -30px;
   }
 
-  .sign-in-btn {
+  .login-btn {
     width: auto;
     justify-content: center;
     padding: 10px 20px;
     margin-top: 10px;
   }
-
-  .sign-in-btn img {
-    display: inline-block;
-  }
 }
-.login-success{
-  color: #28a745;
-  text-align: center;
-}
-.login-error{
-  color: red;
-  text-align: center;
-}
-
