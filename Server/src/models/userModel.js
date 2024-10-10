@@ -27,6 +27,11 @@ const userSchema = mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    authProvider: {
+      type: String,
+      enum: ["local", "google", "facebook"],
+      default: "local",
+    },
   },
   { timestamps: true }
 );
