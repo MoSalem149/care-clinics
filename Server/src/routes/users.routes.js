@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../Controller/user.controller");
-const { verifyToken } = require("../middleWares/verifyToken");
-const { body, validationResult } = require("express-validator");
+const userController = require('../Controller/user.controller');
+const { verifyToken } = require('../middleWares/verifyToken');
+const { body, validationResult } = require('express-validator');
 
 router.route("/").get(verifyToken, userController.getAllUsers);
 
@@ -59,6 +59,16 @@ router
       userController.login(req, res);
     }
   );
+  router
+  .route('/profile/add-info')
+  .post(authMiddleware, userProfile.addProfileInfo);
+  
+  router
+  .route('/profile/update')
+  .put( authMiddleware, userProfile.updateUser)
+  router
+  .route('/profile/delete')
+  .delete( authMiddleware, userProfile.deleteAccount)
 
 router.post("/forgot-password", userController.ForgetPasswordForm);
 
