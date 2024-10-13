@@ -1,20 +1,18 @@
 const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
-const {
-  generateAdvancedPassword,
-  generateToken,
-} = require("../Tools/GeneratePassword");
+const { generateAdvancedPassword } = require("../Tools/GeneratePassword");
 const dotenv = require("dotenv");
 dotenv.config();
 
 passport.use(
-  new GoogleStrategy(
+  new FacebookStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_REDIRECT_URI,
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      callbackURL: process.env.FACEBOOK_REDIRECT_URI,
+      profileFields: ["id", "displayName", "emails"],
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -33,13 +31,12 @@ passport.use(
             fullName: profile.displayName,
             email: profile.emails[0].value,
             password: hashedPassword,
-            authProvider: "google",
+            authProvider: "facebook",
             role: "user",
           });
 
           await user.save();
         }
-
         return done(null, user);
       } catch (err) {
         return done(err, null);
@@ -47,7 +44,6 @@ passport.use(
     }
   )
 );
-
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
