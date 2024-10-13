@@ -13,12 +13,6 @@ const userProfileSchema = mongoose.Schema(
       trim: true,
       required: [true, "Full name is required"],
     },
-    email: {
-      type: String,
-      required: [true, "Email is required"],
-      lowercase: true,
-      unique: true,
-    },
     dateOfBirth: {
       type: Date,
       required: [true, "Date of birth is required"],
@@ -52,6 +46,24 @@ const userProfileSchema = mongoose.Schema(
     lastCheckupDate: {
       type: Date,
     },
+    appointments: [
+      {
+        appointmentId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Appointment',
+        },
+        appointmentTime: {
+          type: Date
+        },
+        appointmentDuration:{
+          type:Number,
+          default:30
+        },
+        appointmentEndTime:{
+          type:Date
+        }
+      },
+    ],
   },
   {
     timestamps: true, 

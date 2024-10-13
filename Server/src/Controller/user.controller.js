@@ -23,8 +23,6 @@ const getAllUsers=async (req, res) => {
       res.status(500).json({status:httpstatus.ERROR,data:null,message:error.message });
     }
   };
-  
-
 
   const register = async (req, res) => {
     const { fullName, email, password, role } = req.body;
@@ -53,7 +51,7 @@ const getAllUsers=async (req, res) => {
 
         const token = jwt.sign(
             { email: newUser.email, id: newUser._id }, 
-            process.env.JWT_SECRET_KEY, 
+            '72bdbb5bf2a6e022b0e1253ffe02f20cd25674c0eb673ccc7b1a66c44cd187f4', 
             { expiresIn: "5d" }
         );
 
@@ -67,6 +65,7 @@ const getAllUsers=async (req, res) => {
                 fullName: newUser.fullName,
                 email: newUser.email,
                 token: newUser.token,
+                role: newUser.role
             },
             message: 'Registration successful'
         });
@@ -94,7 +93,7 @@ const login = async (req, res, next) => {
 
             const token = jwt.sign(
                 { email: user.email, id: user._id },
-                process.env.JWT_SECRET_KEY,
+                '72bdbb5bf2a6e022b0e1253ffe02f20cd25674c0eb673ccc7b1a66c44cd187f4',
                 { expiresIn: "5d" }
             );
 
@@ -112,7 +111,6 @@ const login = async (req, res, next) => {
         return next({ status: httpstatus.ERROR, message: 'An error occurred' });
     }
 };
-
 
 module.exports={ 
     getAllUsers,
