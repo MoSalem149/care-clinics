@@ -3,6 +3,8 @@ const router = express.Router();
 const userController = require('../Controller/user.controller');
 const { verifyToken } = require('../middleWares/verifyToken');
 const { body, validationResult } = require('express-validator');
+const authMiddleware=require('../middleWares/authMiddleWare') 
+const userProfile=require('../Controller/userProfile.controller')
 
 router.route("/").get(verifyToken, userController.getAllUsers);
 
@@ -58,7 +60,7 @@ router
       }
       userController.login(req, res);
     }
-  );
+  );  
   router
   .route('/profile/add-info')
   .post(authMiddleware, userProfile.addProfileInfo);
@@ -69,9 +71,21 @@ router
   router
   .route('/profile/delete')
   .delete( authMiddleware, userProfile.deleteAccount)
+  router
+  .route('/profile/book/:doctorId')
+  .post( authMiddleware, userProfile.bookAppointment)
+  router
+  .route('/profile/updateAppointment/:appointmentId')
+  .put( authMiddleware, userProfile.updateAppointment)
+  router
+  .route('/profile/deleteAppointment/:appointmentId')
+  .delete( authMiddleware, userProfile.deleteAppointment)
+     
 
-router.post("/forgot-password", userController.ForgetPasswordForm);
 
-router.post("/reset-password", userController.ResetPassword);
+// router.post("/forgot-password", userController.ForgetPasswordForm);
+
+// router.post("/reset-password", userController.ResetPassword);
 
 module.exports = router;
+  

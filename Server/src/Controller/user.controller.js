@@ -20,7 +20,6 @@ const getAllUsers = async (req, res) => {
         data: { course: "course not found" },
       });
     }
-
     res.json({ status: httpstatus.SUCCESS, data: { users } });
     console.log(req.headers);
   } catch (error) {
@@ -104,7 +103,6 @@ const login = async (req, res, next) => {
         process.env.JWT_SECRET_KEY,
         { expiresIn: "5d" }
       );
-
       user.token = token;
 
       return res.json({
@@ -163,7 +161,6 @@ const ResetPassword = async (req, res) => {
   try {
     const { newPassword } = req.body;
     const authorHeader = req.headers["authorization"];
-
     if (!authorHeader || !authorHeader.startsWith("Bearer ")) {
       return res
         .status(400)
