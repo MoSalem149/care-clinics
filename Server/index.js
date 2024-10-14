@@ -50,13 +50,13 @@ app.use("/auth", OAUTH);
 app.use("/auth", FaceBook);
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI)     
   .then(async () => {
     console.log("MongoDB Connected");
     await seedDepartments();
 
-    app.listen(PORT, () => {
+    app.listen(PORT,() => {
       console.log(`Server Is Running On Port: ${PORT}`);
     });
   })
-  .catch((err) => console.log("Failed To connect to MongoDB:", err));
+  .catch((err) => console.log("Failed To connect to MongoDB:", err));   

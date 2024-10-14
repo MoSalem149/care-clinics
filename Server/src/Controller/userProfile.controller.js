@@ -249,11 +249,14 @@ const bookAppointment = async (req, res) => {
       { $push: { appointments: appointment } },
       { new: true }
     ).populate("appointments");
+
     const [user, doctorUser] = await Promise.all([
       User.findById(userId),
       User.findOne({ _id: doctor.user, role: "doctor" }),
     ]);
+    
     await appointmentEmails(user, doctorUser, appointmentDate, "New");
+    
     res.status(201).json({
       status: "SUCCESS",
       message: "Appointment booked successfully",
@@ -266,6 +269,7 @@ const bookAppointment = async (req, res) => {
     });
   }
 };
+
 const updateAppointment = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -302,19 +306,22 @@ const updateAppointment = async (req, res) => {
       return res.status(400).json({
         status: "ERROR",
         message:
-          "The new appointment time overlaps with another appointment. Please choose a different time.",
+          "The appointment time overlaps with another appointment. Please choose a different time.",
       });
     }
 
     appointment.appointmentTime = appointmentDate;
     appointment.appointmentEndTime = appointmentEndTime;
+
     await appointment.save();
+
     const [user, doctorUser] = await Promise.all([
       User.findById(userId),
-      User.findOne({ _id: appointment.doctor, role: "doctor" }),
+      User.findOne({ _id: appointment.doctor.user, role: "doctor" }),
     ]);
-    await appointmentEmails(user, doctorUser, appointmentDate, "Update");
-
+  
+    await appointmentEmails(user, doctorUser, appointmentDate, "Updated");
+    
     res.status(200).json({
       status: "SUCCESS",
       message: "Appointment updated successfully",
@@ -331,7 +338,7 @@ const updateAppointment = async (req, res) => {
 const deleteAppointment = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { appointmentId } = req.params;
+    const appointmentId = req.params.appointmentId;
 
     const appointment = await Appointment.findById(appointmentId);
     if (!appointment || appointment.user.toString() !== userId) {
@@ -343,7 +350,6 @@ const deleteAppointment = async (req, res) => {
     }
 
     await Appointment.findByIdAndDelete(appointmentId);
-    const appointmentDate = appointment.appointmentTime;
 
     await UserProfile.findOneAndUpdate(
       { user: userId },
@@ -353,78 +359,17 @@ const deleteAppointment = async (req, res) => {
     await Doctor.findByIdAndUpdate(appointment.doctor, {
       $pull: { appointments: appointmentId },
     });
+
     const [user, doctorUser] = await Promise.all([
       User.findById(userId),
-      User.findOne({ _id: appointment.doctor, role: "doctor" }),
+      User.findOne({ _id: appointment.doctor.user, role: "doctor" }),
     ]);
-    await appointmentEmails(user, doctorUser, appointmentDate, "Delete");
-
-    res.status(200).json({
+    
+    await appointmentEmails(user, doctorUser, appointment.appointmentTime, "Deleted");
+    
+    res.status(204).json({
       status: "SUCCESS",
       message: "Appointment deleted successfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: "ERROR",
-      message: error.message,
-    });
-  }
-};
-
-const getDoctorProfile = async (req, res) => {
-  try {
-    const doctorId = req.params.id;
-
-    const doctor = await Doctor.findById(doctorId).populate({
-      path: "appointments",
-      select: "appointmentTime user",
-      populate: {
-        path: "user",
-        select: "name",
-      },
-    });
-
-    if (!doctor) {
-      return res.status(404).json({
-        status: "FAIL",
-        message: "Doctor not found",
-      });
-    }
-
-    res.status(200).json({
-      status: "SUCCESS",
-      data: { doctor },
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: "ERROR",
-      message: error.message,
-    });
-  }
-};
-
-const getUserProfile = async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const userProfile = await UserProfile.findOne({ user: userId }).populate({
-      path: "appointments",
-      select: "appointmentTime doctor",
-      populate: {
-        path: "doctor",
-        select: "name",
-      },
-    });
-
-    if (!userProfile) {
-      return res.status(404).json({
-        status: "FAIL",
-        message: "User profile not found",
-      });
-    }
-
-    res.status(200).json({
-      status: "SUCCESS",
-      data: { user: userProfile },
     });
   } catch (error) {
     res.status(500).json({
@@ -439,8 +384,6 @@ module.exports = {
   updateUser,
   deleteAccount,
   bookAppointment,
-  getDoctorProfile,
-  getUserProfile,
   updateAppointment,
   deleteAppointment,
 };

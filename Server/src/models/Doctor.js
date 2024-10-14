@@ -20,7 +20,7 @@ const doctorSchema = new mongoose.Schema({
       endTime: { type: String },
     },
   ],
-  appointments: [
+  appointments: [  
     {
       appointmentId: {
         type: mongoose.Schema.Types.ObjectId,
