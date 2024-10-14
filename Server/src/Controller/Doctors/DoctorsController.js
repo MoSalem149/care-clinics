@@ -106,7 +106,6 @@ const compeleteDoctorProfile = async (req, res) => {
     const {
       name,
       age,
-      email,
       gender,
       profileImage,
       phoneNumber,
@@ -146,7 +145,6 @@ const compeleteDoctorProfile = async (req, res) => {
       gender,
       profileImage: ProfileImage,
       phoneNumber,
-      email: user.email,
       specialty,
       yearsOfExperience,
       availability: JSON.parse(availability),
@@ -172,7 +170,6 @@ const UpdateDoctor = async (req, res) => {
       age,
       gender,
       phoneNumber,
-      email,
       specialty,
       yearsOfExperience,
       availability,
@@ -196,17 +193,6 @@ const UpdateDoctor = async (req, res) => {
       updatedProfileImage = req.file.filename;
     }
 
-    if (email && !emailRegex.test(email)) {
-      return res.status(400).json({ error: "Invalid email format." });
-    }
-
-    if (email) {
-      const existingDoctor = await doctorModel.findOne({ email });
-      if (existingDoctor && existingDoctor._id.toString() !== id) {
-        return res.status(400).json({ error: "Email already exists." });
-      }
-    }
-
     const doctor = await doctorModel.findById(id);
     if (!doctor) {
       return res.status(404).json({ message: "Doctor doesn't exist." });
@@ -223,7 +209,6 @@ const UpdateDoctor = async (req, res) => {
     if (age) updateFields.age = age;
     if (gender) updateFields.gender = gender;
     if (phoneNumber) updateFields.phoneNumber = phoneNumber;
-    if (email) updateFields.email = email;
     if (specialty) updateFields.specialty = specialty;
     if (yearsOfExperience) updateFields.yearsOfExperience = yearsOfExperience;
     if (availability) updateFields.availability = availability;
@@ -231,7 +216,7 @@ const UpdateDoctor = async (req, res) => {
     if (fees) updateFields.fees = fees;
     if (appointmentDuration)
       updateFields.appointmentDuration = appointmentDuration;
-    if (req.file) updateFields.ProfileImage = updatedProfileImage; // Use the updatedProfileImage variable
+    if (req.file) updateFields.ProfileImage = updatedProfileImage;
 
     const updatedDoctor = await doctorModel.findByIdAndUpdate(
       id,
