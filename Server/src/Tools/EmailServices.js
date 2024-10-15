@@ -1,4 +1,5 @@
-const appointmentConfirmation = require("./SendEmailToDoctors");
+const appointmentConfirmation = require("./SendEmailToDoctors"); 
+
 const appointmentEmails = async (
   user,
   doctor,
@@ -9,21 +10,25 @@ const appointmentEmails = async (
   let userEmailContent;
   let doctorEmailContent;
 
+  if (!user || !doctor) {
+    throw new Error("User or doctor information is missing.");
+  }
+
+  if (!(appointmentDate instanceof Date)) {
+    throw new Error("Invalid appointment date.");
+  }
+
   switch (type) {
     case "New":
       subject = "Appointment Confirmation";
       userEmailContent = `
         <p>Dear ${user.fullName},</p>
-        <p>Your appointment with Dr. ${
-          doctor.name
-        } has been successfully booked for ${appointmentDate.toLocaleString()}.</p>
+        <p>Your appointment with Dr. ${doctor.fullName} has been successfully booked for ${appointmentDate.toISOString()}.</p>
         <p>Best regards,<br>The Clinic Team</p>
       `;
       doctorEmailContent = `
         <p>Dear Dr. ${doctor.name},</p>
-        <p>An appointment has been scheduled with ${
-          user.fullName
-        } on ${appointmentDate.toLocaleString()}.</p>
+        <p>An appointment has been scheduled with ${user.fullName} on ${appointmentDate.toISOString()}.</p>
         <p>Best regards,<br>The Clinic Team</p>
       `;
       break;
@@ -32,16 +37,12 @@ const appointmentEmails = async (
       subject = "Appointment Update Notification";
       userEmailContent = `
         <p>Dear ${user.fullName},</p>
-        <p>Your appointment with Dr. ${
-          doctor.name
-        } has been updated. The new appointment time is ${appointmentDate.toLocaleString()}.</p>
+        <p>Your appointment with Dr. ${doctor.name} has been updated. The new appointment time is ${appointmentDate.toISOString()}.</p>
         <p>Best regards,<br>The Clinic Team</p>
       `;
       doctorEmailContent = `
         <p>Dear Dr. ${doctor.name},</p>
-        <p>The appointment with ${
-          user.fullName
-        } has been updated. The new appointment time is ${appointmentDate.toLocaleString()}.</p>
+        <p>The appointment with ${user.fullName} has been updated. The new appointment time is ${appointmentDate.toISOString()}.</p>
         <p>Best regards,<br>The Clinic Team</p>
       `;
       break;
@@ -50,16 +51,12 @@ const appointmentEmails = async (
       subject = "Appointment Cancellation Notification";
       userEmailContent = `
         <p>Dear ${user.fullName},</p>
-        <p>Your appointment with Dr. ${
-          doctor.name
-        } scheduled for ${appointmentDate.toLocaleString()} has been canceled.</p>
+        <p>Your appointment with Dr. ${doctor.name} scheduled for ${appointmentDate.toISOString()} has been canceled.</p>
         <p>Best regards,<br>The Clinic Team</p>
       `;
       doctorEmailContent = `
         <p>Dear Dr. ${doctor.name},</p>
-        <p>The appointment with ${
-          user.fullName
-        } scheduled for ${appointmentDate.toLocaleString()} has been canceled.</p>
+        <p>The appointment with ${user.fullName} scheduled for ${appointmentDate.toISOString()} has been canceled.</p>
         <p>Best regards,<br>The Clinic Team</p>
       `;
       break;
@@ -68,13 +65,13 @@ const appointmentEmails = async (
       throw new Error("Invalid email type");
   }
 
-  await appointmentEmails({
+  await appointmentConfirmation({
     to: user.email,
     subject: subject,
     html: userEmailContent,
   });
 
-  await appointmentEmails({
+  await appointmentConfirmation({
     to: doctor.email,
     subject: subject,
     html: doctorEmailContent,

@@ -15,6 +15,6 @@ router.get(
       maxAge: 24 * 60 * 60 * 1000,
     });
     res.redirect("http://localhost:5173/signup");
-  }
+  }  
 );
 module.exports = router;
