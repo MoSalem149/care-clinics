@@ -11,6 +11,9 @@ const addProfileInfo = async (req, res) => {
     const userRole = req.user.role;
     const additionalInfo = req.body;
 
+    if (req.file) {
+      additionalInfo.profileImage = req.file.path;
+    }
     let userProfile;
 
     if (userRole === "user") {
@@ -49,6 +52,9 @@ const updateUser = async (req, res) => {
   try {
     const userId = req.user.id;
     const updatedData = req.body;
+    if (req.file) {
+      updatedData.profileImage = req.file.path;
+    }
 
     const userProfile = await UserProfile.findOneAndUpdate(
       { user: userId },
@@ -254,9 +260,9 @@ const bookAppointment = async (req, res) => {
       User.findById(userId),
       User.findOne({ _id: doctor.user, role: "doctor" }),
     ]);
-    
+
     await appointmentEmails(user, doctorUser, appointmentDate, "New");
-    
+
     res.status(201).json({
       status: "SUCCESS",
       message: "Appointment booked successfully",
@@ -319,9 +325,9 @@ const updateAppointment = async (req, res) => {
       User.findById(userId),
       User.findOne({ _id: appointment.doctor.user, role: "doctor" }),
     ]);
-  
+
     await appointmentEmails(user, doctorUser, appointmentDate, "Updated");
-    
+
     res.status(200).json({
       status: "SUCCESS",
       message: "Appointment updated successfully",
@@ -364,9 +370,14 @@ const deleteAppointment = async (req, res) => {
       User.findById(userId),
       User.findOne({ _id: appointment.doctor.user, role: "doctor" }),
     ]);
-    
-    await appointmentEmails(user, doctorUser, appointment.appointmentTime, "Deleted");
-    
+
+    await appointmentEmails(
+      user,
+      doctorUser,
+      appointment.appointmentTime,
+      "Deleted"
+    );
+
     res.status(204).json({
       status: "SUCCESS",
       message: "Appointment deleted successfully",
