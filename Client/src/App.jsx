@@ -3,6 +3,7 @@ import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
+// import PatientHomePage from "./pages/PatientHomePage";
 import "./App.css";
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/signup" element={<SignUpPage />} />
       </Routes>
     </Router>
+    // <PatientHomePage />
   );
 };
 
