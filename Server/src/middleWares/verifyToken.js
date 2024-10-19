@@ -12,7 +12,7 @@ const verifyToken = (req, res, next) => {
     return res.status(403).json({ error: "Token is required." });
   }
   try {
-    const decodedToken = jwt.verify(token,process.env.JWT_SECRET_KEY);
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
     req.user = decodedToken;
 
     next();

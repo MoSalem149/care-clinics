@@ -5,6 +5,7 @@ const { verifyToken } = require("../middleWares/verifyToken");
 const { body, validationResult } = require("express-validator");
 const authMiddleware = require("../middleWares/authMiddleWare");
 const userProfile = require("../Controller/userProfile.controller");
+const upload = require("../middleWares/Images");
 
 router.route("/").get(verifyToken, userController.getAllUsers);
 
@@ -63,9 +64,15 @@ router
   );
 router
   .route("/profile/add-info")
-  .post(authMiddleware, userProfile.addProfileInfo);
+  .post(
+    authMiddleware,
+    upload.single("profileImage"),
+    userProfile.addProfileInfo
+  );
 
-router.route("/profile/update").put(authMiddleware, userProfile.updateUser);
+router
+  .route("/profile/update")
+  .put(authMiddleware, upload.single("profileImage"), userProfile.updateUser);
 router
   .route("/profile/delete")
   .delete(authMiddleware, userProfile.deleteAccount);
