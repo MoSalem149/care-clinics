@@ -12,3 +12,4 @@ const departmentModel = mongoose.model(
 );
 
 module.exports = departmentModel;
+  
