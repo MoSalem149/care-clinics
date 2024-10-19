@@ -22,7 +22,7 @@ const LoginForm = () => {
       }, 3000);
     }
   };
-
+       
   /* Function to handle form submission */
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,15 +52,13 @@ const LoginForm = () => {
       // Check if the login is successful
       if (response.ok && result.token) {
         // Store the token and user details
-        localStorage.setItem("token", result.token); // Storing token
+        localStorage.setItem("token", result.token); 
 
-        // Display success feedback
         displayFeedback("Login successful!", "login-success");
 
         // Redirect to the exam page after successful login
         setTimeout(() => {
-          window.location.href = "../welcome/welcome.html"; // Redirect to exam page
-        }, 1500);
+        navigate('/')        }, 1500);
       } else {
         // Handle failed login with appropriate feedback
         displayFeedback(`Login failed: ${result.message}`, "error");

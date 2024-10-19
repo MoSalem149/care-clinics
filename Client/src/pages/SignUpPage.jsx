@@ -15,7 +15,7 @@ import "../styles/SignUpPage.css";
 
 function SignUpPage() {
   /* State */
-  const [role, setRole] = useState("patient");
+  const [role, setRole] = useState("user");
 
   /* JSX */
   return (
@@ -40,14 +40,14 @@ function SignUpPage() {
               <div className="user-switch">
                 <div className="button-container">
                   <img
-                    className={role === "patient" ? "active" : ""}
+                    className={role === "user" ? "active" : ""}
                     src={patientIcon}
                     alt="Patient Icon"
-                    onClick={() => setRole("patient")}
+                    onClick={() => setRole("user")}
                   />
                   <button
-                    className={role === "patient" ? "active" : ""}
-                    onClick={() => setRole("patient")}
+                    className={role === "user" ? "active" : ""}
+                    onClick={() => setRole("user")}
                   >
                     Patient
                   </button>
@@ -67,12 +67,9 @@ function SignUpPage() {
                   </button>
                 </div>
               </div>
-              {/* Header */}
               <h1>Welcome!</h1>
-              {/* Social Sign Up */}
               <SignUpSocialIcon />
-              {/*   Sign Up Form */}
-              <SignUpForm />
+              <SignUpForm selectedRole={role} />
             </div>
             {/* Right Side */}
             <div className="sign-up-right-side">

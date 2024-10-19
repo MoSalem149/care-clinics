@@ -19,7 +19,7 @@ const userProfileSchema = mongoose.Schema(
     },
     gender: {
       type: String,
-      enum: ['Male', 'Female', 'Other'],
+      enum: ['male', 'female', 'other'],
       required: [true, "Gender is required"],
     },
     phoneNumber: {
@@ -34,12 +34,8 @@ const userProfileSchema = mongoose.Schema(
     chronicConditions: {
       type: [String], 
     },
-    surgicalHistory: [
-      {
-        surgeryType: { type: String },
-        surgeryDate: { type: Date },
-      },
-    ],
+    surgicalHistory: [String]
+    ,
     familyMedicalHistory: {
       type: [String], 
     },

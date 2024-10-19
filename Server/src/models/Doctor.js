@@ -14,12 +14,12 @@ const doctorSchema = new mongoose.Schema({
   specialty: { type: String, required: true },
   yearsOfExperience: { type: Number },
   availability: [
-    {
+    { 
       day: { type: String },
       startTime: { type: String },
       endTime: { type: String },
     },
-  ],
+  ], 
   appointments: [  
     {
       appointmentId: {

@@ -31,10 +31,11 @@ router.post(
 router.put(
   "/update-doctor/:id",
   verifyToken,
-  upload.single("profileImage"),
+  upload.single("profileImage"), 
   UpdateDoctor
 );
 
 router.delete("/delete-doctor/:id", verifyToken, DeleteDoctor);
 
 module.exports = router;
+ 

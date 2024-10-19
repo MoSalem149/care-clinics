@@ -3,78 +3,81 @@ import { useRef, useState } from "react";
 import blueArrowIcon from "../assets/images/SignUp-Login-img/blue-arrow-icon.png";
 /* Import JS */
 import { validateForm } from "../utils/signUpFormValidation";
+import { useNavigate } from "react-router-dom";
 
-const SignUpForm = () => {
+const SignUpForm = ({ selectedRole }) => {
   /* State */
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("patient");
   const [errors, setErrors] = useState({});
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [feedbackType, setFeedbackType] = useState("");
 
   /* Reference to form */
   const formRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate form inputs
-    const validationErrors = validateForm({ fullName, email, password, role });
-
+  
+    const validationErrors = validateForm({ fullName, email, password, role: selectedRole });
+  
     // If validation fails, display errors
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-
-    // Clear any existing errors if the form is valid
+  
     setErrors({});
-
+  
     const formData = {
       fullName,
       email,
       password,
-      role,
+      role: selectedRole,
     };
-
+  
     try {
       // Send form data to the backend
-      const response = await fetch("http://localhost:3000/register", {
+      const response = await fetch("http://localhost:5000/users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-
+  
       const result = await response.json();
-
-      // Handle success or failure response from the server
+  
       if (response.ok) {
         setFeedbackMessage(result.message || "Registration successful!");
         setFeedbackType("success");
-
-        // Reset the form
+  
         formRef.current.reset();
         setFullName("");
         setEmail("");
         setPassword("");
-        setRole("patient");
+  
+        setTimeout(() => {
+          if (selectedRole === "doctor") {
+            navigate("/doctor-form");
+          } else if (selectedRole === "user") {
+            navigate("/user-form");
+          }
+        }, 2000);
       } else {
         setFeedbackMessage(result.message || "An error occurred.");
         setFeedbackType("error");
       }
     } catch (error) {
-      // Handle fetch error
       setFeedbackMessage("An error occurred. Please try again.");
       setFeedbackType("error");
       console.error("Error:", error);
     }
   };
+  
 
-  /* Clear specific field errors on change */
   const handleInputChange = (field, value) => {
     switch (field) {
       case "fullName":
@@ -102,7 +105,6 @@ const SignUpForm = () => {
 
   /* Handle external button click */
   const handleSignUpClick = () => {
-    // Manually trigger form submission
     if (formRef.current) {
       formRef.current.dispatchEvent(
         new Event("submit", { cancelable: true, bubbles: true })
@@ -110,7 +112,6 @@ const SignUpForm = () => {
     }
   };
 
-  /* JSX */
   return (
     <>
       {/* Sign Up Form */}
@@ -162,11 +163,7 @@ const SignUpForm = () => {
           />
         </div>
         {/* Hidden input to keep role for submission */}
-        <input
-          type="hidden"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        />
+        <input type="hidden" value={selectedRole} />
       </form>
       {/* Display Feedback */}
       {feedbackMessage && (
@@ -179,7 +176,11 @@ const SignUpForm = () => {
         onClick={handleSignUpClick}
       >
         <span>Sign Up</span>
-        <img src={blueArrowIcon} alt="Blue Arrow Icon" />
+        <img
+          src={blueArrowIcon}
+          alt="Blue Arrow Icon"
+          className="arrow-icon"
+        />
       </button>
     </>
   );

@@ -147,7 +147,7 @@ const compeleteDoctorProfile = async (req, res) => {
       phoneNumber,
       specialty,
       yearsOfExperience,
-      availability: JSON.parse(availability),
+      availability: availability,
       department: foundDepartment._id,
       appointmentDuration,
       fees,
