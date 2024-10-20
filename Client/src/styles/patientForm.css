@@ -1,0 +1,61 @@
+.hello{
+    color: #1E84B5;
+}
+.patient-form label{
+    margin-left: 2px;
+    color: #1E84B5;
+}
+.patient-form input,select,textarea{
+  border-color: #1E84B5 !important;
+}
+.upload-container{
+    flex-direction: column;
+}
+.save-btn{
+    width: 100px;
+    background-color: #1E84B5;
+}
+textarea{
+    height: 54px;
+}
+.photo-upload{
+    width: 247px;
+    height: 165px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    background: #DBE6EF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.patient-form .row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .upload-container {
+    margin-top: 20px;
+  }
+  .upload-container p {
+    font-size: 20px;
+  }
+    @media (max-width: 768px) {
+    .patient-form .row {
+      display: block;
+    }
+      .upload-container {
+      margin-top: 20px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .p-form-container{
+        margin-left: 18%;
+    }
+  }
+  .upload-text{
+    color: #1E84B5;
+  }
+  

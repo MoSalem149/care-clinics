@@ -132,9 +132,14 @@ const compeleteDoctorProfile = async (req, res) => {
 
     const newDoctor = new doctorModel({
       user: user._id,
-      ...doctorDetails,
-      ProfileImage: req.body.ProfileImage,
-      availability: JSON.parse(availability),
+      name,
+      age,
+      gender,
+      profileImage: ProfileImage,
+      phoneNumber,
+      specialty,
+      yearsOfExperience,
+      availability: availability,
       department: foundDepartment._id,
     });
 

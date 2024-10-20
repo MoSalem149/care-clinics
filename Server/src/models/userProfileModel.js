@@ -37,12 +37,8 @@ const userProfileSchema = mongoose.Schema(
     chronicConditions: {
       type: [String],
     },
-    surgicalHistory: [
-      {
-        surgeryType: { type: String },
-        surgeryDate: { type: Date },
-      },
-    ],
+    surgicalHistory: [String]
+    ,
     familyMedicalHistory: {
       type: [String],
     },

@@ -14,7 +14,7 @@ async function seedDepartments() {
     },
     {
       name: "Internal Medicine",
-      image: "internal.png",
+      image: "internal.png",     
       bio: "Meow Meow Meow Meow",
     },
     {

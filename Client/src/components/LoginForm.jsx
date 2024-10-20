@@ -41,7 +41,6 @@ const LoginForm = () => {
     };
 
     try {
-      // Send POST request to the server
       const response = await fetch("http://localhost:5000/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -50,16 +49,14 @@ const LoginForm = () => {
 
       const result = await response.json();
 
-      // Check if the login is successful
       if (response.ok && result.token) {
-        const token = result.token;
-        localStorage.setItem("token", `${token}`);
-        const decoded = jwtDecode(token);
-        const role = decoded.role;
-        updateUserRole(role);
-        navigate("/department");
+        localStorage.setItem("token", result.token);
 
         displayFeedback("Login successful!", "login-success");
+
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
       } else {
         displayFeedback(`Login failed: ${result.message}`, "error");
       }

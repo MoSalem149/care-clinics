@@ -31,7 +31,7 @@ const getAllUsers = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { fullName, email, password, role } = req.body;
+  const { fullName, email, password, role } = req.body; 
 
   if (!password) {
     return res
@@ -56,13 +56,14 @@ const register = async (req, res) => {
       role,
     });
 
+    // Generate token after creating user
     const token = jwt.sign(
       { email: newUser.email, id: newUser._id },
       process.env.JWT_SECRET_KEY,
       { expiresIn: "5d" }
     );
 
-    newUser.token = token;
+    newUser.token = token; 
 
     await newUser.save();
 
@@ -71,7 +72,7 @@ const register = async (req, res) => {
       data: {
         fullName: newUser.fullName,
         email: newUser.email,
-        token: newUser.token,
+        token: newUser.token, 
       },
       message: "Registration successful",
     });

@@ -21,11 +21,6 @@ const addProfileInfo = async (req, res) => {
         ...additionalInfo,
         user: userId,
       });
-    } else if (userRole === "doctor") {
-      userProfile = new Doctor({
-        ...additionalInfo,
-        doctor: userId,
-      });
     } else {
       return res.status(403).json({
         status: "FAIL",
@@ -39,8 +34,9 @@ const addProfileInfo = async (req, res) => {
       status: "SUCCESS",
       message: "Profile information saved successfully",
       data: { user: userProfile },
-    });
+    });   
   } catch (error) {
+    console.error('Error details:', error);
     res.status(500).json({
       status: "ERROR",
       message: error.message,
