@@ -36,16 +36,11 @@ router.post(
 router.put(
   "/update-doctor/:id",
   verifyToken,
-<<<<<<< HEAD
   uploadSingleFile,
   uploadToFirebase,
-=======
-  upload.single("profileImage"), 
->>>>>>> 85b19a12526b6d029bb8f7b7c1347223fcba0e25
   UpdateDoctor
 );
 
 router.delete("/delete-doctor/:id", verifyToken, DeleteDoctor);
 
 module.exports = router;
- 
