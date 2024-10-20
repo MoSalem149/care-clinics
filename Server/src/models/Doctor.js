@@ -20,26 +20,27 @@ const doctorSchema = new mongoose.Schema({
       endTime: { type: String },
     },
   ],
-  appointments: [  
+  appointments: [
     {
       appointmentId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Appointment',
+        ref: "Appointment",
       },
       appointmentTime: {
-        type: Date
+        type: Date,
       },
-      appointmentDuration:{
-        type:Number,
-        default:30
+      appointmentDuration: {
+        type: Number,
+        default: 30,
       },
-      appointmentEndTime:{type:Date},
+      appointmentEndTime: { type: Date },
     },
   ],
   fees: {
     consultation: { type: Number },
   },
   isApproved: { type: Boolean, default: false },
+  bio: { type: String },
 });
 
 const doctorModel = mongoose.model("Doctor", doctorSchema, "Doctor");

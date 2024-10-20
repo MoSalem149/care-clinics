@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #eff8ff;
+}
+.DepartmentsContainer {
+  text-align: center;
+}
+.headerSpan {
+  color: #1e84b5;
+  font-family: Poppins;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.Departmentheader {
+  color: #333;
+  position: relative;
+  bottom: 40px;
+  font-weight: bold;
+}
+
+.DoctorsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+.departmentImage,
+.Departmentheader {
+  margin-right: 800px;
+}
+.DoctorContainer {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 350px;
+  margin: 25px;
+}
+
+.ImageHolderForDoctors {
+  width: 100%;
+}
+
+.ImageHolderForDoctors img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.DoctorName,
+.DoctorSpecialty {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.DoctorBio {
+  font-size: 1rem;
+  color: #555;
+  text-align: left;
+  margin-left: 5px;
+  margin-top: -30px;
+}
+.BookAppointment {
+  border-radius: 44px;
+  background: #1e84b5;
+  padding: 10px;
+  border: none;
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.specialtySpan {
+  color: #1e84b5;
+}
+.DoctorSpecialty {
+  position: relative;
+  bottom: 20px;
+}
+.arrowIconHolder {
+  border-radius: 50%;
+  display: inline-block;
+  margin-top: -10px;
+}
+.BookAppointment:hover {
+  cursor: pointer;
+  transform: translateY(-3px);
+}

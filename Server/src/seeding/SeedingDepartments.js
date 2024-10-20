@@ -33,15 +33,15 @@ async function seedDepartments() {
       if (!existingDepartment) {
         const newDepartment = new departmentModel(department);
         await newDepartment.save();
-        console.log(`Department ${department.name} seeded successfully!`);
+        // console.log(`Department ${department.name} seeded successfully!`);
       } else {
-        console.log(
-          `Department ${department.name} already exists. Skipping...`
-        );
+        // console.log(
+        // `Department ${department.name} already exists. Skipping...`
+        // );
       }
     }
   } catch (error) {
-    console.error("Error seeding departments:", error);
+    // console.error("Error seeding departments:", error);
   }
 }
 

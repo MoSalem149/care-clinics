@@ -1,35 +1,28 @@
 import { useRef, useState } from "react";
-/* Import assets */
 import blueArrowIcon from "../assets/images/SignUp-Login-img/blue-arrow-icon.png";
-/* Import JS */
 import { validateForm } from "../utils/signUpFormValidation";
 
 const SignUpForm = () => {
-  /* State */
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("patient");
+  const [role, setRole] = useState("user");
   const [errors, setErrors] = useState({});
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [feedbackType, setFeedbackType] = useState("");
 
-  /* Reference to form */
   const formRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate form inputs
     const validationErrors = validateForm({ fullName, email, password, role });
 
-    // If validation fails, display errors
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
-    // Clear any existing errors if the form is valid
     setErrors({});
 
     const formData = {
@@ -40,8 +33,7 @@ const SignUpForm = () => {
     };
 
     try {
-      // Send form data to the backend
-      const response = await fetch("http://localhost:3000/register", {
+      const response = await fetch("http://localhost:5000/users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,30 +43,26 @@ const SignUpForm = () => {
 
       const result = await response.json();
 
-      // Handle success or failure response from the server
       if (response.ok) {
         setFeedbackMessage(result.message || "Registration successful!");
         setFeedbackType("success");
 
-        // Reset the form
         formRef.current.reset();
         setFullName("");
         setEmail("");
         setPassword("");
-        setRole("patient");
+        setRole("");
       } else {
         setFeedbackMessage(result.message || "An error occurred.");
         setFeedbackType("error");
       }
     } catch (error) {
-      // Handle fetch error
       setFeedbackMessage("An error occurred. Please try again.");
       setFeedbackType("error");
       console.error("Error:", error);
     }
   };
 
-  /* Clear specific field errors on change */
   const handleInputChange = (field, value) => {
     switch (field) {
       case "fullName":
@@ -100,9 +88,7 @@ const SignUpForm = () => {
     }
   };
 
-  /* Handle external button click */
   const handleSignUpClick = () => {
-    // Manually trigger form submission
     if (formRef.current) {
       formRef.current.dispatchEvent(
         new Event("submit", { cancelable: true, bubbles: true })
@@ -110,10 +96,8 @@ const SignUpForm = () => {
     }
   };
 
-  /* JSX */
   return (
     <>
-      {/* Sign Up Form */}
       <form className="sign-up-form" ref={formRef} onSubmit={handleSubmit}>
         <div className="input-container">
           <div className="label-error-container">
@@ -161,18 +145,15 @@ const SignUpForm = () => {
             required
           />
         </div>
-        {/* Hidden input to keep role for submission */}
         <input
           type="hidden"
           value={role}
           onChange={(e) => setRole(e.target.value)}
         />
       </form>
-      {/* Display Feedback */}
       {feedbackMessage && (
         <div className={`feedback ${feedbackType}`}>{feedbackMessage}</div>
       )}
-      {/* Sign Up Button */}
       <button
         type="button"
         className="sign-up-btn-left-side"

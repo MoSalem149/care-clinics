@@ -3,35 +3,41 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
-const upload = require("../../middleWares/Images");
+const uploadSingleFile = require("../../middleWares/Images");
 const DoctorModel = require("../../models/Doctor");
 const { verifyToken } = require("../../middleWares/verifyToken");
+const { uploadToFirebase } = require("../../middleWares/FireBase");
 const {
-  getResetPassword,
   postResetPassword,
+  getResetPassword,
   signupDoctor,
   compeleteDoctorProfile,
   UpdateDoctor,
   DeleteDoctor,
+  getAllDoctors,
 } = require("../../Controller/Doctors/DoctorsController");
 
 router.get("/reset-password", getResetPassword);
 
 router.post("/reset-password", postResetPassword);
 
+router.get("/GetAllDoctors", getAllDoctors);
+
 router.post("/signup-doctor", signupDoctor);
 
 router.post(
   "/compelete-profile",
   verifyToken,
-  upload.single("profileImage"),
+  uploadSingleFile,
+  uploadToFirebase,
   compeleteDoctorProfile
 );
 
 router.put(
   "/update-doctor/:id",
   verifyToken,
-  upload.single("profileImage"),
+  uploadSingleFile,
+  uploadToFirebase,
   UpdateDoctor
 );
 

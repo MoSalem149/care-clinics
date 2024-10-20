@@ -1,0 +1,115 @@
+.DoctorsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.DoctorContainer {
+  position: relative;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 250px;
+}
+
+.ImageHolderForDoctors {
+  width: 100%;
+}
+
+.ProfileImage {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.DoctorName {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.DoctorSpecialty {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+  text-align: left;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.DoctorBio {
+  font-size: 1rem;
+  color: #777;
+}
+
+.DoctorInfo,
+.DoctorInfoAvail {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 10px;
+  text-align: left;
+  margin-left: 10px;
+  font-weight: bold;
+}
+.DoctorInfoAvail {
+  margin-top: -10px;
+}
+.BookAppointment {
+  border-radius: 44px;
+  background: #1e84b5;
+  padding: 10px;
+  border: none;
+  color: white;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.BookAppointment:hover {
+  background-color: #16658a;
+  transform: translateY(-3px);
+  cursor: pointer;
+}
+
+.arrowIconHolder {
+  border-radius: 50%;
+  display: inline-block;
+  margin-top: -10px;
+}
+.notApproved {
+  border: none;
+  padding: 10px;
+  background-color: #16658a;
+  color: white;
+  border-radius: 5px;
+}
+
+.notApproved:hover {
+  background-color: #1e84b5;
+}
+
+.editButton {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ffcc00;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.ImageHolderForDoctors:hover .editButton {
+  display: block;
+}
+.EditIcon {
+  margin-left: 5px;
+  margin-top: 2px;
+  text-align: center;
+}

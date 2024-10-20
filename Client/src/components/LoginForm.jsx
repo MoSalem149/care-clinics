@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "./Context/userContext";
+import { jwtDecode } from "jwt-decode";
 /* Import assets */
 import blueArrowIcon from "../assets/images/SignUp-Login-img/blue-arrow-icon.png";
 const LoginForm = () => {
@@ -8,17 +10,16 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [feedback, setFeedback] = useState("");
   const [feedbackType, setFeedbackType] = useState("");
+  const { updateUserRole } = useUser();
 
-  /* Navigate */
   const navigate = useNavigate();
 
-  /* Function to display feedback */
   const displayFeedback = (message, type) => {
     setFeedback(message);
     setFeedbackType(type);
     if (type === "success") {
       setTimeout(() => {
-        setFeedback(""); // Clear success feedback after 3 seconds
+        setFeedback("");
       }, 3000);
     }
   };
@@ -51,51 +52,43 @@ const LoginForm = () => {
 
       // Check if the login is successful
       if (response.ok && result.token) {
-        // Store the token and user details
-        localStorage.setItem("token", result.token); // Storing token
+        const token = result.token;
+        localStorage.setItem("token", `${token}`);
+        const decoded = jwtDecode(token);
+        const role = decoded.role;
+        updateUserRole(role);
+        navigate("/department");
 
-        // Display success feedback
         displayFeedback("Login successful!", "login-success");
-
-        // Redirect to the exam page after successful login
-        setTimeout(() => {
-          window.location.href = "../welcome/welcome.html"; // Redirect to exam page
-        }, 1500);
       } else {
-        // Handle failed login with appropriate feedback
         displayFeedback(`Login failed: ${result.message}`, "error");
       }
     } catch (error) {
-      // Handle fetch request errors
       displayFeedback(`An error occurred: ${error.message}`, "error");
       console.error("Fetch error:", error);
     }
   };
 
-  /* Function to clear error message when user starts typing */
   const handleChange = (setter) => (e) => {
     setter(e.target.value);
     if (feedbackType === "error") {
-      setFeedback(""); // Clear error feedback when the user types
+      setFeedback("");
     }
   };
 
-  /* Function to handle forget password */
   const handleForgetPassword = () => {
     navigate("/forget-password");
   };
 
-  /* JSX */
   return (
     <>
-      {/* Login Form */}
       <form className="login-form" onSubmit={handleSubmit}>
         <label htmlFor="email">Email Address</label>
         <input
           type="email"
           id="email"
           value={email}
-          onChange={handleChange(setEmail)} // Clear error on change
+          onChange={handleChange(setEmail)}
           placeholder="Email Address"
           required
         />
@@ -104,11 +97,10 @@ const LoginForm = () => {
           type="password"
           id="password"
           value={password}
-          onChange={handleChange(setPassword)} // Clear error on change
+          onChange={handleChange(setPassword)}
           placeholder="Password"
           required
         />
-        {/* Forget Password Button */}
         <button
           type="button"
           className="forget-password"
@@ -116,12 +108,10 @@ const LoginForm = () => {
         >
           Forget password?
         </button>
-        {/* Feedback Message */}
         {feedback && (
           <p className={`feedback-message ${feedbackType}`}>{feedback}</p>
         )}
       </form>
-      {/* Login Button */}
       <button className="login-btn" type="submit" onClick={handleSubmit}>
         <span>Login</span>
         <img src={blueArrowIcon} alt="Blue Arrow Icon" />

@@ -22,14 +22,14 @@ router.get(
     failureRedirect: "/",
   }),
   (req, res) => {
-    const token = generateToken({ userId: req.user._id });
+    const { role, userId } = req.user;
+    const token = generateToken({ userId, role });
     res.cookie("token", token, {
-      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Lax",
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.redirect(`http://localhost:5173/home`);
+    res.redirect(`http://localhost:5173/signup`);
   }
 );
 

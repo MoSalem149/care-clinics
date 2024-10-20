@@ -7,14 +7,14 @@ router.get(
   "/facebook/callback",
   passport.authenticate("facebook", { failureRedirect: "/" }),
   (req, res) => {
-    const token = generateToken({ userId: req.user._id });
+    const { _id: userId, role } = req.user;
+    const token = generateToken({ userId, role });
     res.cookie("token", token, {
-      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Lax",
       maxAge: 24 * 60 * 60 * 1000,
     });
     res.redirect("http://localhost:5173/signup");
-  }  
+  }
 );
 module.exports = router;
