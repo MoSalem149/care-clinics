@@ -48,8 +48,9 @@ textarea {
   display: flex;
   justify-content: space-between;
 }
-.confirm-container{
+.confirm-container {
   margin-left: 28%;
+  width: 600px;
 }
 
 .upload-doc-container {

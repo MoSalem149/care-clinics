@@ -3,11 +3,11 @@
  import LoginPage from "./pages/LoginPage";
  import ResetPasswordPage from "./pages/ResetPasswordPage";
  import ForgetPasswordPage from "./pages/ForgetPasswordPage";
-// import PatientHomePage from "./pages/PatientHomePage";
+import PatientHomePage from "./pages/PatientHomePage";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PatientForm from "./components/patientForm";
-import DoctorProfile from "./components/doctorForm";
+import DoctorForm from "./components/doctorForm";
 
 const App = () => {
   return (
@@ -19,8 +19,10 @@ const App = () => {
         <Route path="/reset-password" element={<ResetPasswordPage />} /> 
          <Route path="/reset-password/:token" element={<ResetPasswordPage />} /> 
          <Route path="/signup" element={<SignUpPage />} /> 
-         <Route path="/doctor-form" element={<DoctorProfile/>}/>
+         <Route path="/doctor-form" element={<DoctorForm/>}/>
          <Route path="/user-form" element={<PatientForm/>}/>
+         <Route path="/patient-home" element={<PatientHomePage/>}/>
+
       </Routes>
     </Router>
   );

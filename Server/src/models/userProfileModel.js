@@ -22,11 +22,7 @@ const userProfileSchema = mongoose.Schema(
     },
     gender: {
       type: String,
-<<<<<<< HEAD
-      enum: ['male', 'female', 'other'],
-=======
       enum: ["Male", "Female", "Other"],
->>>>>>> d31eb5b98d47fee6c25118949274e377013eee74
       required: [true, "Gender is required"],
     },
     phoneNumber: {

@@ -10,13 +10,10 @@ const addProfileInfo = async (req, res) => {
     const userId = req.user.id;
     const userRole = req.user.role;
     const additionalInfo = req.body;
-<<<<<<< HEAD
-=======
 
     if (req.file) {
       additionalInfo.profileImage = req.file.path;
     }
->>>>>>> d31eb5b98d47fee6c25118949274e377013eee74
     let userProfile;
 
     if (userRole === "user") {

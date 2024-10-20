@@ -39,7 +39,6 @@ const SignUpForm = ({ selectedRole }) => {
     };
   
     try {
-      // Send form data to the backend
       const response = await fetch("http://localhost:5000/users/register", {
         method: "POST",
         headers: {
@@ -51,8 +50,14 @@ const SignUpForm = ({ selectedRole }) => {
       const result = await response.json();
   
       if (response.ok) {
+        const token = result.data.token; 
+        localStorage.setItem("token", token); 
+        
+        console.log("Token:", token); 
+        
         setFeedbackMessage(result.message || "Registration successful!");
         setFeedbackType("success");
+
   
         formRef.current.reset();
         setFullName("");

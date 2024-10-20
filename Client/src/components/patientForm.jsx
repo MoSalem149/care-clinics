@@ -1,8 +1,10 @@
 import '../styles/patientForm.css';
 import { useRef,useEffect, useState } from "react";
 import { FaUpload } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 function PatientForm() {
+    const navigate=useNavigate()
     useEffect(() => {
         document.body.style.backgroundColor = '#E6F7FF';
         document.body.style.marginTop = '20px'; 
@@ -75,6 +77,7 @@ const handleFileChange = (e) => {
             const result = await response.json();
             if (response.ok) {
                 alert("Profile information saved successfully");
+                navigate('/patient-home')
             } else {
                 alert(result.message || "Failed to save profile information");
             }
@@ -128,9 +131,9 @@ const handleFileChange = (e) => {
                                         <select required className="form-control" id="gender" name="gender" value={gender}
                                         onChange={handleChange(setGender)}>
                                             <option value="">Select Gender</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                            <option value="other">Other</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
                                         </select>
                                     </div>
                                 </div>
