@@ -3,19 +3,11 @@ import blueArrowIcon from "../assets/images/SignUp-Login-img/blue-arrow-icon.png
 import { validateForm } from "../utils/signUpFormValidation";
 import { useNavigate } from "react-router-dom";
 
-<<<<<<< HEAD
-const SignUpForm = () => {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("user");
-=======
 const SignUpForm = ({ selectedRole }) => {
   /* State */
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
->>>>>>> 85b19a12526b6d029bb8f7b7c1347223fcba0e25
   const [errors, setErrors] = useState({});
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [feedbackType, setFeedbackType] = useState("");
@@ -25,34 +17,29 @@ const SignUpForm = ({ selectedRole }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
 
-    const validationErrors = validateForm({ fullName, email, password, role });
+    const validationErrors = validateForm({
+      fullName,
+      email,
+      password,
+      role: selectedRole,
+    });
 
-=======
-  
-    const validationErrors = validateForm({ fullName, email, password, role: selectedRole });
-  
     // If validation fails, display errors
->>>>>>> 85b19a12526b6d029bb8f7b7c1347223fcba0e25
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> 85b19a12526b6d029bb8f7b7c1347223fcba0e25
     setErrors({});
-  
+
     const formData = {
       fullName,
       email,
       password,
       role: selectedRole,
     };
-  
+
     try {
       const response = await fetch("http://localhost:5000/users/register", {
         method: "POST",
@@ -61,34 +48,23 @@ const SignUpForm = ({ selectedRole }) => {
         },
         body: JSON.stringify(formData),
       });
-  
-      const result = await response.json();
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> 85b19a12526b6d029bb8f7b7c1347223fcba0e25
+      const result = await response.json();
+
       if (response.ok) {
-        const token = result.data.token; 
-        localStorage.setItem("token", token); 
-        
-        console.log("Token:", token); 
-        
+        const token = result.data.token;
+        localStorage.setItem("token", token);
+
+        console.log("Token:", token);
+
         setFeedbackMessage(result.message || "Registration successful!");
         setFeedbackType("success");
 
-<<<<<<< HEAD
-=======
-  
->>>>>>> 85b19a12526b6d029bb8f7b7c1347223fcba0e25
         formRef.current.reset();
         setFullName("");
         setEmail("");
         setPassword("");
-<<<<<<< HEAD
-        setRole("");
-=======
-  
+
         setTimeout(() => {
           if (selectedRole === "doctor") {
             navigate("/doctor-form");
@@ -96,7 +72,6 @@ const SignUpForm = ({ selectedRole }) => {
             navigate("/user-form");
           }
         }, 2000);
->>>>>>> 85b19a12526b6d029bb8f7b7c1347223fcba0e25
       } else {
         setFeedbackMessage(result.message || "An error occurred.");
         setFeedbackType("error");
@@ -107,7 +82,6 @@ const SignUpForm = ({ selectedRole }) => {
       console.error("Error:", error);
     }
   };
-  
 
   const handleInputChange = (field, value) => {
     switch (field) {
@@ -191,16 +165,8 @@ const SignUpForm = ({ selectedRole }) => {
             required
           />
         </div>
-<<<<<<< HEAD
-        <input
-          type="hidden"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        />
-=======
         {/* Hidden input to keep role for submission */}
         <input type="hidden" value={selectedRole} />
->>>>>>> 85b19a12526b6d029bb8f7b7c1347223fcba0e25
       </form>
       {feedbackMessage && (
         <div className={`feedback ${feedbackType}`}>{feedbackMessage}</div>
@@ -211,11 +177,7 @@ const SignUpForm = ({ selectedRole }) => {
         onClick={handleSignUpClick}
       >
         <span>Sign Up</span>
-        <img
-          src={blueArrowIcon}
-          alt="Blue Arrow Icon"
-          className="arrow-icon"
-        />
+        <img src={blueArrowIcon} alt="Blue Arrow Icon" className="arrow-icon" />
       </button>
     </>
   );
