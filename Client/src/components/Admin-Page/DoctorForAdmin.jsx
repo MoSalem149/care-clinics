@@ -2,11 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import { DoctorContext } from "../Doctor-details/DoctorContext";
 import styles from "./CSS/DoctorForAdmin.module.css";
 import { FaEdit } from "react-icons/fa";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import DeleteConfirmation from "./DeleteConfirmation";
+import { MdDelete } from "react-icons/md";
 
 const DoctorForAdmin = () => {
-  const { doctors, setDoctors } = useContext(DoctorContext);
+  const { doctors, setDoctors, setSelectedDoctor } = useContext(DoctorContext);
   const [successMessage, setSuccessMessage] = useState("");
+  const [showUnapproved, setShowUnapproved] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [doctorToDelete, setDoctorToDelete] = useState(null);
   const userRole = localStorage.getItem("userRole");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -22,16 +27,61 @@ const DoctorForAdmin = () => {
         const data = await response.json();
         setDoctors(data);
       } catch (error) {
-        // console.error("Error fetching doctors:", error);
+        console.error("Error fetching doctors:", error);
       }
     };
-
     fetchDoctors();
   }, [setDoctors, token]);
 
   const handleEdit = (doctor) => {
     navigate("/admin/edit-doctor-profile", { state: { doctor } });
+    console.log(doctor);
   };
+
+  const toggleUnapproved = () => {
+    setShowUnapproved(!showUnapproved);
+  };
+  const handleDelete = async (doctorId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/Admin/doctors/${doctorId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the doctor");
+      }
+
+      // Update the state after successful deletion
+      setDoctors((prevDoctors) =>
+        prevDoctors.filter((doctor) => doctor._id !== doctorId)
+      );
+      setSuccessMessage("Doctor deleted successfully!"); // Show success message
+    } catch (error) {
+      console.error("Error deleting doctor:", error);
+    } finally {
+      setIsModalOpen(false); // Close the modal after deletion
+    }
+  };
+
+  const openModal = (doctor) => {
+    setDoctorToDelete(doctor);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setDoctorToDelete(null);
+  };
+
+  const filteredDoctors = showUnapproved
+    ? doctors.filter((doctor) => !doctor.isApproved)
+    : doctors;
 
   return (
     <div className={styles.DepartmentsContainer}>
@@ -44,18 +94,41 @@ const DoctorForAdmin = () => {
           You.
         </h2>
       </div>
+
+      {userRole === "admin" && (
+        <div className={styles.createDoctorButtonWrapper}>
+          <button className={styles.toggleButton} onClick={toggleUnapproved}>
+            {showUnapproved ? "Show All Doctors" : "Show Unapproved Doctors"}
+          </button>
+          <Link to="/admin/create-doctor">
+            <button className={styles.createDoctorButton}>
+              Create New Doctor
+            </button>
+          </Link>
+        </div>
+      )}
+
       <div className={styles.DoctorsContainer}>
-        {doctors.map((doctor) => (
+        {filteredDoctors.map((doctor) => (
           <div key={doctor._id} className={styles.DoctorContainer}>
             <div className={styles.ImageHolderForDoctors}>
               {userRole === "admin" && (
-                <button
-                  className={styles.editButton}
-                  onClick={() => handleEdit(doctor._id)}
-                >
-                  Edit
-                  <FaEdit className={styles.EditIcon} />
-                </button>
+                <div className={styles.adminController}>
+                  <button
+                    className={styles.editButton}
+                    onClick={() => handleEdit(doctor)}
+                  >
+                    Edit
+                    <FaEdit className={styles.EditIcon} />
+                  </button>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => openModal(doctor)}
+                  >
+                    Delete
+                    <MdDelete />
+                  </button>
+                </div>
               )}
               <img
                 className={styles.ProfileImage}
@@ -85,6 +158,12 @@ const DoctorForAdmin = () => {
           </div>
         ))}
       </div>
+      <DeleteConfirmation
+        isOpen={isModalOpen}
+        departmentName={doctorToDelete ? doctorToDelete.name : ""}
+        onClose={closeModal}
+        onConfirm={() => doctorToDelete && handleDelete(doctorToDelete._id)}
+      />
     </div>
   );
 };

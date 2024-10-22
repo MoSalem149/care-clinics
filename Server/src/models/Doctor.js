@@ -6,12 +6,12 @@ const doctorSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  name: { type: String, required: true },
+  name: { type: String },
   age: { type: Number },
   gender: { type: String },
   ProfileImage: { type: String },
   phoneNumber: { type: String },
-  specialty: { type: String, required: true },
+  specialty: { type: String },
   yearsOfExperience: { type: Number },
   availability: [
     {

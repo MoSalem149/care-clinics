@@ -15,37 +15,32 @@ import EditDoctorProfile from "./components/Admin-Page/EditDoctorProfile";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PatientForm from "./components/patientForm";
 import DoctorForm from "./components/doctorForm";
+import CreateDoctor from "./components/Admin-Page/CreateDoctor";
 
 const App = () => {
   return (
     <Router>
-      <DoctorProvider>
-        <Routes>
-          <Route path="/" element={<SignUpPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/forget-password" element={<ForgetPasswordPage />} />
-          <Route
-            path="/reset-password/:token"
-            element={<ResetPasswordPage />}
-          />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/department" element={<Department />} />
-          <Route path="/department/doctors" element={<Doctor />} />
-          <Route path="/admin" element={<AdminDashBoard />} />
-          <Route
-            path="/admin/create-department"
-            element={<CreateDepartment />}
-          />
-          <Route path="/admin/edit-department" element={<EditDepartment />} />
-          <Route
-            path="/admin/edit-doctor-profile"
-            element={<EditDoctorProfile />}
-          />
-          <Route path="/doctor-form" element={<DoctorForm />} />
-          <Route path="/user-form" element={<PatientForm />} />
-          <Route path="/patient-home" element={<PatientHomePage />} />
-        </Routes>
-      </DoctorProvider>
+      <Routes>
+        <Route path="/" element={<SignUpPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/forget-password" element={<ForgetPasswordPage />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/department" element={<Department />} />
+        <Route path="/department/doctors" element={<Doctor />} />
+        <Route path="/admin" element={<AdminDashBoard />} />
+        <Route path="/admin/create-department" element={<CreateDepartment />} />
+        <Route path="/admin/edit-department" element={<EditDepartment />} />
+        <Route
+          path="/admin/edit-doctor-profile"
+          element={<EditDoctorProfile />}
+        />
+        <Route path="/admin/create-doctor" element={<CreateDoctor />} />
+
+        <Route path="/doctor-form" element={<DoctorForm />} />
+        <Route path="/user-form" element={<PatientForm />} />
+        <Route path="/patient-home" element={<PatientHomePage />} />
+      </Routes>
     </Router>
   );
 };

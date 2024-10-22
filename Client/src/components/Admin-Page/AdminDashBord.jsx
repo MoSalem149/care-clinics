@@ -46,7 +46,7 @@ const AdminDashBoard = () => {
         </ul>
       </aside>
       <main className={styles.mainContent}>
-        <h1>Welcome to the Admin Dashboard</h1>
+        <h1 className={styles.AdminHOne}>Welcome to the Admin Dashboard</h1>
         {renderSection()}
       </main>
     </div>

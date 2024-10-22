@@ -4,6 +4,7 @@ const DoctorContext = createContext();
 
 const DoctorProvider = ({ children }) => {
   const [doctors, setDoctors] = useState([]);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
 
   useEffect(() => {
     const GetAllDoctors = async () => {
@@ -16,10 +17,12 @@ const DoctorProvider = ({ children }) => {
       }
     };
     GetAllDoctors();
-  }, []);
+  }, [selectedDoctor, doctors]);
 
   return (
-    <DoctorContext.Provider value={{ doctors, setDoctors }}>
+    <DoctorContext.Provider
+      value={{ doctors, setDoctors, selectedDoctor, setSelectedDoctor }}
+    >
       {children}
     </DoctorContext.Provider>
   );

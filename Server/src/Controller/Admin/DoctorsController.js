@@ -118,33 +118,21 @@ const CreateDoctor = async (req, res) => {
 
     res.status(201).json(saveDoctor);
   } catch (error) {
-    // console.error("Error Creating Doctor", error);
+    console.error("Error Creating Doctor", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 const UpdateDoctor = async (req, res) => {
+  const { id } = req.params;
+  const existingDoctorData = await DoctorModel.findById({ _id: id });
+  if (!existingDoctorData) {
+    return res.status(404).json({ error: "Doctor not found." });
+  }
   try {
     const { id } = req.params;
-    const {
-      department,
-      email,
-      ProfileImage = null,
-      availability,
-      fees,
-      ...doctorDetails
-    } = req.body;
-
-    if (email && !emailRegex.test(email)) {
-      return res.status(400).json({ error: "Invalid email format." });
-    }
-
-    if (email) {
-      const existingDoctor = await DoctorModel.findOne({ email });
-      if (existingDoctor) {
-        return res.status(400).json({ error: "Email already exists." });
-      }
-    }
+    const { department, ProfileImage, availability, fees, ...doctorDetails } =
+      req.body;
 
     const foundDepartment = department
       ? await departmentModel.findOne({ name: department })
@@ -165,6 +153,11 @@ const UpdateDoctor = async (req, res) => {
       fees: typeof fees === "string" ? JSON.parse(fees) : fees,
       ...(foundDepartment ? { department: foundDepartment._id } : {}),
     };
+    if (ProfileImage) {
+      updateData.ProfileImage = ProfileImage;
+    } else {
+      updateData.ProfileImage = existingDoctorData.ProfileImage;
+    }
 
     const updatedDoctor = await DoctorModel.findByIdAndUpdate(
       id,
@@ -179,7 +172,7 @@ const UpdateDoctor = async (req, res) => {
       .status(200)
       .json({ message: "Doctor updated successfully", doctor: updatedDoctor });
   } catch (error) {
-    // console.error("Error Updating Doctor", error);
+    console.error("Error Updating Doctor", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
