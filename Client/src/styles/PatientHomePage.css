@@ -184,7 +184,7 @@ span {
 }
 
 /* Media Queries */
-/* For small devices */
+/* For Tablet Devices */
 @media (max-width: 768px) {
   .patient-home-page {
     padding: 10px;
@@ -252,12 +252,12 @@ span {
   }
 
   .menu-toggle {
-    display: block; /* Ensure it's visible on small screens */
-    background: none; /* Optional: Customize background if needed */
+    display: block;
+    background: none;
     border: none;
-    font-size: 2rem; /* Adjust size if necessary */
+    font-size: 2rem;
     cursor: pointer;
-    color: #0e384c; /* Adjust color */
+    color: #0e384c;
   }
 
   .profile-img {
@@ -270,6 +270,7 @@ span {
   }
 }
 
+/* For Mobile Devices */
 @media (max-width: 480px) {
   .hero h2 {
     font-size: 1.5rem;

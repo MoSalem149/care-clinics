@@ -149,23 +149,23 @@ h3 img {
 /* Background Images */
 .background-images {
   position: relative;
-  z-index: 0; /* Ensure it is behind all content */
+  z-index: 0;
 }
 
 .Injection {
   position: absolute;
   top: 10px;
   left: 10px;
-  width: 150px; /* Responsive image size */
-  z-index: -1; /* Send the image behind other content */
+  width: 150px;
+  z-index: -1;
 }
 
 .medicine {
   position: absolute;
-  top: 20%; /* Adjust the position to avoid overlapping the button */
+  top: 20%;
   left: 85%;
-  width: 150px; /* Responsive image size */
-  z-index: -1; /* Send the image behind other content */
+  width: 150px;
+  z-index: -1;
 }
 
 @media (max-width: 768px) {

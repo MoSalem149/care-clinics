@@ -24,6 +24,7 @@ function PatientHomePage() {
     <HelmetProvider>
       {/* Container */}
       <div className="patient-home-page">
+        {/* Helmet */}
         <Helmet>
           <title>Patient Home Page</title>
         </Helmet>
