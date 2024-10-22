@@ -1,10 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+/* Import Pages */
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import PatientHomePage from "./pages/PatientHomePage";
-import "./App.css";
+// import DepartmentsPage from "./pages/DepartmentsPage";
+// import UserProfilePage from "./pages/UserProfilePage";
+/* Import Components */
 import Department from "./components/Departments/Department";
 import AdminDashBoard from "./components/Admin-Page/AdminDashBord";
 import CreateDepartment from "./components/Admin-Page/CreateDepartment";
@@ -16,6 +20,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import PatientForm from "./components/patientForm";
 import DoctorForm from "./components/doctorForm";
 import CreateDoctor from "./components/Admin-Page/CreateDoctor";
+/* Import CSS */
+import "./App.css";
 
 const App = () => {
   return (
@@ -42,6 +48,8 @@ const App = () => {
         <Route path="/patient-home" element={<PatientHomePage />} />
       </Routes>
     </Router>
+    // <DepartmentsPage />
+    // <UserProfilePage />
   );
 };
 
