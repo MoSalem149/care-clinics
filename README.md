@@ -1,7 +1,7 @@
 # DEBI Final Project
 
 <div align="center">
-  <img src="./README-Assets/DEBI-Img.jpg" alt="DEBI Logo" />
+  <img src="./README-Assets/DEBI-Img.png" alt="DEBI Logo" />
 </div>
 
 # Care Clinics
