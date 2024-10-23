@@ -109,3 +109,11 @@ body {
   border-radius: 4px;
   z-index: 1000;
 }
+.errorMessage {
+  margin-top: 15px;
+  padding: 10px;
+  color: red;
+  border-radius: 4px;
+  z-index: 1000;
+  font-size: 15px;
+}

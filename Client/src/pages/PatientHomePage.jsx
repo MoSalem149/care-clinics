@@ -6,7 +6,9 @@ import { FaSignOutAlt, FaBars } from "react-icons/fa";
 import avatarImage from "../assets/images/Patient-Home-Page-img/avatar1.png";
 import blueArrowImage from "../assets/images/Patient-Home-Page-img/blue-arrow-icon.png";
 import mainBgImage from "../assets/images/Patient-Home-Page-img/main-bg-img.png";
+import { Link } from "react-router-dom";
 /* Import CSS */
+
 import "../styles/PatientHomePage.css";
 
 function PatientHomePage() {
@@ -43,10 +45,10 @@ function PatientHomePage() {
                 </a>
               </li>
               <li>
-                <a href="#">Departments</a>
+                <Link to="/department">Departments</Link>
               </li>
               <li>
-                <a href="#">Doctors</a>
+                <Link to="/doctor">Doctors</Link>
               </li>
               <li>
                 <a href="#">Contact Us</a>

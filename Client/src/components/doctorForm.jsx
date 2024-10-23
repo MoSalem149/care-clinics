@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { FaUpload } from "react-icons/fa";
 /* Import CSS */
-import "../styles/DoctorForm.css";
+import "../styles/doctorForm.css";
 function DoctorProfile() {
   useEffect(() => {
     document.body.style.backgroundColor = "#E6F7FF";

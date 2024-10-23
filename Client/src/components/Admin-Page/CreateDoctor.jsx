@@ -20,6 +20,7 @@ const CreateDoctor = () => {
   const [fees, setFees] = useState({ consultation: "" });
   const [profileImage, setProfileImage] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const timeOptions = [];
   for (let hour = 1; hour <= 12; hour++) {
@@ -73,15 +74,18 @@ const CreateDoctor = () => {
       });
       if (response.ok) {
         setSuccessMessage("Doctor created successfully!");
+        setErrorMessage("");
         setTimeout(() => {
           navigate("/admin");
         }, 5000);
       } else {
         const errorData = await response.json();
         console.error("Error:", errorData.error);
+        setErrorMessage(errorData.error);
       }
     } catch (error) {
       console.error("Error creating doctor:", error);
+      setErrorMessage(error.message);
     }
   };
   return (
@@ -239,6 +243,7 @@ const CreateDoctor = () => {
       {successMessage && (
         <div className={styles.successMessage}>{successMessage}</div>
       )}
+      {errorMessage && <h1 className={styles.errorMessage}>{errorMessage}</h1>}
       <button type="submit" className={styles.CreateDoctor_submitButton}>
         Create Doctor
       </button>

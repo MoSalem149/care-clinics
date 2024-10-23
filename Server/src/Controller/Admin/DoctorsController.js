@@ -16,6 +16,7 @@ const doctorModel = require("../../models/Doctor.js");
 const emailRegex =
   /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/i;
 
+const phonePattern = /^\+20(10|11|12|15)\d{8}$/;
 const GetAllDoctors = async (req, res) => {
   try {
     const getDoctors = await DoctorModel.find();
@@ -56,15 +57,32 @@ const CreateDoctor = async (req, res) => {
       name,
       ProfileImage = null,
       availability,
+      phoneNumber,
       fees,
       ...doctorDetails
     } = req.body;
 
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        error: "Invalid email format.",
+      });
+    }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: "Email already exists." });
     }
 
+    if (!phonePattern.test(phoneNumber)) {
+      return res.status(400).json({
+        error:
+          "Phone number must be in the format +20 followed by 10, 11, 12, or 15 and then 9 digits.",
+      });
+    }
+
+    const existingDoctorByPhone = await DoctorModel.findOne({ phoneNumber });
+    if (existingDoctorByPhone) {
+      return res.status(400).json({ error: "Phone number already exists." });
+    }
     const foundDepartment = await departmentModel.findOne({
       name: doctorDetails.department,
     });
@@ -130,10 +148,28 @@ const UpdateDoctor = async (req, res) => {
     return res.status(404).json({ error: "Doctor not found." });
   }
   try {
-    const { id } = req.params;
-    const { department, ProfileImage, availability, fees, ...doctorDetails } =
-      req.body;
+    const {
+      department,
+      ProfileImage,
+      availability,
+      fees,
+      phoneNumber,
+      ...doctorDetails
+    } = req.body;
 
+    if (phoneNumber && phoneNumber !== existingDoctorData.phoneNumber) {
+      if (!phonePattern.test(phoneNumber)) {
+        return res.status(400).json({
+          error:
+            "Phone number must be in the format +20 followed by 10, 11, 12, or 15 and then 9 digits.",
+        });
+      }
+
+      const existingDoctorByPhone = await DoctorModel.findOne({ phoneNumber });
+      if (existingDoctorByPhone) {
+        return res.status(400).json({ error: "Phone number already exists." });
+      }
+    }
     const foundDepartment = department
       ? await departmentModel.findOne({ name: department })
       : null;
@@ -145,6 +181,7 @@ const UpdateDoctor = async (req, res) => {
 
     const updateData = {
       ...doctorDetails,
+      phoneNumber: phoneNumber || existingDoctorData.phoneNumber,
       ProfileImage: req.body.ProfileImage || null,
       availability:
         typeof availability === "string"

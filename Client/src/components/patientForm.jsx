@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { FaUpload } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 /* Import CSS */
-import "../styles/PatientForm.css";
+import "../styles/patientForm.css";
 function PatientForm() {
   const navigate = useNavigate();
   useEffect(() => {

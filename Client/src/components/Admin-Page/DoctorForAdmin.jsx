@@ -27,7 +27,7 @@ const DoctorForAdmin = () => {
         const data = await response.json();
         setDoctors(data);
       } catch (error) {
-        console.error("Error fetching doctors:", error);
+        // console.error("Error fetching doctors:", error);
       }
     };
     fetchDoctors();
@@ -35,7 +35,7 @@ const DoctorForAdmin = () => {
 
   const handleEdit = (doctor) => {
     navigate("/admin/edit-doctor-profile", { state: { doctor } });
-    console.log(doctor);
+    // console.log(doctor);
   };
 
   const toggleUnapproved = () => {
@@ -57,15 +57,14 @@ const DoctorForAdmin = () => {
         throw new Error("Failed to delete the doctor");
       }
 
-      // Update the state after successful deletion
       setDoctors((prevDoctors) =>
         prevDoctors.filter((doctor) => doctor._id !== doctorId)
       );
-      setSuccessMessage("Doctor deleted successfully!"); // Show success message
+      setSuccessMessage("Doctor deleted successfully!");
     } catch (error) {
-      console.error("Error deleting doctor:", error);
+      // console.error("Error deleting doctor:", error);
     } finally {
-      setIsModalOpen(false); // Close the modal after deletion
+      setIsModalOpen(false);
     }
   };
 

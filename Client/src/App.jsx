@@ -22,6 +22,7 @@ import DoctorForm from "./components/doctorForm";
 import CreateDoctor from "./components/Admin-Page/CreateDoctor";
 /* Import CSS */
 import "./App.css";
+import DoctorForUser from "./components/Doctor-details/DoctorForUser";
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/department" element={<Department />} />
+        <Route path="/doctor" element={<DoctorForUser />}></Route>
         <Route path="/department/doctors" element={<Doctor />} />
         <Route path="/admin" element={<AdminDashBoard />} />
         <Route path="/admin/create-department" element={<CreateDepartment />} />

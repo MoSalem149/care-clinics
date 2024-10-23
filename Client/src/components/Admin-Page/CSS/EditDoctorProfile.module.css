@@ -1,6 +1,6 @@
 .EditDoctor_form {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 15px auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -58,7 +58,10 @@
 .EditDoctor_addButton:hover {
   background-color: #0056b3;
 }
-
+.fees {
+  color: #333;
+  font-weight: bold;
+}
 .EditDoctor_submitButton {
   display: block;
   width: 100%;
@@ -108,4 +111,12 @@
 
 .EditDoctorProfile_Approved .checkbox:checked {
   transform: scale(1.2);
+}
+.errorMessage {
+  margin-top: 15px;
+  padding: 10px;
+  color: red;
+  border-radius: 4px;
+  z-index: 1000;
+  font-size: 15px;
 }

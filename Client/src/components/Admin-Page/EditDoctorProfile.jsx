@@ -13,7 +13,7 @@ const EditDoctorProfile = () => {
     name: state.doctor.name || "",
     age: state.doctor.age || "",
     gender: state.doctor.gender || "",
-    phoneNumber: state.doctor.phoneNumber || "",
+    phoneNumber: "",
     specialty: state.doctor.specialty || "",
     yearsOfExperience: state.doctor.yearsOfExperience || "",
     bio: state.doctor.bio || "",
@@ -47,6 +47,23 @@ const EditDoctorProfile = () => {
     const { name, value } = e.target;
     setDoctorData({ ...doctorData, [name]: value });
   };
+  const handlePhoneNumberChange = (e) => {
+    const { value } = e.target;
+    const phoneNumberPattern = /^\+20(10|11|12|15)\d{8}$/;
+
+    setDoctorData((prevData) => ({
+      ...prevData,
+      phoneNumber: value,
+    }));
+
+    if (value !== "" && !phoneNumberPattern.test(value)) {
+      setErrorMessage(
+        "Phone number must be in the correct format: +20(10|11|12|15)XXXXXXXX"
+      );
+    } else {
+      setErrorMessage("");
+    }
+  };
 
   const handleAvailabilityChange = (index, key, value) => {
     const updatedSlots = [...availability];
@@ -74,15 +91,13 @@ const EditDoctorProfile = () => {
     const updatedFields = {};
 
     for (const key in doctorData) {
-      if (doctorData[key] !== state.doctor[key]) {
+      if (doctorData[key] !== state.doctor[key] && doctorData[key] !== "") {
         updatedFields[key] = doctorData[key];
       }
     }
-
     for (const key in updatedFields) {
       formData.append(key, updatedFields[key]);
     }
-
     formData.append("availability", JSON.stringify(availability));
 
     if (JSON.stringify(fees) !== JSON.stringify(state.doctor.fees)) {
@@ -105,10 +120,12 @@ const EditDoctorProfile = () => {
       );
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.message || "Failed to update doctor profile");
+        setErrorMessage(data.error);
+        throw new Error(data.error);
       }
       setSuccessMessage("Doctor profile updated successfully!");
       setSelectedDoctor(data.doctor);
+      setErrorMessage("");
       setDoctors((prev) =>
         prev.map((doctor) =>
           doctor._id === data.doctor._id ? data.doctor : doctor
@@ -118,8 +135,8 @@ const EditDoctorProfile = () => {
         navigate("/admin");
       }, 2000);
     } catch (error) {
-      console.error("Error updating doctor profile:", error.message);
-      setErrorMessage("Failed to update doctor profile. Please try again.");
+      // console.error(error.message);
+      setErrorMessage(error.message);
     }
   };
 
@@ -159,7 +176,7 @@ const EditDoctorProfile = () => {
           type="text"
           name="phoneNumber"
           value={doctorData.phoneNumber}
-          onChange={handleInputChange}
+          onChange={handlePhoneNumberChange}
         />
       </div>
       <div className={styles.EditDoctor_formGroup}>
@@ -189,7 +206,7 @@ const EditDoctorProfile = () => {
         />
       </div>
       <div className={styles.EditDoctor_formGroup}>
-        <h3>Fees</h3>
+        <h3 className={styles.fees}>Fees:</h3>
         <input
           type="number"
           placeholder={doctorData.fees.consultation || "Enter Consultation Fee"}
@@ -197,7 +214,7 @@ const EditDoctorProfile = () => {
         />
       </div>
       <div className={styles.EditDoctor_formGroup}>
-        <h3>Availability</h3>
+        <h3 className={styles.fees}>Availability:</h3>
         {availability.map((slot, index) => (
           <div key={index} className={styles.EditDoctor_availabilitySlot}>
             <select
