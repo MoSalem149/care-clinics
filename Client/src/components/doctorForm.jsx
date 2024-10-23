@@ -2,7 +2,7 @@ import '../styles/doctorForm.css';
 import { useRef, useEffect, useState } from "react";
 import { FaUpload } from "react-icons/fa";
 
-function DoctorProfile() {
+function DoctorForm() {
     useEffect(() => {
         document.body.style.backgroundColor = '#E6F7FF';
         document.body.style.marginTop = '30px'; 
@@ -196,4 +196,4 @@ function DoctorProfile() {
     );
 }
 
-export default DoctorProfile;
+export default DoctorForm;

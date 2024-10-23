@@ -70,9 +70,14 @@ router
     userProfile.addProfileInfo
   );
 
-router
-  .route("/profile/update")
-  .put(authMiddleware, upload.single("profileImage"), userProfile.updateUser);
+   router
+    .route("/profile/update")
+    .put(authMiddleware, upload.single("profileImage"), userProfile.updateUser);
+   router
+    .route("/profile")
+    .get(authMiddleware, upload.single("profileImage"), userProfile.getUserProfile);
+
+
 router
   .route("/profile/delete")
   .delete(authMiddleware, userProfile.deleteAccount);

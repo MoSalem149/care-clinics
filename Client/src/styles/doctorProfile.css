@@ -1,0 +1,382 @@
+.container-fluid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .doc-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .edit-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .bio-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 14px;
+    min-height: 80px;
+    width: 524px;
+    border-radius: 7px;
+  }
+  
+  .edit-bio-btn {
+    background-color: #1e84b5;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+  }
+  
+  .edit-bio-btn:hover {
+    background-color: #1e6889;
+  }
+  
+  .card-editing {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
+    padding: 5px;
+  }
+
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .doctor-card {
+    display: flex;
+    gap: 15px; 
+    transition: border 0.3s, background-color 0.3s; 
+  }
+  
+  .doctor-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .doctor-name {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .doctor-specialty {
+    font-size: 18px;
+    color: #666;
+    margin-top: -7px;
+  }
+  
+  input[type="file"] {
+    margin-bottom: 10px;
+  }
+  
+  .nav-links.active {
+    display: flex;
+  }
+  
+  @media (max-width: 1200px) {
+    .doc-card {
+      width: 400px;
+  }
+  }
+  
+  @media (max-width: 768px) {
+    .doc-card {
+      padding: 15px;
+      width: 500px; 
+    }
+    .booking-details{
+      gap: 40px;
+    }
+  
+    .edit-input, .bio-input {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .edit-bio-btn {
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+  
+    .profile-img {
+      width: 60px;
+      height: 60px;
+    }
+  
+    .doctor-name {
+      font-size: 20px;
+    }
+  
+    .doctor-specialty {
+      font-size: 16px;
+    }
+  
+    .booking-details {
+      gap: 15px;
+    }
+  
+    .styled-date-input {
+      width: 172px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .styled-date-input {
+      width: 350px;
+    }
+    .booking-details{
+      gap: 15px;
+    }
+  
+    .doc-card {
+      max-width: 350px; 
+      padding: 10px; 
+    }
+  }
+  
+  @media (min-width: 1173px) {
+    .doc-card {
+      width: 567px;
+    }
+    .booking-details{
+      gap: 164px;
+    }
+  }
+  @media (min-width: 1034px) and (max-width: 1173px) {
+    .doc-card{
+      width: 500px;
+    }
+}
+  .doctor-bio{
+    margin-top: 15px;
+  }
+  .about-doctor-card {
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .about-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .info-icon {
+    font-size: 24px;
+    color: #1e84b5;
+    margin-right: 10px;
+  }
+  
+  .about-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .doctor-details p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 8px;
+  }
+  .info-icon{
+    margin-right: 12px;
+    margin-left: -10px;
+  }
+  .add-day-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    padding: 20px; 
+    width: 300px; 
+    margin: auto; 
+    margin-top: 12px;
+  }
+  
+  .add-day-form select {
+    width: 100%; 
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px; 
+    font-size: 16px;
+    transition: border-color 0.3s; 
+  }
+  
+  .add-day-form select:focus {
+    border-color: #1e84b5; 
+    outline: none;
+  }
+  
+  .add-day-form button {
+    background-color: #1e84b5; 
+    color: white; 
+    padding: 10px 15px; 
+    border: none;
+    border-radius: 4px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+  }
+  
+  .add-day-form button:hover {
+    background-color: #1e6889; 
+  }
+  .booking-fees,.booking-duration{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 41px;
+  }
+  .booking-details{
+    display: flex;
+    margin-top: 15px;
+    border-bottom: 1px black;
+  }
+  .appointments-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    gap: 30px;
+  }
+  .booking-div{
+    display: flex;
+    align-items: center;
+  }
+  
+.styled-date-input {
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  color: #333;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.styled-date-input:hover {
+  background-color: #eaeaea;
+}
+
+.styled-date-input:focus {
+  border-color: #007bff;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.styled-date-input::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+  cursor: pointer;
+}
+
+.booking-info-txt{
+  background-color: #1e6889;
+    width: 108%;
+    height: 50px;
+    margin-top: -20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 7px;
+}
+.fees-txt{
+  color: #5AB51F;
+  font-weight: bold;
+}
+.appointment-txt h5{
+  font-size: 19px;
+    color: #666666;
+}
+.time-select {
+  width: 172px;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: #333;
+  transition: border-color 0.3s ease;
+  appearance: none; 
+  outline: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23777' d='M2 0L0 2h4L2 0zM0 3l2 2 2-2H0z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc !important;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-left: -6px;
+}
+
+.time-select:hover {
+  border-color: #007bff;
+  background-color: #eaeaea;
+transition: all ease-in-out 0.2s;
+}
+
+.time-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.time-select option {
+  background-color: #fff;
+  color: #333;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.time-select option:disabled {
+  color: #aaa;
+}
+.about-text,.doctor-name{
+  font-size: 22px;
+    font-weight: bold;
+  color: #1E84B5;
+}
+ol {
+  list-style-type: decimal; 
+  padding-left: 20px; 
+}
+
+ol li {
+  margin: 10px 0; 
+  padding: 10px; 
+  border-radius: 6px; 
+  transition: background-color 0.3s; 
+}
+
+  
+  

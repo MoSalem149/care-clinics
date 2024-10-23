@@ -8,6 +8,7 @@ import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PatientForm from "./components/patientForm";
 import DoctorForm from "./components/doctorForm";
+import DoctorProfile from "./pages/doctorProfile";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
          <Route path="/doctor-form" element={<DoctorForm/>}/>
          <Route path="/user-form" element={<PatientForm/>}/>
          <Route path="/patient-home" element={<PatientHomePage/>}/>
+         <Route path="/doctor-profile" element={<DoctorProfile/>}/>
 
       </Routes>
     </Router>
