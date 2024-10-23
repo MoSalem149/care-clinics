@@ -2,6 +2,7 @@ const httpstatus = require("./utilities/httpStatusText");
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const departmentModel = require("../models/Departments");
 require(`dotenv`).config();
 
 const getAllUsers = async (req, res) => {
@@ -21,7 +22,7 @@ const getAllUsers = async (req, res) => {
       });
     }
     res.json({ status: httpstatus.SUCCESS, data: { users } });
-    console.log(req.headers);
+    // console.log(req.headers);
   } catch (error) {
     res
       .status(500)
@@ -76,14 +77,14 @@ const register = async (req, res) => {
       message: "Registration successful",
     });
   } catch (error) {
-    console.error("Registration error:", error);
+    // console.error("Registration error:", error);
     res.status(500).json({ status: "error", message: "Server error" });
   }
 };
 
 const login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
     if (!email || !password) {
       return res.json({
@@ -100,7 +101,7 @@ const login = async (req, res, next) => {
     const matchedPassword = await bcrypt.compare(password, user.password);
     if (matchedPassword) {
       const token = jwt.sign(
-        { email: user.email, id: user._id },
+        { email: user.email, id: user._id, role: user.role },
         process.env.JWT_SECRET_KEY,
         { expiresIn: "5d" }
       );
@@ -153,7 +154,7 @@ const ForgetPasswordForm = async (req, res) => {
       .status(201)
       .json({ message: "Password reset link has been sent to your email" });
   } catch (error) {
-    console.error("Error in forgot-password route", error);
+    // console.error("Error in forgot-password route", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -199,8 +200,27 @@ const ResetPassword = async (req, res) => {
 
     res.status(200).json({ message: "Password updated successfully." });
   } catch (error) {
-    console.error("Error resetting password:", error);
+    // console.error("Error resetting password:", error);
     res.status(500).json({ message: "Internal server error." });
+  }
+};
+
+const GetDepartments = async (req, res) => {
+  try {
+    const GetDepartments = await departmentModel.find();
+    const ImageFullPath = GetDepartments.map((department) => ({
+      ...department.toObject(),
+      image: department.image,
+    }));
+
+    if (!GetDepartments) {
+      res.status(404).json({ message: "Department Not Found" });
+    }
+
+    res.status(201).json(ImageFullPath);
+  } catch (error) {
+    // console.error("Error Featching Departmnet", error);
+    res.status(500).json({ message: "Internal Server Errror" });
   }
 };
 
@@ -210,4 +230,5 @@ module.exports = {
   login,
   ForgetPasswordForm,
   ResetPassword,
+  GetDepartments,
 };

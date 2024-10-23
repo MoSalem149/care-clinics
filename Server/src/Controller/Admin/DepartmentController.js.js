@@ -5,7 +5,7 @@ const GetDepartment = async (req, res) => {
     const GetDepartments = await departmentModel.find();
     const ImageFullPath = GetDepartments.map((department) => ({
       ...department.toObject(),
-      image: `/Images/${department.image}`,
+      image: `${department.image}`,
     }));
 
     if (!GetDepartments) {
@@ -14,7 +14,7 @@ const GetDepartment = async (req, res) => {
 
     res.status(201).json(ImageFullPath);
   } catch (error) {
-    console.error("Error Featching Departmnet", error);
+    // console.error("Error Featching Departmnet", error);
     res.status(500).json({ message: "Internal Server Errror" });
   }
 };
@@ -22,7 +22,7 @@ const GetDepartment = async (req, res) => {
 const createDepartment = async (req, res) => {
   try {
     const { name, bio } = req.body;
-    const image = req.file ? req.file.filename : null;
+    const image = req.body.ProfileImage || null;
 
     const newDepartment = new departmentModel({
       name,
@@ -33,7 +33,7 @@ const createDepartment = async (req, res) => {
     const savedDepartment = await newDepartment.save();
     res.status(201).json(savedDepartment);
   } catch (error) {
-    console.error("Error Creating Departments: ", error);
+    // console.error("Error Creating Departments: ", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -41,12 +41,14 @@ const createDepartment = async (req, res) => {
 const updateDepartment = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, bio } = req.body;
+    const { name, bio, ProfileImage } = req.body;
     const updateData = { name, bio };
-    if (req.file) {
-      updateData.image = req.file.filename;
+
+    if (ProfileImage) {
+      updateData.image = ProfileImage;
     }
-    const updateDepartment = await departmentModel.findByIdAndUpdate(
+
+    const updatedDepartment = await departmentModel.findByIdAndUpdate(
       id,
       updateData,
       {
@@ -54,12 +56,14 @@ const updateDepartment = async (req, res) => {
         runValidators: true,
       }
     );
-    if (!updateDepartment) {
-      res.status(404).json({ message: "Department Not Found" });
+
+    if (!updatedDepartment) {
+      return res.status(404).json({ message: "Department Not Found" });
     }
-    res.json(updateDepartment);
+
+    res.json(updatedDepartment);
   } catch (error) {
-    console.error("Errror Updating Deepartment", error);
+    // console.error("Error Updating Department", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -73,7 +77,7 @@ const deleteDepartment = async (req, res) => {
     }
     res.status(201).json({ message: "Department Was Deleted Succesfully" });
   } catch (error) {
-    console.error("Error Deleting Departmnet", error);
+    // console.error("Error Deleting Departmnet", error);
     res.status(500).json({ message: "Internal Server Errror" });
   }
 };

@@ -10,105 +10,6 @@
   overflow: hidden;
 }
 
-/* Header */
-header {
-  padding: 2rem 2rem;
-  border-bottom: 1px solid #62768266;
-}
-
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.logo h1 {
-  color: #1e84b5;
-  font-size: 2rem;
-  font-weight: 800;
-  font-family: "Poppins", sans-serif;
-}
-
-span {
-  color: #12455d;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 2.5rem;
-  font-size: 1rem;
-}
-
-.nav-links li {
-  display: inline-block;
-}
-
-.nav-links li a {
-  text-decoration: none;
-  color: #0e384c;
-  font-weight: 400;
-  font-size: 1rem;
-  transition: color 0.3s;
-}
-
-.nav-links li a:hover {
-  color: #1e6889;
-}
-
-.nav-links li a.active {
-  color: #1e84b5;
-}
-
-.profile-img {
-  display: flex;
-  border-radius: 50%;
-  overflow: hidden;
-  width: 50px;
-  height: 50px;
-  border: 2px solid #1e84b5;
-}
-
-.link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  justify-content: center;
-}
-
-.profile-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.logout-btn {
-  background-color: #1e84b5;
-  color: white;
-  padding: 0.6rem 1rem;
-  border-radius: 20px;
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: bold;
-  transition: background-color 0.3s;
-}
-
-.logout-btn:hover {
-  background-color: #1e6889;
-  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* Toggle Button */
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #0e384c;
-}
-
 /* Hero */
 .hero {
   display: flex;
@@ -184,7 +85,7 @@ span {
 }
 
 /* Media Queries */
-/* For small devices */
+/* For Tablet Devices */
 @media (max-width: 768px) {
   .patient-home-page {
     padding: 10px;
@@ -227,49 +128,12 @@ span {
     height: auto;
   }
 
-  nav {
-    position: relative;
-  }
-
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 60px;
-    right: 0;
-    background-color: #fff;
-    width: 100%;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .nav-links li {
-    margin: 10px 0;
-    text-align: center;
-  }
-
-  .nav-links.active {
-    display: flex;
-  }
-
-  .menu-toggle {
-    display: block; /* Ensure it's visible on small screens */
-    background: none; /* Optional: Customize background if needed */
-    border: none;
-    font-size: 2rem; /* Adjust size if necessary */
-    cursor: pointer;
-    color: #0e384c; /* Adjust color */
-  }
-
-  .profile-img {
-    width: 40px;
-    height: 40px;
-  }
-
   .main-img {
     margin: 0 80px;
   }
 }
 
+/* For Mobile Devices */
 @media (max-width: 480px) {
   .hero h2 {
     font-size: 1.5rem;
@@ -282,14 +146,5 @@ span {
   .hero .hero-btn {
     width: 60%;
     margin: 0 auto;
-  }
-
-  .nav-links {
-    font-size: 0.9rem;
-  }
-
-  .profile-img {
-    width: 35px;
-    height: 35px;
   }
 }

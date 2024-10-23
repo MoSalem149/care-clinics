@@ -1,7 +1,5 @@
 import { useRef, useState } from "react";
-/* Import assets */
 import blueArrowIcon from "../assets/images/SignUp-Login-img/blue-arrow-icon.png";
-/* Import JS */
 import { validateForm } from "../utils/signUpFormValidation";
 import { useNavigate } from "react-router-dom";
 
@@ -14,30 +12,34 @@ const SignUpForm = ({ selectedRole }) => {
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [feedbackType, setFeedbackType] = useState("");
 
-  /* Reference to form */
   const formRef = useRef(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const validationErrors = validateForm({ fullName, email, password, role: selectedRole });
-  
+
+    const validationErrors = validateForm({
+      fullName,
+      email,
+      password,
+      role: selectedRole,
+    });
+
     // If validation fails, display errors
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-  
+
     setErrors({});
-  
+
     const formData = {
       fullName,
       email,
       password,
       role: selectedRole,
     };
-  
+
     try {
       const response = await fetch("http://localhost:5000/users/register", {
         method: "POST",
@@ -46,24 +48,23 @@ const SignUpForm = ({ selectedRole }) => {
         },
         body: JSON.stringify(formData),
       });
-  
+
       const result = await response.json();
-  
+
       if (response.ok) {
-        const token = result.data.token; 
-        localStorage.setItem("token", token); 
-        
-        console.log("Token:", token); 
-        
+        const token = result.data.token;
+        localStorage.setItem("token", token);
+
+        console.log("Token:", token);
+
         setFeedbackMessage(result.message || "Registration successful!");
         setFeedbackType("success");
 
-  
         formRef.current.reset();
         setFullName("");
         setEmail("");
         setPassword("");
-  
+
         setTimeout(() => {
           if (selectedRole === "doctor") {
             navigate("/doctor-form");
@@ -81,7 +82,6 @@ const SignUpForm = ({ selectedRole }) => {
       console.error("Error:", error);
     }
   };
-  
 
   const handleInputChange = (field, value) => {
     switch (field) {
@@ -108,7 +108,6 @@ const SignUpForm = ({ selectedRole }) => {
     }
   };
 
-  /* Handle external button click */
   const handleSignUpClick = () => {
     if (formRef.current) {
       formRef.current.dispatchEvent(
@@ -119,7 +118,6 @@ const SignUpForm = ({ selectedRole }) => {
 
   return (
     <>
-      {/* Sign Up Form */}
       <form className="sign-up-form" ref={formRef} onSubmit={handleSubmit}>
         <div className="input-container">
           <div className="label-error-container">
@@ -170,22 +168,16 @@ const SignUpForm = ({ selectedRole }) => {
         {/* Hidden input to keep role for submission */}
         <input type="hidden" value={selectedRole} />
       </form>
-      {/* Display Feedback */}
       {feedbackMessage && (
         <div className={`feedback ${feedbackType}`}>{feedbackMessage}</div>
       )}
-      {/* Sign Up Button */}
       <button
         type="button"
         className="sign-up-btn-left-side"
         onClick={handleSignUpClick}
       >
         <span>Sign Up</span>
-        <img
-          src={blueArrowIcon}
-          alt="Blue Arrow Icon"
-          className="arrow-icon"
-        />
+        <img src={blueArrowIcon} alt="Blue Arrow Icon" className="arrow-icon" />
       </button>
     </>
   );

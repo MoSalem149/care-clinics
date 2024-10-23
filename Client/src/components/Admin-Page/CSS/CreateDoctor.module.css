@@ -1,0 +1,119 @@
+body {
+  background-color: #eff8ff;
+  font-family: "Poppins", sans-serif;
+}
+.Header {
+  font-weight: bold;
+  color: #16658a;
+  text-align: center;
+  font-size: 28px;
+}
+.CreateDoctor_form {
+  max-width: 600px;
+  margin: 15px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.CreateDoctor_formGroup {
+  margin-bottom: 15px;
+}
+
+.CreateDoctor_formGroup label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.CreateDoctor_formGroup input,
+.CreateDoctor_formGroup select,
+.CreateDoctor_formGroup textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.CreateDoctor_formGroup textarea {
+  resize: vertical;
+}
+
+.CreateDoctor_availability {
+  margin-bottom: 20px;
+}
+
+.CreateDoctor_availability h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.CreateDoctor_availabilitySlot {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.CreateDoctor_availabilitySlot select,
+.CreateDoctor_availabilitySlot input {
+  margin-right: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.CreateDoctor_addButton {
+  background-color: #1e84b5;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.CreateDoctor_addButton:hover {
+  background-color: #16658a;
+  transform: translateY(-2px);
+}
+
+.CreateDoctor_submitButton {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  position: relative;
+  left: 200px;
+}
+
+.CreateDoctor_submitButton:hover {
+  background-color: #45a049;
+  transform: translateY(-3px);
+}
+
+.successMessage {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+  z-index: 1000;
+}
+.errorMessage {
+  margin-top: 15px;
+  padding: 10px;
+  color: red;
+  border-radius: 4px;
+  z-index: 1000;
+  font-size: 15px;
+}

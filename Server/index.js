@@ -6,7 +6,7 @@ const doctorModel = require("./src/models/Doctor");
 const Images = require("./src/routes/Images");
 const seedDoctors = require("./src/seeding/SeedingDoctorData");
 const seedDepartments = require("./src/seeding/SeedingDepartments");
-const Departments = require("./src/routes/Admin/Deaprtments");
+const Departments = require("./src/routes/Admin/Departments");
 const DoctorsByAdmin = require("./src/routes/Admin/Doctors");
 const Doctors = require("./src/routes/Doctors/Doctors");
 const userRouter = require("./src/routes/users.routes");
@@ -50,13 +50,13 @@ app.use("/auth", OAUTH);
 app.use("/auth", FaceBook);
 
 mongoose
-  .connect(process.env.MONGO_URI)     
+  .connect(process.env.MONGO_URI)
   .then(async () => {
     console.log("MongoDB Connected");
     await seedDepartments();
 
-    app.listen(PORT,() => {
+    app.listen(PORT, () => {
       console.log(`Server Is Running On Port: ${PORT}`);
     });
   })
-  .catch((err) => console.log("Failed To connect to MongoDB:", err));   
+  .catch((err) => console.log("Failed To connect to MongoDB:", err));

@@ -12,7 +12,7 @@ const addProfileInfo = async (req, res) => {
     const additionalInfo = req.body;
 
     if (req.file) {
-      additionalInfo.profileImage = req.file.path;
+      additionalInfo.profileImage = req.file.firebaseUrl;
     }
     let userProfile;
 
@@ -49,7 +49,7 @@ const updateUser = async (req, res) => {
     const userId = req.user.id;
     const updatedData = req.body;
     if (req.file) {
-      updatedData.profileImage = req.file.path;
+      updatedData.profileImage = req.file.firebaseUrl;
     }
 
     const userProfile = await UserProfile.findOneAndUpdate(

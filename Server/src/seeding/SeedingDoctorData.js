@@ -10,7 +10,7 @@ async function seedDoctors() {
       });
 
       if (!department) {
-        console.log(`Department not found for doctor: ${doctor.name}`);
+        // console.log(`Department not found for doctor: ${doctor.name}`);
         continue;
       }
 
@@ -19,7 +19,7 @@ async function seedDoctors() {
       });
 
       if (existingDoctor) {
-        console.log(`Doctor ${doctor.name} already exists. Skipping...`);
+        // console.log(`Doctor ${doctor.name} already exists. Skipping...`);
         continue;
       }
 
@@ -29,12 +29,12 @@ async function seedDoctors() {
       });
 
       await newDoctor.save();
-      console.log(
-        `Doctor ${doctor.name} added to department ${department.name}`
-      );
+      // console.log(
+      // `Doctor ${doctor.name} added to department ${department.name}`
+      // );
     }
   } catch (error) {
-    console.error("Error seeding doctors:", error);
+    // console.error("Error seeding doctors:", error);
   }
 }
 

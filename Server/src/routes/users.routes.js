@@ -5,7 +5,8 @@ const { verifyToken } = require("../middleWares/verifyToken");
 const { body, validationResult } = require("express-validator");
 const authMiddleware = require("../middleWares/authMiddleWare");
 const userProfile = require("../Controller/userProfile.controller");
-const upload = require("../middleWares/Images");
+const uploadSingleFile = require("../middleWares/Images");
+const { uploadToFirebase } = require("../middleWares/FireBase");
 
 router.route("/").get(verifyToken, userController.getAllUsers);
 
@@ -66,10 +67,20 @@ router
   .route("/profile/add-info")
   .post(
     authMiddleware,
-    upload.single("profileImage"),
+    uploadSingleFile,
+    uploadToFirebase,
     userProfile.addProfileInfo
   );
 
+router
+  .route("/profile/update")
+  .put(
+    authMiddleware,
+    uploadSingleFile,
+    uploadToFirebase,
+    userProfile.updateUser
+  );
+router
    router
     .route("/profile/update")
     .put(authMiddleware, upload.single("profileImage"), userProfile.updateUser);
@@ -95,4 +106,5 @@ router.post("/forgot-password", userController.ForgetPasswordForm);
 
 router.post("/reset-password", userController.ResetPassword);
 
+router.get("/departments", userController.GetDepartments);
 module.exports = router;

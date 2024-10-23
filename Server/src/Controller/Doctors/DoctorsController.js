@@ -25,7 +25,7 @@ const getResetPassword = async (req, res) => {
     const doctorEmail = decode.email;
     res.status(201).json({ email: doctorEmail });
   } catch (error) {
-    console.error("Invalid Token", error);
+    // console.error("Invalid Token", error);
     return res.status(500).json({ error: "Invalid Or Expired Token" });
   }
 };
@@ -62,7 +62,7 @@ const postResetPassword = async (req, res) => {
     await doctorUser.save();
     res.status(200).json({ message: "Password Updated Successfully" });
   } catch (error) {
-    console.error("Error Resseting Password", error);
+    // console.error("Error Resseting Password", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -96,34 +96,23 @@ const signupDoctor = async (req, res) => {
       newUser,
     });
   } catch (error) {
-    console.error("Error signing up doctor", error);
+    // console.error("Error signing up doctor", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 const compeleteDoctorProfile = async (req, res) => {
   try {
-    const {
-      name,
-      age,
-      gender,
-      profileImage,
-      phoneNumber,
-      specialty,
-      yearsOfExperience,
-      availability,
-      department,
-      appointmentDuration,
-      fees,
-    } = req.body;
     if (!req.user) {
       return res.status(401).json({ error: "User not authenticated." });
     }
+
     const userId = req.user.id;
     const user = await User.findById(userId);
     if (!user || user.role !== "doctor") {
       return res.status(404).json({ error: "Doctor not found." });
     }
+
     const existingProfile = await doctorModel.findOne({ user: userId });
     if (existingProfile) {
       return res.status(400).json({
@@ -131,13 +120,16 @@ const compeleteDoctorProfile = async (req, res) => {
           "Profile already exists. You can only complete this form once.",
       });
     }
+
+    const { department, availability, ...doctorDetails } = req.body;
+
     const foundDepartment = await departmentModel.findOne({ name: department });
     if (!foundDepartment) {
       return res
         .status(400)
         .json({ error: `Department '${department}' does not exist.` });
     }
-    const ProfileImage = req.file ? req.file.filename : null;
+
     const newDoctor = new doctorModel({
       user: user._id,
       name,
@@ -149,14 +141,12 @@ const compeleteDoctorProfile = async (req, res) => {
       yearsOfExperience,
       availability: availability,
       department: foundDepartment._id,
-      appointmentDuration,
-      fees,
     });
 
     await newDoctor.save();
     res.status(201).json({ message: "Doctor profile created successfully." });
   } catch (error) {
-    console.error("Error Compeleting Doctor Data", error);
+    // console.error("Error completing Doctor Data", error);
     res.status(500).json("Internal Server Error");
   }
 };
@@ -165,18 +155,7 @@ const UpdateDoctor = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
-    const {
-      name,
-      age,
-      gender,
-      phoneNumber,
-      specialty,
-      yearsOfExperience,
-      availability,
-      department,
-      fees,
-      appointmentDuration,
-    } = req.body;
+    const { department, availability, ...doctorDetails } = req.body;
 
     let updateDepartment;
     if (department) {
@@ -188,35 +167,26 @@ const UpdateDoctor = async (req, res) => {
       }
     }
 
-    let updatedProfileImage;
-    if (req.file) {
-      updatedProfileImage = req.file.filename;
-    }
-
     const doctor = await doctorModel.findById(id);
     if (!doctor) {
       return res.status(404).json({ message: "Doctor doesn't exist." });
     }
-
     if (doctor.user.toString() !== userId) {
       return res
         .status(403)
         .json({ error: "You are not authorized to update this profile." });
     }
 
-    const updateFields = {};
-    if (name) updateFields.name = name;
-    if (age) updateFields.age = age;
-    if (gender) updateFields.gender = gender;
-    if (phoneNumber) updateFields.phoneNumber = phoneNumber;
-    if (specialty) updateFields.specialty = specialty;
-    if (yearsOfExperience) updateFields.yearsOfExperience = yearsOfExperience;
-    if (availability) updateFields.availability = availability;
-    if (updateDepartment) updateFields.department = updateDepartment._id;
-    if (fees) updateFields.fees = fees;
-    if (appointmentDuration)
-      updateFields.appointmentDuration = appointmentDuration;
-    if (req.file) updateFields.ProfileImage = updatedProfileImage;
+    const updatedProfileImage = req.body.ProfileImage
+      ? req.body.ProfileImage
+      : doctor.ProfileImage;
+
+    const updateFields = {
+      ...doctorDetails,
+      ...(updateDepartment && { department: updateDepartment._id }),
+      ProfileImage: updatedProfileImage,
+      ...(availability && { availability }),
+    };
 
     const updatedDoctor = await doctorModel.findByIdAndUpdate(
       id,
@@ -232,7 +202,7 @@ const UpdateDoctor = async (req, res) => {
       .status(200)
       .json({ message: "Doctor updated successfully", doctor: updatedDoctor });
   } catch (error) {
-    console.error("Error Updating Doctor", error);
+    // console.error("Error Updating Doctor", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -256,8 +226,20 @@ const DeleteDoctor = async (req, res) => {
     await doctorModel.findByIdAndDelete(id);
     res.status(200).json({ message: "Doctor was deleted successfully." });
   } catch (error) {
-    console.error("Error Deleting Doctor", error);
+    // console.error("Error Deleting Doctor", error);
     res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const getAllDoctors = async (req, res) => {
+  try {
+    const allDoctors = await doctorModel.find();
+    if (!allDoctors) {
+      res.status(404).json({ message: "No Doctors Found" });
+    }
+    res.status(200).json(allDoctors);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -268,4 +250,5 @@ module.exports = {
   compeleteDoctorProfile,
   UpdateDoctor,
   DeleteDoctor,
+  getAllDoctors,
 };
