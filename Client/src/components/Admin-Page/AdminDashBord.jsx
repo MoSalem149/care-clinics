@@ -3,8 +3,11 @@ import styles from "./CSS/AdminDashBord.module.css";
 import Department from "../Departments/Department";
 import CreateDepartment from "./CreateDepartment";
 import DoctorForAdmin from "./DoctorForAdmin";
+import Appointment from "./Appointments";
+import { Navigate, useNavigate } from "react-router-dom";
 const AdminDashBoard = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
+  const navigate = useNavigate();
 
   const renderSection = () => {
     switch (activeSection) {
@@ -13,7 +16,7 @@ const AdminDashBoard = () => {
       case "doctors":
         return <DoctorForAdmin />;
       case "appointments":
-        return <div>Appointments Section</div>;
+        return <Appointment />;
       case "settings":
         return <div>Settings Section</div>;
       default:

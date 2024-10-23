@@ -31,7 +31,7 @@ const getAllUsers = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { fullName, email, password, role } = req.body; 
+  const { fullName, email, password, role } = req.body;
 
   if (!password) {
     return res
@@ -63,7 +63,7 @@ const register = async (req, res) => {
       { expiresIn: "5d" }
     );
 
-    newUser.token = token; 
+    newUser.token = token;
 
     await newUser.save();
 
@@ -72,7 +72,7 @@ const register = async (req, res) => {
       data: {
         fullName: newUser.fullName,
         email: newUser.email,
-        token: newUser.token, 
+        token: newUser.token,
       },
       message: "Registration successful",
     });
@@ -224,6 +224,16 @@ const GetDepartments = async (req, res) => {
   }
 };
 
+const GetOneUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({ _id: id });
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(500).json({ error: "Error" });
+  }
+};
+
 module.exports = {
   getAllUsers,
   register,
@@ -231,4 +241,5 @@ module.exports = {
   ForgetPasswordForm,
   ResetPassword,
   GetDepartments,
+  GetOneUser,
 };

@@ -15,6 +15,8 @@ const session = require("express-session");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const OAUTH = require("./src/routes/OAUTH");
 const FaceBook = require("./src/routes/FaceBook");
+const Appointments = require("./src/routes/Admin/AppointmentsRoute");
+const Users = require("./src/routes/Admin/Users");
 require("./src/OAuth/OAuthConfig");
 dotenv.config();
 
@@ -44,6 +46,8 @@ app.use(passport.session());
 app.use("/images", Images);
 app.use("/Admin/departments", Departments);
 app.use("/Admin/doctors", DoctorsByAdmin);
+app.use("/Admin", Appointments);
+app.use("/Admin", Users);
 app.use("/doctors", Doctors);
 app.use("/users", userRouter);
 app.use("/auth", OAUTH);

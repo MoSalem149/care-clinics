@@ -1,0 +1,33 @@
+.appointments {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 50px 0;
+}
+
+.appointments th,
+.appointments td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.appointments th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.appointments tr:hover {
+  background-color: #1e84b5;
+  color: white;
+}
+
+.loading,
+.error {
+  font-size: 18px;
+  color: red;
+}
+
+.no-appointments {
+  font-size: 18px;
+  color: green;
+}
