@@ -14,15 +14,15 @@ import AdminDashBoard from "./components/Admin-Page/AdminDashBord";
 import CreateDepartment from "./components/Admin-Page/CreateDepartment";
 import EditDepartment from "./components/Admin-Page/EditComponent";
 import Doctor from "./components/Doctor-details/Doctor";
-import { DoctorProvider } from "./components/Doctor-details/DoctorContext";
+// import { DoctorProvider } from "./components/Doctor-details/DoctorContext";
 import EditDoctorProfile from "./components/Admin-Page/EditDoctorProfile";
-import "bootstrap/dist/css/bootstrap.min.css";
 import PatientForm from "./components/patientForm";
 import DoctorForm from "./components/doctorForm";
 import CreateDoctor from "./components/Admin-Page/CreateDoctor";
+import DoctorForUser from "./components/Doctor-details/DoctorForUser";
+// import Header from "./components/Header";
 /* Import CSS */
 import "./App.css";
-import DoctorForUser from "./components/Doctor-details/DoctorForUser";
 
 const App = () => {
   return (
@@ -52,6 +52,7 @@ const App = () => {
     </Router>
     // <DepartmentsPage />
     // <UserProfilePage />
+    // <Header />
   );
 };
 

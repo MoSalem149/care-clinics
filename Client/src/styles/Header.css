@@ -1,0 +1,244 @@
+/* Header */
+header {
+  padding: 2rem 2rem;
+  border-bottom: 1px solid #62768266;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.logo h1 {
+  color: #1e84b5;
+  font-size: 2rem;
+  font-weight: 800;
+  font-family: "Poppins", sans-serif;
+}
+
+span {
+  color: #12455d;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2.5rem;
+  font-size: 1rem;
+}
+
+.nav-links li {
+  display: inline-block;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #0e384c;
+  font-weight: 400;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #1e6889;
+}
+
+.nav-links li a.active {
+  color: #1e84b5;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+.profile-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logout-btn {
+  background-color: #1e84b5;
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.logout-btn:hover {
+  background-color: #1e6889;
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.profile-img {
+  display: flex;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
+  border: 2px solid #1e84b5;
+}
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Toggle Button */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #0e384c;
+}
+
+.header-images {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+  margin-left: 40px;
+  margin-right: 40px;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 0;
+}
+
+.injection-img {
+  width: 100px;
+  height: 100px;
+  margin-top: -100px;
+  margin-left: -35px;
+  z-index: -1;
+}
+
+.tool-img {
+  width: 150px;
+  height: 150px;
+  margin-top: -130px;
+  margin-right: -40px;
+  z-index: -1;
+}
+
+.search-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #1e84b5;
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  border-radius: 25px;
+  font-size: 18px;
+  cursor: pointer;
+  font-family: "poppins", sans-serif;
+}
+
+.search-button:hover {
+  background-color: #1e6889;
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.search-button img {
+  width: 22px;
+  height: 22px;
+  margin-left: 60px;
+}
+
+/* Media Queries */
+/* For Tablet Devices */
+@media (max-width: 768px) {
+  nav {
+    position: relative;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #fff;
+    width: 100%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-links li {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #0e384c;
+  }
+
+  .profile-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .header-images {
+    display: none;
+  }
+
+  .patient-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .form-container {
+    width: 100%;
+  }
+
+  .appointment-container {
+    width: 100%;
+  }
+
+  .search-button {
+    padding: 8px 18px;
+    font-size: 16px;
+  }
+
+  .search-button img {
+    width: 18px;
+    height: 18px;
+    margin-left: 55px;
+  }
+}
+
+/* For Mobile Devices */
+@media (max-width: 480px) {
+  .nav-links {
+    font-size: 0.9rem;
+  }
+
+  .profile-img {
+    width: 35px;
+    height: 35px;
+  }
+}
