@@ -7,7 +7,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import PatientHomePage from "./pages/PatientHomePage";
 // import DepartmentsPage from "./pages/DepartmentsPage";
-// import UserProfilePage from "./pages/UserProfilePage";
+import UserProfilePage from "./pages/UserProfilePage";
 /* Import Components */
 import Department from "./components/Departments/Department";
 import AdminDashBoard from "./components/Admin-Page/AdminDashBord";
@@ -55,8 +55,8 @@ const App = () => {
         <Route path="/admin/create-doctor" element={<CreateDoctor />} />
 
         <Route path="/doctor-form" element={<DoctorForm />} />
+        <Route path="/user-page" element={<UserProfilePage />} />
         <Route path="/user-form" element={<PatientForm />} />
-        <Route path="/patient-home" element={<PatientHomePage />} />
       </Routes>
     </Router>
     // <DepartmentsPage />

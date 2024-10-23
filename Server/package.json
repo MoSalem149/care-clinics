@@ -36,7 +36,8 @@
     "patch-package": "^8.0.0",
     "path": "^0.12.7",
     "ppath": "^1.0.0",
-    "punycode": "^2.3.1"
+    "punycode": "^2.3.1",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"

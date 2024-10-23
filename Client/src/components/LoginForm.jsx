@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "./Context/userContext";
-import { jwtDecode } from "jwt-decode";
 /* Import assets */
 import blueArrowIcon from "../assets/images/SignUp-Login-img/blue-arrow-icon.png";
 const LoginForm = () => {

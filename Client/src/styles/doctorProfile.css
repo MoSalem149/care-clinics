@@ -102,6 +102,16 @@
     .doc-card {
       width: 400px;
   }
+  .styled-date-input{
+    width: 172px;
+  }
+  .time-select{
+    width: 172px;
+  }
+  .delete-btn{
+    margin-left: 36%;
+    width: 360px;
+  }
   }
   
   @media (max-width: 768px) {
@@ -109,8 +119,15 @@
       padding: 15px;
       width: 500px; 
     }
+    .styled-date-input{
+      width: 172px;
+    }
     .booking-details{
       gap: 40px;
+    }
+    .delete-btn{
+      margin-left: 38%;
+      width: 360px;
     }
   
     .edit-input, .bio-input {
@@ -149,8 +166,15 @@
     .styled-date-input {
       width: 350px;
     }
+    .time-select{
+      width: 172px;
+    }
     .booking-details{
       gap: 15px;
+    }
+    .delete-btn{
+      margin-left: 19%;
+      width: 260px;
     }
   
     .doc-card {
@@ -163,6 +187,16 @@
     .doc-card {
       width: 567px;
     }
+    .styled-date-input{
+      width: 172px;
+    }
+    .delete-btn{
+      margin-left: 37%;
+      width: 360px;
+    }
+    .time-select{
+      width: 172px;
+    }
     .booking-details{
       gap: 164px;
     }
@@ -170,6 +204,10 @@
   @media (min-width: 1034px) and (max-width: 1173px) {
     .doc-card{
       width: 500px;
+    }
+    .delete-btn{
+      margin-left: 38%;
+      width: 360px;
     }
 }
   .doctor-bio{
@@ -376,6 +414,33 @@ ol li {
   padding: 10px; 
   border-radius: 6px; 
   transition: background-color 0.3s; 
+}
+.delete-btn {
+  background-color: #ff4d4d; /* Bright red for warning */
+  color: white; /* White text for contrast */
+  padding: 10px 20px; /* Sufficient padding for comfort */
+  font-size: 16px; /* Clear and readable font size */
+  font-weight: bold; /* Emphasize the action */
+  border: none; /* Remove border for a sleek look */
+  border-radius: 5px; /* Slightly rounded corners for a modern look */
+  cursor: pointer; /* Indicate clickability */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  margin-top: 22px;
+}
+
+.delete-btn:hover {
+  background-color: #e60000; /* Darken the red on hover */
+  transform: scale(1.05); /* Slightly enlarge button for a hover effect */
+}
+
+.delete-btn:active {
+  background-color: #cc0000; /* Further darken on click */
+  transform: scale(0.98); /* Slightly shrink for click feedback */
+}
+
+.delete-btn:focus {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.5); /* Add a subtle shadow for focus */
 }
 
   
