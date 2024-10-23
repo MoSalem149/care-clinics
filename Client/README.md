@@ -25,12 +25,15 @@ The Care Clinics Client is a React-based frontend application designed to facili
    ```bash
    git clone https://github.com/MoSalem149/care-clinics.git
    ```
+2. Navigate to the client directory:
    ```bash
    cd care-clinics/client
    ```
+3. Install dependencies:
    ```bash
    npm install
    ```
+4. Running the server:
    ```bash
    npm run dev
    ```

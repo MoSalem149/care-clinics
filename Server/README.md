@@ -24,12 +24,15 @@ The Care Clinics Server is a Node.js and Express-based backend API that manages 
    ```bash
    git clone https://github.com/MoSalem149/care-clinics.git
    ```
+2. Navigate to the server directory:
    ```bash
    cd care-clinics/server
    ```
+3. Install dependencies:
    ```bash
    npm install
    ```
+4. Running the server:
    ```bash
    npm start
    ```
