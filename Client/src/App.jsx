@@ -22,6 +22,7 @@ import DoctorProfile from "./pages/doctorProfile";
 import CreateDoctor from "./components/Admin-Page/CreateDoctor";
 import DoctorForUser from "./components/Doctor-details/DoctorForUser";
 // import Header from "./components/Header";
+// import Footer from "./components/Footer";
 /* Import CSS */
 import "./App.css";
 
@@ -32,13 +33,13 @@ const App = () => {
         <Route path="/" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/forget-password" element={<ForgetPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} /> 
-         <Route path="/reset-password/:token" element={<ResetPasswordPage />} /> 
-         <Route path="/signup" element={<SignUpPage />} /> 
-         <Route path="/doctor-form" element={<DoctorForm/>}/>
-         <Route path="/user-form" element={<PatientForm/>}/>
-         <Route path="/patient-home" element={<PatientHomePage/>}/>
-         <Route path="/doctor-profile" element={<DoctorProfile/>}/>
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/doctor-form" element={<DoctorForm />} />
+        <Route path="/user-form" element={<PatientForm />} />
+        <Route path="/patient-home" element={<PatientHomePage />} />
+        <Route path="/doctor-profile" element={<DoctorProfile />} />
 
         <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         <Route path="/signup" element={<SignUpPage />} />
@@ -61,7 +62,9 @@ const App = () => {
     </Router>
     // <DepartmentsPage />
     // <UserProfilePage />
+    // <ContactUsPage />
     // <Header />
+    // <Footer />
   );
 };
 

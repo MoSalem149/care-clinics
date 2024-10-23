@@ -41,7 +41,7 @@ function Header() {
               <Link to="/doctor">Doctors</Link>
             </li>
             <li>
-              <a href="#">Contact Us</a>
+              <Link to="/contact">Contact Us</Link>
             </li>
           </ul>
           <div className="search-btn">

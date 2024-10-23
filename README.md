@@ -61,9 +61,47 @@ Care Clinics is a full-stack application designed to manage clinic appointments 
 - **Server**: Built with Node.js and Express, serving as the backend API.
 - **Database**: MongoDB for persistent storage of clinic and patient data.
 
-## Project Screen
+## Project Screens
 
-coming soon.
+### Header
+
+![Header](./README-Assets/Screens/Header.png)
+
+### Footer
+
+![Footer](./README-Assets/Screens/Footer.png)
+
+### Patient Home Page
+
+![Patient-Home-Page](./README-Assets/Screens/Patient-Home-Page.png)
+
+### Sign Up Page
+
+![Sign-Up-Page](./README-Assets/Screens/Sign-Up-Page.png)
+
+### Login Page
+
+![Login-Page](./README-Assets/Screens/Login-Page.png)
+
+### Forget Password Page
+
+![Forget-Password-Page](./README-Assets/Screens/Forget-Password-Page.png)
+
+### Reset Password Page
+
+![Reset-Password-Page](./README-Assets/Screens/Reset-Password-Page.png)
+
+### Departments Page
+
+![Departments-Page](./README-Assets/Screens/Departments-Page.png)
+
+### Contact Us Page
+
+![Contact-Us-Page](./README-Assets/Screens/Contact-Us-Page.png)
+
+### User Profile Page
+
+![User-Profile-Page](./README-Assets/Screens/User-Profile-Page.png)
 
 ## Getting Started
 
