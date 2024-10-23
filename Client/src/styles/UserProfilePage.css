@@ -43,8 +43,8 @@
 }
 
 .form-group > div {
-  flex: 1; /* Ensures each input takes equal space */
-  width: 50%; /* Each input will take 50% of the form container */
+  flex: 1;
+  width: 50%;
 }
 
 input,

@@ -8,6 +8,7 @@ import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import PatientHomePage from "./pages/PatientHomePage";
 // import DepartmentsPage from "./pages/DepartmentsPage";
 // import UserProfilePage from "./pages/UserProfilePage";
+// import ContactUsPage from "./pages/ContactUsPage";
 /* Import Components */
 import Department from "./components/Departments/Department";
 import AdminDashBoard from "./components/Admin-Page/AdminDashBord";
@@ -62,6 +63,7 @@ const App = () => {
     // <DepartmentsPage />
     // <UserProfilePage />
     // <Header />
+    // <ContactUsPage />
   );
 };
 

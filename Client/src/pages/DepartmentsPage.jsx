@@ -10,6 +10,8 @@ import arrowIcon from "../assets/images/Department-img/Group.png";
 import whiteArrowIcon from "../assets/images/Department-img/blue-arrow-img.png";
 import injectionImg from "../assets/images/Department-img/Injection-img.png";
 import medicineImg from "../assets/images/Department-img/medicine-img.png";
+/* Import Components */
+import Header from "../components/Header";
 /* Import CSS */
 import "../styles/DepartmentsPage.css";
 
@@ -23,6 +25,8 @@ function Departments() {
         <Helmet>
           <title>Patient Home Page</title>
         </Helmet>
+        {/* Header */}
+        <Header />
         <div className="container">
           <h2>Our Departments</h2>
           <h3>
