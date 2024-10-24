@@ -132,6 +132,7 @@ const convertTo24HourTime = (timeString) => {
 
   return `${hours}:${minutes}`;
 };
+
 const isDayAvailable = (doctorAvailability, appointmentDay) => {
   return doctorAvailability.some(
     (availableDay) => availableDay.day === appointmentDay

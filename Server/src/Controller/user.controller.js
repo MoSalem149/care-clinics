@@ -18,7 +18,7 @@ const getAllUsers = async (req, res) => {
     if (!users || users.length === 0) {
       return res.json({
         status: httpstatus.FAIL,
-        data: { course: "course not found" },
+        data: { users: "users not found" },
       });
     }
     res.json({ status: httpstatus.SUCCESS, data: { users } });
