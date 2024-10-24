@@ -18,7 +18,7 @@ function Footer() {
         <div className="footer-container">
           <div className="footer-logo">
             <h1 className="footer-logo-text">
-              <span>C</span>are <span>C</span>linics
+              <span className="footer-span">C</span>are <span className="footer-span">C</span>linics
             </h1>
           </div>
           <ul className="footer-links">

@@ -25,7 +25,7 @@ function Header() {
         <nav>
           <div className="logo">
             <h1 className="logo-text">
-              <span>C</span>are <span>C</span>linics
+              <span className="header-span">C</span>are <span className="header-span">C</span>linics
             </h1>
           </div>
           <ul className={`nav-links ${menuActive ? "active" : ""}`}>
