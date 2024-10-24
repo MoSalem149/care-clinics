@@ -18,9 +18,7 @@ function DoctorProfile() {
 
   useEffect(() => {
     if (currentUser && doctor) {
-      if (currentUser.id === doctor.id) {
-        console.log(currentUser.id);
-
+      if (currentUser.id === doctor.user) {
         setIsOwnerOfPof(true);
       }
     }
@@ -148,7 +146,7 @@ function DoctorProfile() {
 
         // API call to delete the account
         const doctorResponse = await fetch(
-          "http://localhost:5000/users/profile/delete",
+          `http://localhost:5000/users/profile/delete/${doctor._id}`,
           {
             method: "DELETE",
             headers: {
@@ -166,7 +164,7 @@ function DoctorProfile() {
         // Show success message with SweetAlert
         Swal.fire("Deleted!", "Your account has been deleted.", "success");
 
-        console.log(doctorResult); // Handle any additional logic here, e.g., logging out or redirecting
+        // console.log(doctorResult);
       }
     } catch (error) {
       console.error("Error deleting account:", error);

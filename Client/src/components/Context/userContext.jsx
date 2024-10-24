@@ -9,9 +9,7 @@ import { jwtDecode } from "jwt-decode";
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [userRole, setUserRole] = useState(
-    localStorage.getItem("userRole") || null
-  );
+  const [userRole, setUserRole] = useState(localStorage.getItem("userRole"));
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,8 +21,8 @@ export const UserProvider = ({ children }) => {
       setCurrentUser({
         id: decoded.id,
         email: decoded.email,
+        role: decoded.role,
       });
-      console.log(decoded);
     } catch (error) {
       console.error("Error decoding token", error);
       setCurrentUser(null);
@@ -90,8 +88,9 @@ export const UserProvider = ({ children }) => {
       updateAuthToken,
       clearUserData,
       logout,
+      currentUser,
     }),
-    [users, loading, error, userRole, token]
+    [users, loading, error, userRole, token, currentUser]
   );
 
   return (

@@ -10,7 +10,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [feedback, setFeedback] = useState("");
   const [feedbackType, setFeedbackType] = useState("");
-  const { updateUserRole } = useUsers();
+  const { updateUserRole, updateAuthToken } = useUsers();
 
   const navigate = useNavigate();
 
@@ -51,11 +51,15 @@ const LoginForm = () => {
 
       if (response.ok && result.token) {
         localStorage.setItem("token", result.token);
+        const decoded = jwtDecode(result.token);
+        const userRole = decoded.role;
+        localStorage.setItem("token", result.token);
+        localStorage.setItem("userRole", userRole);
 
         displayFeedback("Login successful!", "login-success");
 
         setTimeout(() => {
-          navigate("/");
+          navigate("/patient-home");
         }, 1500);
       } else {
         displayFeedback(`Login failed: ${result.message}`, "error");
