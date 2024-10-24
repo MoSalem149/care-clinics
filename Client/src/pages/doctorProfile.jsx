@@ -6,6 +6,7 @@ import infoImage from '../../public/Icon.png'
 import feesImage from '../../public/Vector11.png'
 import timeImage from '../../public/Vector12.png'
 import Swal from 'sweetalert2';
+import Header from '../components/Header';
 
 function DoctorProfile(){
     useEffect(() => {
@@ -36,35 +37,15 @@ function DoctorProfile(){
             setEndTime(data.availability.endTime)
             setFees(data.fees.consultation)
             setAppointments(data.appointments)
+            setBio(data.bio)
 
         } catch (error) {
             console.error('Error fetching doctor data:', error);
         }
     };
-    //   const fetchUserData = async () => {
-    //     try {
-    //       const token =localStorage.getItem("token")
-    //         const userResponse = await fetch('http://localhost:5000/users/profile', {
-    //           method: 'GET',
-    //           headers: {
-    //             'Authorization': `Bearer ${token}` 
-    //           },
-    //         }); 
-    //         const userResult = await userResponse.json();
-    //         if (!userResponse.ok) {
-    //             throw new Error('Failed to fetch doctor data');
-    //         }
-    //         const data=userResult.data.userProfile
-    //         setUserName(data.fullName)
-    //     } catch (error) {
-    //         console.error('Error fetching doctor data:', error);
-    //     }
-    // };
 
 
-    // fetchUserData();
     fetchDoctorData();
-
 
         document.body.style.backgroundColor = '#E6F7FF';
         document.body.style.marginTop = '20px'; 
@@ -106,8 +87,7 @@ function DoctorProfile(){
   const [appointments,setAppointments]=useState([])
   const [userName,setUserName]=useState("")
   const [isOwner, setIsOwner] = useState(false);
-
-
+  const [appointmentTime, setAppointmentTime] = useState(false);
 
   const handleAddDay = () => {
     if (!day || !startTime || !endTime) {
@@ -142,10 +122,61 @@ function DoctorProfile(){
       times.push(`${hour12}:30 ${suffix}`);
   }
   
-  console.log(times);
+  const handleDeleteAccount = async () => {
+    try {
+      // Show SweetAlert confirmation popup
+      const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to recover this account!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      });
+  
+      // If the user confirms, proceed with the deletion
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("token");
+  
+        // API call to delete the account
+        const doctorResponse = await fetch('http://localhost:5000/users/profile/delete', {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+        });
+  
+        const doctorResult = await doctorResponse.json();
+  
+        if (!doctorResponse.ok) {
+          throw new Error('Failed to delete account');
+        }
+  
+        // Show success message with SweetAlert
+        Swal.fire(
+          'Deleted!',
+          'Your account has been deleted.',
+          'success'
+        );
+  
+        console.log(doctorResult); // Handle any additional logic here, e.g., logging out or redirecting
+      }
+  
+    } catch (error) {
+      console.error('Error deleting account:', error);
+  
+      // Show error message with SweetAlert
+      Swal.fire(
+        'Error!',
+        'Something went wrong while deleting your account.',
+        'error'
+      );
+    }
+  };
+  
+  
 
-
-console.log(userName);
 
   const handleEditCard1 = () => {
     setIsEditingCard1(true);  
@@ -269,19 +300,24 @@ console.log(userName);
   const handleBooking = async () => {
     const [time, modifier] = selectedAppointmentTime.split(" ");
     let [hours, minutes] = time.split(":");
-  
+    
     if (hours === "12") {
       hours = modifier === "AM" ? "00" : "12";
     } else if (modifier === "PM") {
       hours = String(Number(hours) + 12);
     }
   
+    hours = hours.padStart(2, "0");
+    minutes = minutes.padStart(2, "0");
+  
     const appointmentTime = `${appointmentDay}T${hours}:${minutes}:00Z`;
+  
+    setAppointmentTime(appointmentTime);
     
     const formData = {
       appointmentTime,
     };
-  
+    
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -289,13 +325,14 @@ console.log(userName);
         return;
       }
   
+      // Fetch doctor data
       const doctorResponse = await fetch('http://localhost:5000/doctors/profile', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
         },
       });
-  
+    
       if (!doctorResponse.ok) {
         console.error('Failed to fetch doctor data');
         return;
@@ -342,6 +379,7 @@ console.log(userName);
       });
     }
   };
+  
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -355,46 +393,7 @@ console.log(userName);
   };
     return(
         <>
-         <header>
-          <nav>
-            <div className="logo">
-              <h1 className="logo-text">
-                <span>C</span>are <span>C</span>linics
-              </h1>
-            </div>
-            <ul className={`nav-links ${menuActive ? "active" : ""}`}>
-              <li>
-                <a className="active" href="#">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#">Departments</a>
-              </li>
-              <li>
-                <a href="#">Doctors</a>
-              </li>
-              <li>
-                <a href="#">Contact Us</a>
-              </li>
-            </ul>
-            <div className="link">
-              <a href="#" className="profile-img">
-                <img src={avatarImage} alt="Profile" />
-              </a>
-              <a href="#" className="logout-btn">
-                <FaSignOutAlt /> Sign Out
-              </a>
-            </div>
-            <button
-              className="menu-toggle"
-              aria-label="Toggle Menu"
-              onClick={handleMenuToggle}
-            >
-              <FaBars />
-            </button>
-          </nav>
-        </header>
+         {<Header/>}
 
         <div className="container-fluid">
       <div className="row">
@@ -703,8 +702,10 @@ console.log(userName);
     </div>
           </div>
           </div>
+      <button onClick={handleDeleteAccount} className="delete-btn">Delete account</button>
       </div>
-    </div>
+
+      </div>
 
         </>
     )

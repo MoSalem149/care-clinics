@@ -9,6 +9,7 @@ import PatientHomePage from "./pages/PatientHomePage";
 // import DepartmentsPage from "./pages/DepartmentsPage";
 // import UserProfilePage from "./pages/UserProfilePage";
 import ContactUsPage from "./pages/ContactUsPage";
+import UserProfilePage from "./pages/UserProfilePage";
 /* Import Components */
 import AdminDashBoard from "./components/Admin-Page/AdminDashBord";
 import ProtectedRouteForAdmin from "./components/Context/ProtectedRouteForAdmin";
@@ -106,6 +107,7 @@ const App = () => {
         </Routes>
       </Router>
     </GetUsersProvider>
+
     // <DepartmentsPage />
     // <UserProfilePage />
     // <ContactUsPage />

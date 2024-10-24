@@ -26,7 +26,7 @@ router.put(
   "/:id",
   authAdmin,
   uploadSingleFile,
-  uploadToFirebase,
+  // uploadToFirebase,
   updateDepartment
 );
 
