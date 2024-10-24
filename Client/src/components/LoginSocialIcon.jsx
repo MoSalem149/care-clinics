@@ -3,12 +3,12 @@ import facebookIcon from "../assets/images/SignUp-Login-img/facebook-icon.png";
 import gmailIcon from "../assets/images/SignUp-Login-img/gmail-icon.png";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "./Context/userContext";
+import { useUsers } from "./Context/userContext";
 
 const BackEndUrl = import.meta.env.VITE_BACKEND_URL;
 
 const LoginPageSocialIcon = () => {
-  const { updateUserRole } = useUser();
+  const { updateUserRole } = useUsers();
   const navigate = useNavigate();
 
   const handleFacebookLogin = () => {

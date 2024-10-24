@@ -17,7 +17,7 @@ const DoctorProvider = ({ children }) => {
       }
     };
     GetAllDoctors();
-  }, [selectedDoctor, doctors]);
+  }, []);
 
   return (
     <DoctorContext.Provider

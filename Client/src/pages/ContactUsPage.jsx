@@ -9,6 +9,7 @@ import medicineImg from "../assets/images/Department-img/medicine-img.png";
 import Header from "../components/Header";
 /* Import CSS */
 import "../styles/ContactUsPage.css";
+import Footer from "../components/Footer";
 
 function ContactUsPage() {
   /* JSX */
@@ -74,6 +75,7 @@ function ContactUsPage() {
           alt="Medicine Illustration"
         />
       </div>
+      <Footer />
     </HelmetProvider>
   );
 }

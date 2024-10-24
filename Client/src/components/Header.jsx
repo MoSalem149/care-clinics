@@ -30,9 +30,9 @@ function Header() {
           </div>
           <ul className={`nav-links ${menuActive ? "active" : ""}`}>
             <li>
-              <a className="active" href="#">
+              <Link className="active" to="/patient-home">
                 Home
-              </a>
+              </Link>
             </li>
             <li>
               <Link to="/department">Departments</Link>

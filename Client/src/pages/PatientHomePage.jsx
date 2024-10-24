@@ -6,6 +6,7 @@ import mainBgImage from "../assets/images/Patient-Home-Page-img/main-bg-img.png"
 import Header from "../components/Header";
 /* Import CSS */
 import "../styles/PatientHomePage.css";
+import Footer from "../components/Footer";
 
 function PatientHomePage() {
   /* JSX */
@@ -48,6 +49,7 @@ function PatientHomePage() {
           </div>
         </section>
       </div>
+      <Footer />
     </HelmetProvider>
   );
 }

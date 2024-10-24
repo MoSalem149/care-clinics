@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "./Context/userContext";
+import { useUsers } from "./Context/userContext";
+import { jwtDecode } from "jwt-decode";
 /* Import assets */
 import blueArrowIcon from "../assets/images/SignUp-Login-img/blue-arrow-icon.png";
 const LoginForm = () => {
@@ -9,7 +10,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [feedback, setFeedback] = useState("");
   const [feedbackType, setFeedbackType] = useState("");
-  const { updateUserRole } = useUser();
+  const { updateUserRole } = useUsers();
 
   const navigate = useNavigate();
 

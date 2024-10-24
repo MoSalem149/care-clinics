@@ -1,13 +1,12 @@
 // ProtectedRoute.js
 import React from "react";
-import { Navigate } from "react-router-dom";
-import { useUser } from "./userContext";
-
+import { Navigate, useNavigate } from "react-router-dom";
+import { useUsers } from "./userContext";
+import { Link } from "react-router-dom";
 const ProtectedRouteForAdmin = ({ children }) => {
-  const { userRole } = useUser();
-
+  const { userRole } = useUsers();
   if (userRole !== "admin") {
-    return <Navigate to="/login" />;
+    return <Navigate to="/signup" />;
   }
 
   return children;

@@ -32,5 +32,15 @@ router.get(
     res.redirect(`http://localhost:5173/signup`);
   }
 );
+router.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ message: "Logout failed" });
+    }
+    res.clearCookie("connect.sid", { path: "/" });
+    res.clearCookie("token", { path: "/" });
+    return res.status(200).json({ message: "Logged out successfully" });
+  });
+});
 
 module.exports = router;

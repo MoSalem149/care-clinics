@@ -87,7 +87,27 @@ router
   //  router
   //   .route("/profile")
     // .get(authMiddleware, upload.single("profileImage"), userProfile.getUserProfile);
-
+router;
+router
+  .route("/profile/update")
+  .put(
+    authMiddleware,
+    uploadSingleFile,
+    uploadToFirebase,
+    userProfile.updateUser
+  );
+router
+  .route("/profile")
+  .get(
+    authMiddleware,
+    uploadSingleFile,
+    uploadToFirebase,
+    userProfile.getUserProfile
+  );
+router.route("/profile/update");
+// .put(authMiddleware, upload.single("profileImage"), userProfile.updateUser);
+router.route("/profile");
+// .get(authMiddleware, upload.single("profileImage"), userProfile.getUserProfile);
 
 router
   .route("/profile/delete")

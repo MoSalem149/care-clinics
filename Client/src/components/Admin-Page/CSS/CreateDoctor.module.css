@@ -117,3 +117,7 @@ body {
   z-index: 1000;
   font-size: 15px;
 }
+.Fees {
+  color: #333;
+  font-weight: bold;
+}
