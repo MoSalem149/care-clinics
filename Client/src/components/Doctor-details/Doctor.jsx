@@ -7,17 +7,22 @@ import ConfirmationModal from "../Admin-Page/DeleteConfirmation";
 import starImg from "../../../src/assets/images/Department-img/stars-img.png";
 import mainImg from "../../../src/assets/images/Department-img/main-img.png";
 import arrowIcon from "../../../src/assets/images/Department-img/Group.png";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation, Navigate } from "react-router-dom";
 import { DoctorContext } from "./DoctorContext";
 import Header from "../Header";
 const Doctor = () => {
   const location = useLocation();
   const { department } = location.state;
   const { doctors } = useContext(DoctorContext);
+  const navigate = useNavigate();
   const FilterData = doctors.filter(
     (doctor) =>
       doctor.specialty === department.name && doctor.isApproved === true
   );
+  const handleBook = (doctor) => {
+    navigate("book", { state: { doctor } });
+  };
+
   return (
     <>
       <Header />
@@ -46,7 +51,10 @@ const Doctor = () => {
                 <span className={styles.specialtySpan}>{doctor.specialty}</span>
               </p>
               <p className={styles.DoctorBio}>{doctor.bio}</p>
-              <button className={styles.BookAppointment}>
+              <button
+                className={styles.BookAppointment}
+                onClick={() => handleBook(doctor)}
+              >
                 Book Appointment
                 <div className={styles.arrowIconHolder}>
                   <img src={arrowIcon} className={styles.arrowIcon} />

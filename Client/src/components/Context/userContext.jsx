@@ -5,7 +5,7 @@ import React, {
   useState,
   useMemo,
 } from "react";
-
+import { jwtDecode } from "jwt-decode";
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
@@ -16,6 +16,26 @@ export const UserProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const decodeToken = (token) => {
+    try {
+      const decoded = jwtDecode(token);
+      setCurrentUser({
+        id: decoded.id,
+        email: decoded.email,
+      });
+      console.log(decoded);
+    } catch (error) {
+      console.error("Error decoding token", error);
+      setCurrentUser(null);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      decodeToken(token);
+    }
+  }, [token]);
 
   const updateUserRole = (role) => {
     setUserRole(role);

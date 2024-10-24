@@ -29,6 +29,7 @@ import { GetUsersProvider } from "./components/Context/GetUsersContext";
 /* Import CSS */
 import "./App.css";
 import DepartmentParent from "./components/Departments/DepartmentParent";
+import Booking from "./components/Booking";
 
 const App = () => {
   return (
@@ -48,6 +49,7 @@ const App = () => {
           <Route path="/user-form" element={<PatientForm />} />
           <Route path="/patient-home" element={<PatientHomePage />} />
           <Route path="/doctor-profile" element={<DoctorProfile />} />
+          <Route path="/department/doctors/book" element={<Booking />} />
           <Route path="/Contact" element={<ContactUsPage />} />
 
           <Route

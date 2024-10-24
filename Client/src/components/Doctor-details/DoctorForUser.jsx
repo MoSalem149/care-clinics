@@ -4,15 +4,18 @@ import styles from "./DoctorForUser.module.css";
 import header from "../Header";
 import Header from "../Header";
 import Footer from "../Footer";
-
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const DoctorForUser = () => {
   const { doctors } = useContext(DoctorContext);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const navigate = useNavigate();
   const filteredDoctors = doctors.filter((doctor) =>
     doctor.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
+  const handleBook = (doctor) => {
+    navigate("/department/doctors/book", { state: { doctor } });
+  };
   return (
     <>
       <Header />
@@ -58,7 +61,10 @@ const DoctorForUser = () => {
                     </section>
                   ))}
                 </div>
-                <button className={styles.BookAppointment}>
+                <button
+                  className={styles.BookAppointment}
+                  onClick={() => handleBook(doctor)}
+                >
                   Book Appointment
                 </button>
               </div>
