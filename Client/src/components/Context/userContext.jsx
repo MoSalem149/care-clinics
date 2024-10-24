@@ -1,12 +1,18 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+} from "react";
 
-const UserContext = createContext();
+export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [userRole, setUserRole] = useState(
     localStorage.getItem("userRole") || null
   );
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -18,7 +24,30 @@ export const UserProvider = ({ children }) => {
 
   const updateAuthToken = (token) => {
     setToken(token);
-    localStorage.setItem("token", token); // Store token without Bearer prefix
+    localStorage.setItem("token", token);
+  };
+
+  const removeCookie = (cookieName) => {
+    document.cookie = `${cookieName}=; Max-Age=-99999999; path=/;`;
+    document.cookie = `${cookieName}=; Max-Age=-99999999; path=/api`;
+  };
+
+  const logout = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        clearUserData();
+      } else {
+        const errorData = await response.json();
+        console.error("Logout error:", errorData.message);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
   };
 
   const clearUserData = () => {
@@ -26,60 +55,30 @@ export const UserProvider = ({ children }) => {
     setToken(null);
     localStorage.removeItem("userRole");
     localStorage.removeItem("token");
+    removeCookie("connect.sid");
+    removeCookie("token");
   };
 
-  useEffect(() => {
-    const GetUsers = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await fetch("http://localhost:5000/Admin/GetAllUsers", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const UserData = await res.json();
-        if (UserData.status === "success") {
-          setUsers(UserData.data.users);
-        } else {
-          console.error("Error fetching users:", UserData.message);
-          setError(UserData.message); // Capture error message
-        }
-      } catch (error) {
-        console.error("Error Fetching Users:", error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (token && userRole === "admin") {
-      GetUsers();
-    }
-  }, [token, userRole]);
+  const contextValue = useMemo(
+    () => ({
+      users,
+      loading,
+      error,
+      userRole,
+      updateUserRole,
+      token,
+      updateAuthToken,
+      clearUserData,
+      logout,
+    }),
+    [users, loading, error, userRole, token]
+  );
 
   return (
-    <UserContext.Provider
-      value={{
-        userRole,
-        updateUserRole,
-        token,
-        updateAuthToken,
-        clearUserData,
-        users,
-        setUsers,
-        loading,
-        error,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
   );
 };
 
-export const useUser = () => {
+export const useUsers = () => {
   return useContext(UserContext);
 };

@@ -121,7 +121,7 @@ const login = async (req, res, next) => {
   } catch (err) {
     return next({ status: httpstatus.ERROR, message: "An error occurred" });
   }
-};
+}; 
 
 const ForgetPasswordForm = async (req, res) => {
   try {
@@ -170,12 +170,12 @@ const ResetPassword = async (req, res) => {
     }
 
     const token = authorHeader.split(" ")[1];
-
+ 
     if (!token || !newPassword) {
       return res
         .status(400)
         .json({ error: "Token and new password are required." });
-    }
+    } 
 
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;

@@ -1,25 +1,14 @@
-import { useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-/* Import Icons */
-import { FaSignOutAlt, FaBars } from "react-icons/fa";
 /* Import assets */
-import avatarImage from "../assets/images/Patient-Home-Page-img/avatar1.png";
 import blueArrowImage from "../assets/images/Patient-Home-Page-img/blue-arrow-icon.png";
 import mainBgImage from "../assets/images/Patient-Home-Page-img/main-bg-img.png";
-import { Link } from "react-router-dom";
+/* Import Components */
+import Header from "../components/Header";
 /* Import CSS */
-
 import "../styles/PatientHomePage.css";
+import Footer from "../components/Footer";
 
 function PatientHomePage() {
-  /* State */
-  const [menuActive, setMenuActive] = useState(false);
-
-  // Function to handle menu toggle
-  const handleMenuToggle = () => {
-    setMenuActive(!menuActive);
-  };
-
   /* JSX */
   return (
     /* Patient Home Page */
@@ -31,46 +20,7 @@ function PatientHomePage() {
           <title>Patient Home Page</title>
         </Helmet>
         {/* Header */}
-        <header>
-          <nav>
-            <div className="logo">
-              <h1 className="logo-text">
-                <span>C</span>are <span>C</span>linics
-              </h1>
-            </div>
-            <ul className={`nav-links ${menuActive ? "active" : ""}`}>
-              <li>
-                <a className="active" href="#">
-                  Home
-                </a>
-              </li>
-              <li>
-                <Link to="/department">Departments</Link>
-              </li>
-              <li>
-                <Link to="/doctor">Doctors</Link>
-              </li>
-              <li>
-                <a href="#">Contact Us</a>
-              </li>
-            </ul>
-            <div className="link">
-              <a href="#" className="profile-img">
-                <img src={avatarImage} alt="Profile" />
-              </a>
-              <a href="#" className="logout-btn">
-                <FaSignOutAlt /> Sign Out
-              </a>
-            </div>
-            <button
-              className="menu-toggle"
-              aria-label="Toggle Menu"
-              onClick={handleMenuToggle}
-            >
-              <FaBars />
-            </button>
-          </nav>
-        </header>
+        <Header />
         {/* Hero */}
         <section className="hero">
           <div className="hero-content">
@@ -99,6 +49,7 @@ function PatientHomePage() {
           </div>
         </section>
       </div>
+      <Footer />
     </HelmetProvider>
   );
 }

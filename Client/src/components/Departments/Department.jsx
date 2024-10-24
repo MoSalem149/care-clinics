@@ -10,6 +10,7 @@ import { MdCreateNewFolder } from "react-icons/md";
 import ConfirmationModal from "../Admin-Page/DeleteConfirmation";
 import { Link, useNavigate } from "react-router-dom";
 import Doctor from "../Doctor-details/Doctor";
+import Header from "../Header";
 
 const Department = () => {
   const [departments, setDepartments] = useState([]);

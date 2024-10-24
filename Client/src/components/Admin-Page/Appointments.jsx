@@ -1,13 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { DoctorContext } from "../Doctor-details/DoctorContext";
-import { useUser } from "../Context/userContext";
+import GetUsersContext from "../Context/GetUsersContext";
 import styles from "./CSS/appointments.module.css";
 import { AppointmentContext } from "../Context/appointmentsContext";
+
 const Appointments = () => {
   const { appointments, loading, error } = useContext(AppointmentContext);
   const { doctors } = useContext(DoctorContext);
-  const { users } = useUser();
-  const token = localStorage.getItem("token");
+  const {
+    users,
+    loading: usersLoading,
+    error: usersError,
+  } = useContext(GetUsersContext);
 
   const getUserName = (userId) => {
     if (!userId) return "Unknown User";
@@ -20,11 +24,12 @@ const Appointments = () => {
     name: doc.name,
   }));
 
-  if (loading) {
+  if (loading || usersLoading) {
     return <div className={styles.loading}>Loading...</div>;
   }
-  if (error) {
-    return <div className={styles.error}>Error: {error}</div>;
+
+  if (error || usersError) {
+    return <div className={styles.error}>Error: {error || usersError}</div>;
   }
 
   return (

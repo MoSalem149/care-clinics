@@ -1,0 +1,144 @@
+.contact-us-container {
+  text-align: center;
+  padding: 20px;
+  max-height: 100vh;
+}
+
+/* Heading Styles */
+h2 {
+  font-size: 36px;
+  color: #1e84b5;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.high-quality-span {
+  color: #1e84b5;
+}
+
+h3 {
+  font-size: 28px;
+  color: #000;
+  font-weight: 700;
+  word-spacing: 5px;
+  margin-bottom: 20px;
+}
+
+h3 img {
+  margin-bottom: 15px;
+  padding-right: 5px;
+}
+
+/* Form Images Container */
+.form-images-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Images */
+.Injection-img,
+.medicine-img {
+  width: 15%;
+}
+
+/* Form Container */
+.contact-us-form-container {
+  padding: 20px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Form Groups */
+.contact-us-form-group {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.contact-us-form-group > div {
+  flex: 1;
+  width: 50%;
+}
+
+input,
+textarea {
+  padding: 10px;
+  width: 100%;
+  border: 2px solid #1e84b5;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #52728280;
+}
+
+textarea {
+  resize: vertical;
+}
+
+label {
+  color: #1e84b5;
+}
+
+/* Submit Button */
+.submit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1e84b5;
+  color: #fff;
+  font-weight: 700;
+  font-family: "poppins", sans-serif;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  text-decoration: none;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #1e6889;
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Media Queries */
+/* For Tablet Devices */
+@media (max-width: 768px) {
+  .form-images-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .Injection-img,
+  .medicine-img {
+    display: none;
+  }
+
+  .contact-us-form-container {
+    width: 100%;
+  }
+}
+
+/* For Mobile Devices */
+@media (max-width: 480px) {
+  h2 {
+    font-size: 28px;
+  }
+
+  h3 {
+    font-size: 24px;
+  }
+
+  .submit-button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

@@ -5,7 +5,7 @@ import React, {
   useState,
   useMemo,
 } from "react";
-import { useUser } from "./userContext";
+import { useUsers } from "./userContext";
 
 const AppointmentContext = createContext();
 
@@ -13,7 +13,7 @@ export const AppointmentsProvider = ({ children }) => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { userRole } = useUser();
+  const { userRole } = useUsers();
 
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -44,7 +44,7 @@ export const AppointmentsProvider = ({ children }) => {
     };
 
     fetchAppointments();
-  }, [token, userRole]); // Correctly placing the dependencies here
+  }, [token, userRole]);
 
   const contextValue = useMemo(
     () => ({

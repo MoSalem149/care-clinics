@@ -80,6 +80,24 @@ router
     uploadToFirebase,
     userProfile.updateUser
   );
+router;
+router
+  .route("/profile/update")
+  .put(
+    authMiddleware,
+    uploadSingleFile,
+    uploadToFirebase,
+    userProfile.updateUser
+  );
+router
+  .route("/profile")
+  .get(
+    authMiddleware,
+    uploadSingleFile,
+    uploadToFirebase,
+    userProfile.getUserProfile
+  );
+
 router
   .route("/profile/delete")
   .delete(authMiddleware, userProfile.deleteAccount);

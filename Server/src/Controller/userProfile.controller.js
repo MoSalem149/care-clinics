@@ -132,6 +132,11 @@ const convertTo24HourTime = (timeString) => {
 
   return `${hours}:${minutes}`;
 };
+const isDayAvailable = (doctorAvailability, appointmentDay) => {
+  return doctorAvailability.some(
+    (availableDay) => availableDay.day === appointmentDay
+  );
+};
 
 const convertTimeToMinutes = (time) => {
   const [hours, minutes] = time.split(":").map(Number);
@@ -156,6 +161,7 @@ const isOverlappingAppointment = async (
   });
   return overlappingAppointment ? true : false;
 };
+ 
 
 const bookAppointment = async (req, res) => {
   try {
@@ -171,6 +177,11 @@ const bookAppointment = async (req, res) => {
       });
     }
 
+    // Get the day of the week for the appointment (e.g., Monday)
+    const appointmentDay = appointmentDate.toLocaleString("en-US", {
+      weekday: "long",
+    });
+
     const appointmentEndTime = new Date(
       appointmentDate.getTime() + appointmentDuration * 60000
     );
@@ -183,17 +194,28 @@ const bookAppointment = async (req, res) => {
       });
     }
 
-    if (!doctor.availability[0].startTime || !doctor.availability[0].endTime) {
+    if (!doctor.availability || doctor.availability.length === 0) {
       return res.status(400).json({
         status: "ERROR",
         message: "Doctor working hours are not properly set.",
       });
     }
 
-    const doctorStartTime = convertTo24HourTime(
-      doctor.availability[0].startTime
+    // Check if the selected day is available for the doctor
+    const dayAvailable = isDayAvailable(doctor.availability, appointmentDay);
+    if (!dayAvailable) {
+      return res.status(400).json({
+        status: "ERROR",
+        message: `Doctor is not available on ${appointmentDay}. Please select another day.`,
+      });
+    }
+
+    const availableDay = doctor.availability.find(
+      (availableDay) => availableDay.day === appointmentDay
     );
-    const doctorEndTime = convertTo24HourTime(doctor.availability[0].endTime);
+
+    const doctorStartTime = convertTo24HourTime(availableDay.startTime);
+    const doctorEndTime = convertTo24HourTime(availableDay.endTime);
 
     const appointmentHoursMinutes = `${String(
       appointmentDate.getUTCHours()
@@ -213,7 +235,7 @@ const bookAppointment = async (req, res) => {
     ) {
       return res.status(400).json({
         status: "ERROR",
-        message: `Appointment time must be between ${doctor.availability[0].startTime} and ${doctor.availability[0].endTime}.`,
+        message: `Appointment time must be between ${availableDay.startTime} and ${availableDay.endTime}.`,
       });
     }
 
@@ -385,6 +407,81 @@ const deleteAppointment = async (req, res) => {
     });
   }
 };
+const getUserProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const userProfile = await UserProfile.findOne({ user: userId })
+      .populate('appointments')
+      .populate({
+        path: 'appointments',
+        populate: {
+          path: 'doctor',
+          select: 'name specialization',
+        },
+      });
+
+    if (!userProfile) {
+      return res.status(404).json({
+        status: "FAIL",
+        message: "User profile not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "SUCCESS",
+      data: { userProfile },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "ERROR",
+      message: error.message,
+    });
+  }
+};
+const getDoctorProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    // تحقق من أن المستخدم هو دكتور
+    if (userRole !== "doctor") {
+      return res.status(403).json({
+        status: "FAIL",
+        message: "Unauthorized role. Only doctors can access this resource.",
+      });
+    }
+
+    // ابحث عن البروفايل باستخدام userId
+    const doctorProfile = await Doctor.findOne({ user: userId }).populate({
+      path: "appointments",
+      select: "appointmentTime user",
+      populate: {
+        path: "user",
+        select: "firstName lastName",
+      },
+    });
+
+    if (!doctorProfile) {
+      return res.status(404).json({
+        status: "FAIL",
+        message: "Doctor profile not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "SUCCESS",
+      message: "Doctor profile retrieved successfully",
+      data: { doctor: doctorProfile },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "ERROR",
+      message: error.message,
+    });
+  }
+};
+
 
 module.exports = {
   addProfileInfo,
@@ -393,4 +490,6 @@ module.exports = {
   bookAppointment,
   updateAppointment,
   deleteAppointment,
+  getUserProfile,
+  getDoctorProfile,
 };

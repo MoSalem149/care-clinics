@@ -219,7 +219,7 @@ const CreateDoctor = () => {
         </button>
       </div>
       <div className={styles.CreateDoctor_formGroup}>
-        <h3>Fees</h3>
+        <h3 className={styles.Fees}>Fees</h3>
         <input
           type="number"
           value={fees.consultation}
