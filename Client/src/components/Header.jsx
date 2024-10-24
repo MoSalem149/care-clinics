@@ -67,14 +67,7 @@ function Header() {
         </nav>
       </header>
       {/* Header Images */}
-      <div className="header-images">
-        <img
-          className="injection-img"
-          src={injectionImage}
-          alt="Injection Image"
-        />
-        <img className="tool-img" src={toolImage} alt="Tool Image" />
-      </div>
+    
     </>
   );
 }

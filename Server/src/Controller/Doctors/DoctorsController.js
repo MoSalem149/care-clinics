@@ -209,27 +209,33 @@ const UpdateDoctor = async (req, res) => {
 
 const DeleteDoctor = async (req, res) => {
   try {
-    const { id } = req.params;
-    const userId = req.user.id;
+    const { id } = req.params; // Doctor ID
+    const userId = req.user.id; // Authorized user's ID
 
     const doctor = await doctorModel.findById(id);
-
     if (!doctor) {
       return res.status(404).json({ error: "Doctor not found." });
     }
+    
+    // Check if the authenticated user has permission to delete this doctor
     if (doctor.user.toString() !== userId) {
       return res
         .status(403)
         .json({ error: "You are not authorized to delete this profile." });
     }
 
+    // Delete the doctor profile
     await doctorModel.findByIdAndDelete(id);
-    res.status(200).json({ message: "Doctor was deleted successfully." });
+
+    // Delete the associated user from the User collection
+    await User.findByIdAndDelete(userId);
+
+    res.status(200).json({ message: "Doctor and user profile deleted successfully." });
   } catch (error) {
-    // console.error("Error Deleting Doctor", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 const getAllDoctors = async (req, res) => {
   try {

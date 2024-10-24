@@ -444,7 +444,6 @@ const getDoctorProfile = async (req, res) => {
     const userId = req.user.id;
     const userRole = req.user.role;
 
-    // تحقق من أن المستخدم هو دكتور
     if (userRole !== "doctor") {
       return res.status(403).json({
         status: "FAIL",
@@ -452,7 +451,6 @@ const getDoctorProfile = async (req, res) => {
       });
     }
 
-    // ابحث عن البروفايل باستخدام userId
     const doctorProfile = await Doctor.findOne({ user: userId }).populate({
       path: "appointments",
       select: "appointmentTime user",

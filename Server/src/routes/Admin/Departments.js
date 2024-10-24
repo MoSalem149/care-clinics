@@ -20,7 +20,7 @@ router.post(
   uploadSingleFile,
   uploadToFirebase,
   createDepartment
-);
+);  
 
 router.put(
   "/:id",

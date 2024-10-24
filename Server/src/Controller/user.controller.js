@@ -190,7 +190,7 @@ const ResetPassword = async (req, res) => {
     const userEmail = decoded.email;
     const user = await User.findOne({ email: userEmail });
 
-    if (!user) { 
+    if (!user) {   
       return res.status(404).json({ error: "User not found." });
     }
 
@@ -204,7 +204,7 @@ const ResetPassword = async (req, res) => {
     res.status(500).json({ message: "Internal server error." });
   }
 };
-
+ 
 const GetDepartments = async (req, res) => {
   try {
     const GetDepartments = await departmentModel.find();

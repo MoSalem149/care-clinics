@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import '../styles/doctorProfile.css'
 import avatarImage from "../assets/images/Patient-Home-Page-img/avatar1.png";
-import { FaSignOutAlt, FaBars } from "react-icons/fa";
 import infoImage from '../../public/Icon.png'
 import feesImage from '../../public/Vector11.png'
 import timeImage from '../../public/Vector12.png'
@@ -61,10 +60,7 @@ function DoctorProfile(){
         };
     
     }, []);
-    const [menuActive, setMenuActive] = useState(false);
-    const handleMenuToggle = () => {
-        setMenuActive(!menuActive);
-      };
+
   const [isEditingCard1, setIsEditingCard1] = useState(false);
   const [isEditingCard2, setIsEditingCard2] = useState(false);
   const [name, setName] = useState("Mohamed Nasr");  
@@ -139,19 +135,44 @@ function DoctorProfile(){
       if (result.isConfirmed) {
         const token = localStorage.getItem("token");
   
-        // API call to delete the account
-        const doctorResponse = await fetch('http://localhost:5000/users/profile/delete', {
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+  
+        // API call to get the doctor's ID
+        const doctorResponse = await fetch('http://localhost:5000/doctors/profile', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+        });
+  
+        if (!doctorResponse.ok) {
+          console.error('Failed to fetch doctor data');
+          return;
+        }
+  
+        const doctorResult = await doctorResponse.json();
+        console.log(doctorResult);
+  
+        // Get the doctor ID from the response
+        let doctorId = doctorResult.data.doctor._id;
+  
+        // API call to delete the doctor account using the doctor ID
+        const deleteResponse = await fetch(`http://localhost:5000/doctors/delete-doctor/${doctorId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`
           },
         });
   
-        const doctorResult = await doctorResponse.json();
-  
-        if (!doctorResponse.ok) {
+        if (!deleteResponse.ok) {
           throw new Error('Failed to delete account');
         }
+  
+        const deleteResult = await deleteResponse.json();
+        console.log(deleteResult);
   
         // Show success message with SweetAlert
         Swal.fire(
@@ -160,7 +181,8 @@ function DoctorProfile(){
           'success'
         );
   
-        console.log(doctorResult); // Handle any additional logic here, e.g., logging out or redirecting
+        // Handle any additional logic here, e.g., logging out or redirecting
+  
       }
   
     } catch (error) {
@@ -174,6 +196,7 @@ function DoctorProfile(){
       );
     }
   };
+  
   
   
 
@@ -214,7 +237,7 @@ function DoctorProfile(){
       const doctorResult = await doctorResponse.json();
       console.log(doctorResult);
       
-      const doctorId = doctorResult.data.doctor._id;
+      let doctorId = doctorResult.data.doctor._id;
 
       const response = await fetch(`http://localhost:5000/doctors/update-doctor/${doctorId}`, {
         method: 'PUT',
