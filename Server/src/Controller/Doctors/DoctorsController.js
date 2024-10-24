@@ -217,7 +217,6 @@ const DeleteDoctor = async (req, res) => {
       return res.status(404).json({ error: "Doctor not found." });
     }
     
-    // Check if the authenticated user has permission to delete this doctor
     if (doctor.user.toString() !== userId) {
       return res
         .status(403)

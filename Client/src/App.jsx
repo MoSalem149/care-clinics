@@ -51,6 +51,7 @@ const App = () => {
           <Route path="/doctor-profile" element={<DoctorProfile />} />
           <Route path="/department/doctors/book" element={<Booking />} />
           <Route path="/Contact" element={<ContactUsPage />} />
+          <Route path="/user-profile" element={<UserProfilePage />} />
 
           <Route
             path="/reset-password/:token"
