@@ -110,24 +110,21 @@ const compeleteDoctorProfile = async (req, res) => {
     const userId = req.user.id;
     const user = await User.findById(userId);
     if (!user || user.role !== "doctor") {
-      return res.status(404).json({ error: "Doctor not found." });
+      return res.status(403).json({ error: "Access denied. User is not a doctor." });
     }
 
     const existingProfile = await doctorModel.findOne({ user: userId });
     if (existingProfile) {
-      return res.status(400).json({
-        message:
-          "Profile already exists. You can only complete this form once.",
+      return res.status(409).json({
+        message: "Profile already exists. You can only complete this form once.",
       });
     }
 
-    const { department, availability, ...doctorDetails } = req.body;
+    const { department, availability, name, age, gender, profileImage, phoneNumber, specialty, yearsOfExperience } = req.body;
 
     const foundDepartment = await departmentModel.findOne({ name: department });
     if (!foundDepartment) {
-      return res
-        .status(400)
-        .json({ error: `Department '${department}' does not exist.` });
+      return res.status(400).json({ error: `Department '${department}' does not exist.` });
     }
 
     const newDoctor = new doctorModel({
@@ -135,21 +132,22 @@ const compeleteDoctorProfile = async (req, res) => {
       name,
       age,
       gender,
-      profileImage: ProfileImage,
+      profileImage, // Use lowercase 'profileImage' as destructured
       phoneNumber,
       specialty,
       yearsOfExperience,
-      availability: availability,
+      availability,
       department: foundDepartment._id,
     });
 
     await newDoctor.save();
     res.status(201).json({ message: "Doctor profile created successfully." });
   } catch (error) {
-    // console.error("Error completing Doctor Data", error);
-    res.status(500).json("Internal Server Error");
+    console.error("Error completing Doctor Data", error); // Log the error for debugging
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 const UpdateDoctor = async (req, res) => {
   try {

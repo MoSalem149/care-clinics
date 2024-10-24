@@ -77,7 +77,8 @@ function DoctorForm() {
         alert("Profile information saved successfully");
       } else {
         console.log(department);
-
+        console.log(token);
+        
         alert(result.message || "Failed to save profile information");
       }
     } catch (error) {
