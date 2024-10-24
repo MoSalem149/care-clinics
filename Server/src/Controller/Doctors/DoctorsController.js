@@ -96,7 +96,7 @@ const signupDoctor = async (req, res) => {
       newUser,
     });
   } catch (error) {
-    // console.error("Error signing up doctor", error);
+    console.error("Error signing up doctor", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -121,7 +121,8 @@ const compeleteDoctorProfile = async (req, res) => {
       });
     }
 
-    const { department, availability, ...doctorDetails } = req.body;
+    const { department, availability, profileImage, ...doctorDetails } =
+      req.body;
 
     const foundDepartment = await departmentModel.findOne({ name: department });
     if (!foundDepartment) {
@@ -129,16 +130,12 @@ const compeleteDoctorProfile = async (req, res) => {
         .status(400)
         .json({ error: `Department '${department}' does not exist.` });
     }
+    const ProfileImage = req.file;
 
     const newDoctor = new doctorModel({
       user: user._id,
-      name,
-      age,
-      gender,
+      ...doctorDetails,
       profileImage: ProfileImage,
-      phoneNumber,
-      specialty,
-      yearsOfExperience,
       availability: availability,
       department: foundDepartment._id,
     });
@@ -146,7 +143,7 @@ const compeleteDoctorProfile = async (req, res) => {
     await newDoctor.save();
     res.status(201).json({ message: "Doctor profile created successfully." });
   } catch (error) {
-    // console.error("Error completing Doctor Data", error);
+    console.error("Error completing Doctor Data", error);
     res.status(500).json("Internal Server Error");
   }
 };
@@ -216,7 +213,7 @@ const DeleteDoctor = async (req, res) => {
     if (!doctor) {
       return res.status(404).json({ error: "Doctor not found." });
     }
-    
+
     if (doctor.user.toString() !== userId) {
       return res
         .status(403)
@@ -229,12 +226,13 @@ const DeleteDoctor = async (req, res) => {
     // Delete the associated user from the User collection
     await User.findByIdAndDelete(userId);
 
-    res.status(200).json({ message: "Doctor and user profile deleted successfully." });
+    res
+      .status(200)
+      .json({ message: "Doctor and user profile deleted successfully." });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
 
 const getAllDoctors = async (req, res) => {
   try {

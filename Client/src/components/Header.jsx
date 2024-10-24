@@ -33,12 +33,12 @@ function Header() {
       if (matchedDoctor) {
         navigate("/doctor-profile", { state: { doctor: matchedDoctor } });
       } else {
-        // console.error("Doctor not found");
+        console.error("Doctor not found");
       }
     } else if (userRole === "user") {
       navigate("/user-profile");
     } else {
-      // console.error("Unknown role, unable to navigate");
+      console.error("Unknown role, unable to navigate");
     }
   };
   return (
