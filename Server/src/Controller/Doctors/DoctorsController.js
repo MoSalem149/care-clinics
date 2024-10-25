@@ -110,19 +110,31 @@ const compeleteDoctorProfile = async (req, res) => {
     const userId = req.user.id;
     const user = await User.findById(userId);
     if (!user || user.role !== "doctor") {
-      return res.status(404).json({ error: "Doctor not found." });
+      return res
+        .status(403)
+        .json({ error: "Access denied. User is not a doctor." });
     }
 
     const existingProfile = await doctorModel.findOne({ user: userId });
     if (existingProfile) {
-      return res.status(400).json({
+      return res.status(409).json({
         message:
           "Profile already exists. You can only complete this form once.",
       });
     }
 
-    const { department, availability, profileImage, ...doctorDetails } =
-      req.body;
+    // const { department, availability, profileImage, ...doctorDetails } =
+    //   req.body;
+    const {
+      department,
+      availability,
+      name,
+      age,
+      gender,
+      phoneNumber,
+      specialty,
+      yearsOfExperience,
+    } = req.body;
 
     const foundDepartment = await departmentModel.findOne({ name: department });
     if (!foundDepartment) {
@@ -130,18 +142,25 @@ const compeleteDoctorProfile = async (req, res) => {
         .status(400)
         .json({ error: `Department '${department}' does not exist.` });
     }
-    const ProfileImage = req.file;
 
     const newDoctor = new doctorModel({
       user: user._id,
-      ...doctorDetails,
-      profileImage: ProfileImage,
+      ProfileImage: req.body.ProfileImage,
       availability: availability,
+      name,
+      age,
+      gender,
+      phoneNumber,
+      specialty,
+      yearsOfExperience,
+      availability,
       department: foundDepartment._id,
     });
 
     await newDoctor.save();
-    res.status(201).json({ message: "Doctor profile created successfully." });
+    res
+      .status(201)
+      .json({ newDoctor, message: "Doctor profile created successfully." });
   } catch (error) {
     console.error("Error completing Doctor Data", error);
     res.status(500).json("Internal Server Error");

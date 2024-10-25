@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const departmentModel = require("../models/Departments");
+const sendResetPasswordEmail = require("../Tools/SendEmailToDoctors");
 require(`dotenv`).config();
 
 const getAllUsers = async (req, res) => {
@@ -18,7 +19,7 @@ const getAllUsers = async (req, res) => {
     if (!users || users.length === 0) {
       return res.json({
         status: httpstatus.FAIL,
-        data: { course: "course not found" },
+        data: { users: "users not found" },
       });
     }
     res.json({ status: httpstatus.SUCCESS, data: { users } });
@@ -121,7 +122,7 @@ const login = async (req, res, next) => {
   } catch (err) {
     return next({ status: httpstatus.ERROR, message: "An error occurred" });
   }
-}; 
+};
 
 const ForgetPasswordForm = async (req, res) => {
   try {
@@ -154,7 +155,7 @@ const ForgetPasswordForm = async (req, res) => {
       .status(201)
       .json({ message: "Password reset link has been sent to your email" });
   } catch (error) {
-    // console.error("Error in forgot-password route", error);
+    console.error("Error in forgot-password route", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -170,12 +171,12 @@ const ResetPassword = async (req, res) => {
     }
 
     const token = authorHeader.split(" ")[1];
- 
+
     if (!token || !newPassword) {
       return res
         .status(400)
         .json({ error: "Token and new password are required." });
-    } 
+    }
 
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -190,7 +191,7 @@ const ResetPassword = async (req, res) => {
     const userEmail = decoded.email;
     const user = await User.findOne({ email: userEmail });
 
-    if (!user) {   
+    if (!user) {
       return res.status(404).json({ error: "User not found." });
     }
 
@@ -204,7 +205,7 @@ const ResetPassword = async (req, res) => {
     res.status(500).json({ message: "Internal server error." });
   }
 };
- 
+
 const GetDepartments = async (req, res) => {
   try {
     const GetDepartments = await departmentModel.find();

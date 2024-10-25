@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { FaUpload } from "react-icons/fa";
 /* Import CSS */
 import "../styles/doctorForm.css";
-function DoctorForm() {
+function DoctorProfile() {
   useEffect(() => {
     document.body.style.backgroundColor = "#E6F7FF";
     document.body.style.marginTop = "30px";
@@ -21,14 +21,15 @@ function DoctorForm() {
 
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [specialty, setSpecialty] = useState("");
   const [yearsOfExperience, setYearsOfExperience] = useState("");
-  const [photo, setPhoto] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
   const [fees, setFees] = useState("");
   const [department, setDepartment] = useState(""); // New state for department
 
@@ -41,22 +42,26 @@ function DoctorForm() {
   };
 
   const handleFileChange = (e) => {
-    setPhoto(e.target.files[0] || null);
+    setProfileImage(e.target.files[0] || null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = {
-      name,
-      age,
-      gender,
-      phoneNumber,
-      specialty,
-      yearsOfExperience,
-      fees: { consultation: fees },
-      department,
-    };
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("age", age);
+    formData.append("gender", gender);
+    formData.append("phoneNumber", phoneNumber);
+    formData.append("specialty", specialty);
+    formData.append("yearsOfExperience", yearsOfExperience);
+    formData.append("fees", fees);
+    formData.append("department", department);
+
+    if (profileImage) {
+      formData.append("profileImage", profileImage);
+      console.log(profileImage);
+    }
 
     try {
       const token = localStorage.getItem("token");
@@ -65,24 +70,20 @@ function DoctorForm() {
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(formData),
+          body: formData,
         }
       );
 
       const result = await response.json();
       if (response.ok) {
         alert("Profile information saved successfully");
-      } else {
-        console.log(department);
-
-        alert(result.message || "Failed to save profile information");
       }
     } catch (error) {
       console.error("Error saving profile information:", error);
-      alert("An error occurred");
+      // alert("An error occurred");
+      console.log(error);
     }
   };
 
@@ -275,4 +276,4 @@ function DoctorForm() {
   );
 }
 
-export default DoctorForm;
+export default DoctorProfile;

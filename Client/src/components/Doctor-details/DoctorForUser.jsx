@@ -10,8 +10,10 @@ const DoctorForUser = () => {
   const { doctors } = useContext(DoctorContext);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-  const filteredDoctors = doctors.filter((doctor) =>
-    doctor.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredDoctors = doctors.filter(
+    (doctor) =>
+      doctor.isApproved === true &&
+      doctor.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const handleBook = (doctor) => {
     navigate("/department/doctors/book", { state: { doctor } });

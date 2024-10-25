@@ -35,11 +35,12 @@ function DoctorProfile() {
       setDay(doctor.availability.day);
       setStartTime(doctor.availability.startTime);
       setEndTime(doctor.availability.endTime);
-      setFees(doctor.fees.consultation);
+      setFees(doctor.fees);
       setAppointments(doctor.appointments);
       setBio(doctor.bio);
-      setImage(doctor.ProfileImage);
+      setImage(doctor.profileImage || doctor.ProfileImage);
     }
+    console.log(doctor);
 
     document.body.style.backgroundColor = "#E6F7FF";
     document.body.style.marginTop = "20px";
@@ -83,8 +84,6 @@ function DoctorProfile() {
   const [appointments, setAppointments] = useState([]);
   const [appointmentTime, setAppointmentTime] = useState(false);
   console.log(doctor._id);
-  
-  
 
   const handleAddDay = () => {
     if (!day || !startTime || !endTime) {
@@ -317,31 +316,31 @@ function DoctorProfile() {
   const handleBooking = async () => {
     const [time, modifier] = selectedAppointmentTime.split(" ");
     let [hours, minutes] = time.split(":");
-  
+
     if (hours === "12") {
       hours = modifier === "AM" ? "00" : "12";
     } else if (modifier === "PM") {
       hours = String(Number(hours) + 12);
     }
-  
+
     hours = hours.padStart(2, "0");
     minutes = minutes.padStart(2, "0");
-  
+
     const appointmentTime = `${appointmentDay}T${hours}:${minutes}:00Z`;
-  
+
     setAppointmentTime(appointmentTime);
-  
+
     const formData = {
       appointmentTime,
     };
-  
+
     try {
       const token = localStorage.getItem("token");
       if (!token) {
         console.error("No token found");
         return;
       }
-  
+
       // Directly fetch with the doctor ID passed in the request
       const response = await fetch(
         `http://localhost:5000/users/profile/book/${doctor._id}`,
@@ -354,9 +353,9 @@ function DoctorProfile() {
           body: JSON.stringify(formData),
         }
       );
-  
+
       const result = await response.json();
-  
+
       if (response.ok) {
         console.log("Appointment booked successfully", result);
         Swal.fire({
@@ -389,7 +388,6 @@ function DoctorProfile() {
       });
     }
   };
-  
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];

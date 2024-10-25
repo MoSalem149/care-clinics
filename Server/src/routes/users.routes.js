@@ -81,12 +81,12 @@ router
     userProfile.updateUser
   );
 
-  //  router
-  //   .route("/profile/update")
-  //   // .put(authMiddleware, upload.single("profileImage"), userProfile.updateUser);
-  //  router
-  //   .route("/profile")
-    // .get(authMiddleware, upload.single("profileImage"), userProfile.getUserProfile);
+//  router
+//   .route("/profile/update")
+//   // .put(authMiddleware, upload.single("profileImage"), userProfile.updateUser);
+//  router
+//   .route("/profile")
+// .get(authMiddleware, upload.single("profileImage"), userProfile.getUserProfile);
 router;
 router
   .route("/profile/update")
@@ -112,9 +112,7 @@ router.route("/profile");
 router
   .route("/profile/delete")
   .delete(authMiddleware, userProfile.deleteAccount);
-router
-  .route("/Profile")
-  .get(authMiddleware, userProfile.getUserProfile);
+router.route("/Profile").get(authMiddleware, userProfile.getUserProfile);
 router
   .route("/profile/book/:doctorId")
   .post(authMiddleware, userProfile.bookAppointment);

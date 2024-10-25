@@ -11,11 +11,13 @@ import { useNavigate } from "react-router-dom";
 import { DoctorContext } from "./Doctor-details/DoctorContext";
 import { useContext } from "react";
 import { jwtDecode } from "jwt-decode";
+import { useUsers } from "./Context/userContext";
 /* Import CSS */
 import "../styles/Header.css";
 
 function Header() {
   const { doctors } = useContext(DoctorContext);
+  const { clearUserData } = useUsers();
   /* State */
   const [menuActive, setMenuActive] = useState(false);
   const userRole = localStorage.getItem("userRole");
@@ -29,7 +31,11 @@ function Header() {
     e.preventDefault();
     if (userRole === "doctor") {
       const userId = jwtDecode(token).id;
+      console.log("userID", userId);
+
       const matchedDoctor = doctors.find((doctor) => doctor.user === userId);
+      console.log(doctors);
+
       if (matchedDoctor) {
         navigate("/doctor-profile", { state: { doctor: matchedDoctor } });
       } else {
@@ -40,6 +46,10 @@ function Header() {
     } else {
       console.error("Unknown role, unable to navigate");
     }
+  };
+  const handleSignOut = () => {
+    clearUserData();
+    navigate("/signup");
   };
   return (
     <>
@@ -78,7 +88,7 @@ function Header() {
               <img src={avatarImage} alt="Profile" />
             </a>
 
-            <a href="#" className="logout-btn">
+            <a href="" className="logout-btn" onClick={handleSignOut}>
               <FaSignOutAlt /> Sign Out
             </a>
           </div>

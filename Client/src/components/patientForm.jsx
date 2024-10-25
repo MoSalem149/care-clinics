@@ -32,7 +32,7 @@ function PatientForm() {
   const [surgicalHistory, setSurgicalHistory] = useState("");
   const [chronicConditions, setChronicConditions] = useState("");
   const [familyMedicalHistory, setFamilyMedicalHistory] = useState("");
-  const [photo, setPhoto] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
 
   const handleDivClick = () => {
     fileInputRef.current.click();
@@ -43,24 +43,26 @@ function PatientForm() {
   };
 
   const handleFileChange = (e) => {
-    setPhoto(e.target.files[0] || null);
+    setProfileImage(e.target.files[0] || null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = {
-      fullName,
-      dateOfBirth: new Date(dateOfBirth),
-      phoneNumber,
-      gender,
-      bloodType,
-      lastCheckupDate: new Date(lastCheckupDate),
-      surgicalHistory,
-      familyMedicalHistory,
-      chronicConditions,
-    };
+    const formData = new FormData();
+    formData.append("fullName", fullName);
+    formData.append("dateOfBirth", new Date(dateOfBirth).toISOString());
+    formData.append("phoneNumber", phoneNumber);
+    formData.append("gender", gender);
+    formData.append("bloodType", bloodType);
+    formData.append("lastCheckupDate", new Date(lastCheckupDate).toISOString());
+    formData.append("surgicalHistory", surgicalHistory);
+    formData.append("familyMedicalHistory", familyMedicalHistory);
+    formData.append("chronicConditions", chronicConditions);
 
+    if (profileImage) {
+      formData.append("profileImage", profileImage);
+    }
     try {
       const token = localStorage.getItem("token");
 
