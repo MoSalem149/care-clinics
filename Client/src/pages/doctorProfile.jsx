@@ -718,7 +718,7 @@ function DoctorProfile() {
                     <div className="booking-fees">
                       <img src={feesImage} alt="fees image" />
                       <span>
-                        <span className="fees-txt">{fees}</span> EGP
+                        <span className="fees-txt">{fees.conultation}</span> EGP
                       </span>
                     </div>
                     <div className="booking-duration">

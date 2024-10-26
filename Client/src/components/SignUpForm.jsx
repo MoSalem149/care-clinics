@@ -25,7 +25,6 @@ const SignUpForm = ({ selectedRole }) => {
       role: selectedRole,
     });
 
-    // If validation fails, display errors
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -52,10 +51,6 @@ const SignUpForm = ({ selectedRole }) => {
       const result = await response.json();
 
       if (response.ok) {
-        const token = result.data.token;
-        localStorage.setItem("token", token);
-
-        console.log("Token:", token);
 
         setFeedbackMessage(result.message || "Registration successful!");
         setFeedbackType("success");
@@ -66,11 +61,7 @@ const SignUpForm = ({ selectedRole }) => {
         setPassword("");
 
         setTimeout(() => {
-          if (selectedRole === "doctor") {
-            navigate("/doctor-form");
-          } else if (selectedRole === "user") {
-            navigate("/user-form");
-          }
+          navigate('/login')
         }, 2000);
       } else {
         setFeedbackMessage(result.message || "An error occurred.");
