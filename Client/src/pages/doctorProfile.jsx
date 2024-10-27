@@ -35,7 +35,7 @@ function DoctorProfile() {
       setDay(doctor.availability.day);
       setStartTime(doctor.availability.startTime);
       setEndTime(doctor.availability.endTime);
-      setFees(doctor.fees);
+      setFees(doctor.fees.consultation);
       setAppointments(doctor.appointments);
       setBio(doctor.bio);
       setImage(doctor.profileImage || doctor.ProfileImage);
@@ -718,7 +718,8 @@ function DoctorProfile() {
                     <div className="booking-fees">
                       <img src={feesImage} alt="fees image" />
                       <span>
-                        <span className="fees-txt">{fees}</span> EGP
+                        <span className="fees-txt">{fees.consultation}</span>{" "}
+                        EGP
                       </span>
                     </div>
                     <div className="booking-duration">

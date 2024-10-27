@@ -10,7 +10,6 @@ const { uploadToFirebase } = require("../../middleWares/FireBase");
 const authMiddleware = require("../../middleWares/authMiddleWare");
 const userProfile = require("../../Controller/userProfile.controller");
 
-
 const {
   postResetPassword,
   getResetPassword,
@@ -36,7 +35,7 @@ router.post(
   uploadToFirebase,
   compeleteDoctorProfile
 );
- 
+
 router.put(
   "/update-doctor/:id",
   verifyToken,
@@ -45,12 +44,8 @@ router.put(
   UpdateDoctor
 );
 
-router
-.route("/profile")
-.get(authMiddleware, userProfile.getDoctorProfile);
+router.route("/profile").get(authMiddleware, userProfile.getDoctorProfile);
 
 router.delete("/delete-doctor/:id", verifyToken, DeleteDoctor);
 
 module.exports = router;
-
-   
