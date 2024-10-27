@@ -6,6 +6,7 @@ import infoImage from "../../public/Icon.png";
 import feesImage from "../../public/Vector11.png";
 import timeImage from "../../public/Vector12.png";
 import Swal from "sweetalert2";
+import { ClipLoader } from "react-spinners";
 import Header from "../components/Header";
 import { useLocation } from "react-router-dom";
 import { UserContext } from "../components/Context/userContext";
@@ -83,6 +84,7 @@ function DoctorProfile() {
   const [appointmentDay, setAppointmentDay] = useState("");
   const [appointments, setAppointments] = useState([]);
   const [appointmentTime, setAppointmentTime] = useState(false);
+  const [loading, setLoading] = useState(false);
   console.log(doctor._id);
 
   const handleAddDay = () => {
@@ -128,7 +130,6 @@ function DoctorProfile() {
 
   const handleDeleteAccount = async () => {
     try {
-      // Show SweetAlert confirmation popup
       const result = await Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to recover this account!",
@@ -139,11 +140,9 @@ function DoctorProfile() {
         confirmButtonText: "Yes, delete it!",
       });
 
-      // If the user confirms, proceed with the deletion
       if (result.isConfirmed) {
         const token = localStorage.getItem("token");
 
-        // API call to delete the account
         const doctorResponse = await fetch(
           `http://localhost:5000/users/profile/delete/${doctor._id}`,
           {
@@ -158,15 +157,12 @@ function DoctorProfile() {
           throw new Error("Failed to delete account");
         }
 
-        // Show success message with SweetAlert
         Swal.fire("Deleted!", "Your account has been deleted.", "success");
 
-        // console.log(doctorResult);
       }
     } catch (error) {
       console.error("Error deleting account:", error);
 
-      // Show error message with SweetAlert
       Swal.fire(
         "Error!",
         "Something went wrong while deleting your account.",
@@ -312,34 +308,33 @@ function DoctorProfile() {
   };
 
   const handleBooking = async () => {
+    setLoading(true);
+    
     const [time, modifier] = selectedAppointmentTime.split(" ");
     let [hours, minutes] = time.split(":");
-
+  
     if (hours === "12") {
       hours = modifier === "AM" ? "00" : "12";
     } else if (modifier === "PM") {
       hours = String(Number(hours) + 12);
     }
-
+  
     hours = hours.padStart(2, "0");
     minutes = minutes.padStart(2, "0");
-
+  
     const appointmentTime = `${appointmentDay}T${hours}:${minutes}:00Z`;
-
     setAppointmentTime(appointmentTime);
-
-    const formData = {
-      appointmentTime,
-    };
-
+  
+    const formData = { appointmentTime };
+  
     try {
       const token = localStorage.getItem("token");
       if (!token) {
         console.error("No token found");
+        setLoading(false);
         return;
       }
-
-      // Directly fetch with the doctor ID passed in the request
+  
       const response = await fetch(
         `http://localhost:5000/users/profile/book/${doctor._id}`,
         {
@@ -351,13 +346,13 @@ function DoctorProfile() {
           body: JSON.stringify(formData),
         }
       );
-
+  
       const result = await response.json();
-
+  
       if (response.ok) {
         console.log(result.data.doctorName);
-        
         console.log("Appointment booked successfully", result);
+        
         Swal.fire({
           title: "Appointment Booked!",
           text: result.message,
@@ -386,8 +381,11 @@ function DoctorProfile() {
         icon: "error",
         confirmButtonText: "OK",
       });
+    } finally {
+      setLoading(false);
     }
   };
+  
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -402,7 +400,12 @@ function DoctorProfile() {
   return (
     <>
       {<Header />}
-
+       {loading ? (
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+          <ClipLoader color="#3085d6" loading={loading} size={50} />
+        </div>
+      ) :
+      (
       <div className="container-fluid">
         <div className="row">
           <div className="col-lg-6 col-md-6 col-sm-12">
@@ -779,6 +782,7 @@ function DoctorProfile() {
           )}
         </div>
       </div>
+      )}
     </>
   );
 }

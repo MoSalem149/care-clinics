@@ -73,6 +73,7 @@ nav {
   transition: background-color 0.3s;
   cursor: pointer;
   z-index: 1;
+  border: none;
 }
 
 .logout-btn:hover {
