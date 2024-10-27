@@ -12,6 +12,7 @@ import { DoctorContext } from "./Doctor-details/DoctorContext";
 import { useContext } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useUsers } from "./Context/userContext";
+import Swal from "sweetalert2";
 /* Import CSS */
 import "../styles/Header.css";
 
@@ -49,10 +50,32 @@ function Header() {
       console.error("Unknown role, unable to navigate");
     }
   };
+
   const handleSignOut = () => {
-    clearUserData();
-    navigate("/signup");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to sign out?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, sign me out",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        clearUserData();
+        Swal.fire({
+          title: "Signed Out",
+          text: "You have successfully signed out.",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          console.log("Navigating to signup page");
+          navigate("/signup");
+        });
+      }
+    });
   };
+  
   return (
     <>
       {/* Header */}
@@ -86,14 +109,14 @@ function Header() {
             </button>
           </div>
           <div className="link">
-            <a href="#" className="profile-img" onClick={handleProfileClick}>
-              <img src={avatarImage} alt="Profile" />
-            </a>
+  <a href="#" className="profile-img" onClick={handleProfileClick}>
+    <img src={avatarImage} alt="Profile" />
+  </a>
 
-            <a href="" className="logout-btn" onClick={handleSignOut}>
-              <FaSignOutAlt /> Sign Out
-            </a>
-          </div>
+  <button className="logout-btn" onClick={handleSignOut}>
+    <FaSignOutAlt /> Sign Out
+  </button>
+</div>
           <button
             className="menu-toggle"
             aria-label="Toggle Menu"

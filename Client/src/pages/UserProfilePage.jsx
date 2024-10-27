@@ -7,7 +7,7 @@ import Header from "../components/Header";
 import "../styles/UserProfilePage.css";
 import { useEffect, useState } from "react";
 import Swal from 'sweetalert2';
-
+import { ClipLoader } from "react-spinners";
 
 function UserProfilePage() {
   useEffect(() => {
@@ -82,11 +82,7 @@ function UserProfilePage() {
   const [appointmentDate, setAppointmentDate] = useState([]);
   const [selectedTime, setSelectedTime] = useState([]);
   const [appointmentId, setAppointmentId] = useState("");
- 
-  appointments.forEach((appointment) => {
-    const { _id} = appointment;
-    console.log("jj",_id);
-  });
+  const [loading, setLoading] = useState(false);
   
   const times = [];
   for (let hour = 0; hour < 24; hour++) {
@@ -241,7 +237,9 @@ function UserProfilePage() {
   };
   
 
-  const handleSaveChanges = async ({_id}) => {
+  const handleSaveChanges = async () => {
+    setLoading(true);
+
     appointments.forEach((appointment) => {
       const { _id} = appointment;
       console.log(_id);
@@ -270,11 +268,12 @@ function UserProfilePage() {
       const token = localStorage.getItem("token");
       if (!token) {
         console.error("No token found");
+        setLoading(false);
         return;
       }
   
       const response = await fetch(
-        `http://localhost:5000/users/profile/updateAppointment/${_id}`,
+        `http://localhost:5000/users/profile/updateAppointment/${appointmentId}`,
         {
           method: "PUT",
           headers: {
@@ -313,7 +312,7 @@ function UserProfilePage() {
         confirmButtonText: "OK",
       });
     } finally {
-      // Reset states
+      setLoading(false);
       setIsModifying(false);
       setAppointmentDate('');
       setSelectedTime('');
@@ -325,7 +324,6 @@ function UserProfilePage() {
   const handleSave = async () => {
     setIsEditing(false);
 
-    // Prepare the updated patient data
     const updatedData = {
       fullName,
       dateOfBirth,
@@ -362,6 +360,12 @@ function UserProfilePage() {
 
   return (
     <HelmetProvider>
+      {loading ? (
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+          <ClipLoader color="#3085d6" loading={loading} size={50} />
+        </div>
+      ) :
+      (
       <div className="user-profile-page">
         {/* Helmet */}
         <Helmet>
@@ -511,7 +515,7 @@ function UserProfilePage() {
                           ))}
             </select>
           </div>
-          <button className="update-appointments-btn" onClick={handleSaveChanges({ appointmentId: _id })}>
+          <button className="update-appointments-btn" onClick={handleSaveChanges}>
   Update Appointment
 </button>
         </div>
@@ -556,6 +560,7 @@ function UserProfilePage() {
                         <button className="book-modify-btn" onClick={() => {
                           setIsModifying(true);
                           setAppointmentDate(appointmentDate.toISOString().split('T')[0]); 
+                          setAppointmentId(appointmentId)
                         }}>
                           Modify
                         </button>
@@ -585,6 +590,7 @@ function UserProfilePage() {
           <button onClick={handleDeleteAccount} className="delete-btn">Delete account</button>
         </div>
       </div>
+      )}
     </HelmetProvider>
   );
 }

@@ -267,7 +267,7 @@ const bookAppointment = async (req, res) => {
     const updatedUserProfile = await UserProfile.findOneAndUpdate(
       { user: userId },
       { $push: {  appointments: { 
-        appointmentId: appointment._id,
+        appointmentId: appointment.appointmentId,
         appointmentTime: appointmentDate,
         appointmentDuration: appointmentDuration,
         appointmentEndTime: appointmentEndTime,
@@ -397,15 +397,13 @@ const updateAppointment = async (req, res) => {
       });
     }
 
-    // Update appointment details
     appointment.appointmentTime = appointmentDate;
     appointment.appointmentEndTime = newAppointmentEndTime;
 
     await appointment.save();
 
-    // Update user profile - Access appointments in the same way as deleteAppointment
     const userProfileUpdate = await UserProfile.findOneAndUpdate(
-      { user: userId, "appointments._id": appointmentId },
+      { user: userId, "appointments.appointmentId": appointmentId },
       { $set: { "appointments.$.appointmentTime": appointmentDate, "appointments.$.appointmentEndTime": newAppointmentEndTime } },
       { new: true }
     );
@@ -416,9 +414,8 @@ const updateAppointment = async (req, res) => {
       console.log("User profile updated:", userProfileUpdate);
     }
 
-    // Update doctor profile - Access appointments in the same way as deleteAppointment
     const doctorUpdate = await Doctor.findOneAndUpdate(
-      { _id: appointment.doctor, "appointments._id": appointmentId },
+      { _id: appointment.doctor, "appointments.appointmentId": appointmentId },
       { $set: { "appointments.$.appointmentTime": appointmentDate, "appointments.$.appointmentEndTime": newAppointmentEndTime } },
       { new: true }
     );
@@ -447,6 +444,7 @@ const updateAppointment = async (req, res) => {
 
 
 
+
 const deleteAppointment = async (req, res) => {
   try {
     const userId = req.user.id; // Get the user ID from the request
@@ -468,7 +466,7 @@ const deleteAppointment = async (req, res) => {
     // Remove the appointment from the user's profile
     const userProfileUpdate = await UserProfile.findOneAndUpdate(
       { user: userId },
-      { $pull: { appointments: { _id: appointmentId } } }, 
+      { $pull: { appointments: { appointmentId: appointmentId } } }, 
       { new: true } // Return the updated document
     );
 
@@ -481,7 +479,7 @@ const deleteAppointment = async (req, res) => {
     // Remove the appointment from the doctor's profile
     const doctorUpdate = await Doctor.findByIdAndUpdate(
       appointment.doctor,
-      { $pull: { appointments: { _id: appointmentId } } }, // Ensure you are matching by _id
+      { $pull: { appointments: { appointmentId: appointmentId } } }, // Ensure you are matching by _id
       { new: true } // Return the updated document
     );
 
