@@ -25,41 +25,51 @@ const LoginForm = () => {
   };
 
   /* Function to handle form submission */
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate required fields
+  
     if (!email || !password) {
       displayFeedback("Email and password are required.", "error");
-      return; // Stop further execution if validation fails
+      return;
     }
-
-    // Prepare form data
-    const formData = {
-      email,
-      password,
-    };
-
+  
+    const formData = { email, password };
+  
     try {
       const response = await fetch("http://localhost:5000/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-
+  
       const result = await response.json();
-
+  
       if (response.ok && result.token) {
         localStorage.setItem("token", result.token);
+  
         const decoded = jwtDecode(result.token);
         const userRole = decoded.role;
-        localStorage.setItem("token", result.token);
         localStorage.setItem("userRole", userRole);
-
+  
         displayFeedback("Login successful!", "login-success");
-
+  
         setTimeout(() => {
-          navigate("/patient-home");
+          if (result.hasProfile) {
+            if (userRole === "user") {
+              navigate("/patient-home");
+            } else if (userRole === "doctor") {
+              navigate("/doctor-home");
+            } else {
+              navigate("/patient-home");
+            }
+          } else {
+            if (userRole === "user") {
+              navigate("/user-form");
+            } else if (userRole === "doctor") {
+              navigate("/doctor-form");
+            }
+          }
         }, 1500);
       } else {
         displayFeedback(`Login failed: ${result.message}`, "error");
@@ -69,6 +79,9 @@ const LoginForm = () => {
       console.error("Fetch error:", error);
     }
   };
+  
+  
+  
 
   const handleChange = (setter) => (e) => {
     setter(e.target.value);

@@ -154,8 +154,6 @@ function DoctorProfile() {
           }
         );
 
-        const doctorResult = await doctorResponse.json();
-
         if (!doctorResponse.ok) {
           throw new Error("Failed to delete account");
         }
@@ -357,6 +355,8 @@ function DoctorProfile() {
       const result = await response.json();
 
       if (response.ok) {
+        console.log(result.data.doctorName);
+
         console.log("Appointment booked successfully", result);
         Swal.fire({
           title: "Appointment Booked!",
@@ -691,11 +691,7 @@ function DoctorProfile() {
                                 hour12: true,
                               });
 
-                            return (
-                              <li key={index}>
-                                {userName} Date: {formattedDate}
-                              </li>
-                            );
+                            return <li key={index}>Date: {formattedDate}</li>;
                           })}
                       </ol>
                     ) : (
