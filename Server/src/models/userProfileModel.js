@@ -50,7 +50,7 @@ const userProfileSchema = mongoose.Schema(
         appointmentId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Appointment",
-        },
+        }, 
         appointmentTime: {
           type: Date,
         },
@@ -61,6 +61,7 @@ const userProfileSchema = mongoose.Schema(
         appointmentEndTime: {
           type: Date,
         },
+        doctorName: { type: String, required: false }
       },
     ],
   },

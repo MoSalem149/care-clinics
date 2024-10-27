@@ -158,10 +158,10 @@ const isOverlappingAppointment = async (
         appointmentTime: { $lte: appointmentStart },
         appointmentEndTime: { $gte: appointmentEnd },
       },
-    ],
+    ], 
   });
   return overlappingAppointment ? true : false;
-};
+}; 
  
 
 const bookAppointment = async (req, res) => {
@@ -259,13 +259,20 @@ const bookAppointment = async (req, res) => {
       appointmentTime: appointmentDate,
       appointmentDuration: appointmentDuration,
       appointmentEndTime: appointmentEndTime,
+      doctorName:doctor.name
     });
 
     await appointment.save();
 
     const updatedUserProfile = await UserProfile.findOneAndUpdate(
       { user: userId },
-      { $push: { appointments: appointment } },
+      { $push: {  appointments: { 
+        appointmentId: appointment._id,
+        appointmentTime: appointmentDate,
+        appointmentDuration: appointmentDuration,
+        appointmentEndTime: appointmentEndTime,
+        doctorName: doctor.name, // إضافة اسم الطبيب هنا
+      }  } },
       { new: true }
     ).populate("appointments");
 
@@ -285,7 +292,7 @@ const bookAppointment = async (req, res) => {
     res.status(201).json({
       status: "SUCCESS",
       message: "Appointment booked successfully",
-      data: { appointment, updatedUserProfile, updatedDoctorProfile },
+      data: { appointment, updatedUserProfile, updatedDoctorProfile,doctorName:doctor.name },
     });
   } catch (error) {
     res.status(500).json({
@@ -297,9 +304,11 @@ const bookAppointment = async (req, res) => {
 
 const updateAppointment = async (req, res) => {
   try {
-    const userId = req.user.id;
+    console.log("Starting updateAppointment...");
+
+    const userId = req.user?.id;
     const appointmentId = req.params.appointmentId;
-    const appointmentTime = req.body;
+    const { appointmentTime } = req.body;
 
     const appointmentDate = new Date(appointmentTime);
     if (isNaN(appointmentDate.getTime())) {
@@ -309,43 +318,116 @@ const updateAppointment = async (req, res) => {
       });
     }
 
-    const appointmentEndTime = new Date(
-      appointmentDate.getTime() + appointmentDuration * 60000
-    );
-
     const appointment = await Appointment.findById(appointmentId);
     if (!appointment || appointment.user.toString() !== userId) {
       return res.status(404).json({
         status: "FAIL",
-        message:
-          "Appointment not found or you do not have permission to update it.",
+        message: "Appointment not found or you do not have permission to update it.",
       });
     }
 
-    const isOverlapping = await isOverlappingAppointment(
-      appointment.doctor,
-      appointmentDate,
-      appointmentEndTime
-    );
-    if (isOverlapping) {
+    const doctor = await Doctor.findById(appointment.doctor);
+    if (!doctor) {
+      return res.status(404).json({
+        status: "FAIL",
+        message: "Doctor not found",
+      });
+    }
+
+    // Get the day of the week for the appointment
+    const appointmentDay = appointmentDate.toLocaleString("en-US", {
+      weekday: "long",
+    });
+
+    // Check if the selected day is available for the doctor
+    const dayAvailable = isDayAvailable(doctor.availability, appointmentDay);
+    if (!dayAvailable) {
       return res.status(400).json({
         status: "ERROR",
-        message:
-          "The appointment time overlaps with another appointment. Please choose a different time.",
+        message: `Doctor is not available on ${appointmentDay}. Please select another day.`,
       });
     }
 
+    const availableDay = doctor.availability.find(
+      (availableDay) => availableDay.day === appointmentDay
+    );
+
+    const doctorStartTime = convertTo24HourTime(availableDay.startTime);
+    const doctorEndTime = convertTo24HourTime(availableDay.endTime);
+
+    const appointmentHoursMinutes = `${String(
+      appointmentDate.getUTCHours()
+    ).padStart(2, "0")}:${String(appointmentDate.getUTCMinutes()).padStart(
+      2,
+      "0"
+    )}`;
+
+    const doctorStartTimeByMinutes = convertTimeToMinutes(doctorStartTime);
+    const doctorEndTimeByMinutes = convertTimeToMinutes(doctorEndTime);
+    const appointmentTimeByMinutes = convertTimeToMinutes(appointmentHoursMinutes);
+
+    if (
+      appointmentTimeByMinutes < doctorStartTimeByMinutes ||
+      appointmentTimeByMinutes > doctorEndTimeByMinutes
+    ) {
+      return res.status(400).json({
+        status: "ERROR",
+        message: `Appointment time must be between ${availableDay.startTime} and ${availableDay.endTime}.`,
+      });
+    }
+
+    // Calculate new appointment end time as 30 minutes after the appointment time
+    let newAppointmentEndTime = new Date(appointmentDate.getTime() + 30 * 60000);
+
+    // Check for overlapping appointments
+    const overlappingAppointments = await Appointment.find({
+      doctor: appointment.doctor,
+      appointmentTime: {
+        $lt: newAppointmentEndTime,
+      },
+      appointmentEndTime: {
+        $gt: appointmentDate,
+      },
+    });
+
+    if (overlappingAppointments.length > 0) {
+      return res.status(400).json({
+        status: "ERROR",
+        message: "The appointment time overlaps with another appointment. Please choose a different time.",
+      });
+    }
+
+    // Update appointment details
     appointment.appointmentTime = appointmentDate;
-    appointment.appointmentEndTime = appointmentEndTime;
+    appointment.appointmentEndTime = newAppointmentEndTime;
 
     await appointment.save();
 
-    const [user, doctorUser] = await Promise.all([
-      User.findById(userId),
-      User.findOne({ _id: appointment.doctor.user, role: "doctor" }),
-    ]);
+    // Update user profile - Access appointments in the same way as deleteAppointment
+    const userProfileUpdate = await UserProfile.findOneAndUpdate(
+      { user: userId, "appointments._id": appointmentId },
+      { $set: { "appointments.$.appointmentTime": appointmentDate, "appointments.$.appointmentEndTime": newAppointmentEndTime } },
+      { new: true }
+    );
 
-    await appointmentEmails(user, doctorUser, appointmentDate, "Updated");
+    if (!userProfileUpdate) {
+      console.error(`UserProfile not found or appointment not found for user ID: ${userId}`);
+    } else {
+      console.log("User profile updated:", userProfileUpdate);
+    }
+
+    // Update doctor profile - Access appointments in the same way as deleteAppointment
+    const doctorUpdate = await Doctor.findOneAndUpdate(
+      { _id: appointment.doctor, "appointments._id": appointmentId },
+      { $set: { "appointments.$.appointmentTime": appointmentDate, "appointments.$.appointmentEndTime": newAppointmentEndTime } },
+      { new: true }
+    );
+
+    if (!doctorUpdate) {
+      console.error(`Doctor not found or appointment not found for ID: ${appointment.doctor}`);
+    } else {
+      console.log("Doctor profile updated:", doctorUpdate);
+    }
 
     res.status(200).json({
       status: "SUCCESS",
@@ -353,6 +435,7 @@ const updateAppointment = async (req, res) => {
       data: { appointment },
     });
   } catch (error) {
+    console.error("Error in updateAppointment:", error.message);
     res.status(500).json({
       status: "ERROR",
       message: error.message,
@@ -360,54 +443,75 @@ const updateAppointment = async (req, res) => {
   }
 };
 
+
+
+
+
 const deleteAppointment = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const appointmentId = req.params.appointmentId;
+    const userId = req.user.id; // Get the user ID from the request
+    const appointmentId = req.params.appointmentId; // Get the appointment ID from the request parameters
 
+    console.log(`Starting deleteAppointment...`);
+    console.log(`User ID: ${userId}, Appointment ID: ${appointmentId}`);
+
+    // Find the appointment by ID
     const appointment = await Appointment.findById(appointmentId);
     if (!appointment || appointment.user.toString() !== userId) {
+      console.error(`Appointment not found or permission denied for ID: ${appointmentId}`);
       return res.status(404).json({
         status: "FAIL",
-        message:
-          "Appointment not found or you do not have permission to delete it.",
+        message: "Appointment not found or you do not have permission to delete it.",
       });
     }
 
-    await Appointment.findByIdAndDelete(appointmentId);
-
-    await UserProfile.findOneAndUpdate(
+    // Remove the appointment from the user's profile
+    const userProfileUpdate = await UserProfile.findOneAndUpdate(
       { user: userId },
-      { $pull: { appointments: appointmentId } }
+      { $pull: { appointments: { _id: appointmentId } } }, 
+      { new: true } // Return the updated document
     );
 
-    await Doctor.findByIdAndUpdate(appointment.doctor, {
-      $pull: { appointments: appointmentId },
-    });
+    if (!userProfileUpdate) {
+      console.error(`UserProfile not found for user ID: ${userId}`);
+    } else {
+      console.log(`Removed appointment from UserProfile: ${JSON.stringify(userProfileUpdate)}`);
+    }
 
-    const [user, doctorUser] = await Promise.all([
-      User.findById(userId),
-      User.findOne({ _id: appointment.doctor.user, role: "doctor" }),
-    ]);
-
-    await appointmentEmails(
-      user,
-      doctorUser,
-      appointment.appointmentTime,
-      "Deleted"
+    // Remove the appointment from the doctor's profile
+    const doctorUpdate = await Doctor.findByIdAndUpdate(
+      appointment.doctor,
+      { $pull: { appointments: { _id: appointmentId } } }, // Ensure you are matching by _id
+      { new: true } // Return the updated document
     );
 
-    res.status(204).json({
+    if (!doctorUpdate) {
+      console.error(`Doctor not found for ID: ${appointment.doctor}`);
+    } else {
+      console.log(`Removed appointment from Doctor's profile: ${JSON.stringify(doctorUpdate)}`);
+    }
+
+    // Delete the appointment
+    await Appointment.findByIdAndDelete(appointmentId);
+    console.log(`Appointment with ID: ${appointmentId} deleted from appointments table.`);
+
+    res.status(200).json({
       status: "SUCCESS",
       message: "Appointment deleted successfully",
     });
   } catch (error) {
+    console.error("Error in deleteAppointment:", error.message);
     res.status(500).json({
       status: "ERROR",
       message: error.message,
     });
   }
 };
+ 
+ 
+
+
+
 const getUserProfile = async (req, res) => {
   try {
     const userId = req.user.id;
