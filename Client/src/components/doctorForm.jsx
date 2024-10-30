@@ -35,7 +35,7 @@ function DoctorProfile() {
   const [yearsOfExperience, setYearsOfExperience] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const [fees, setFees] = useState("");
-  const [department, setDepartment] = useState(""); // New state for department
+  const [department, setDepartment] = useState(""); 
 
   const handleDivClick = () => {
     fileInputRef.current.click();
@@ -66,6 +66,8 @@ function DoctorProfile() {
       formData.append("profileImage", profileImage);
       console.log(profileImage);
     }
+
+    for (let pair of formData.entries()) { console.log(pair[0]+ ': ' + pair[1]); }
   
     try {
       const token = localStorage.getItem("token");
@@ -80,13 +82,14 @@ function DoctorProfile() {
         }
       );
         if (response.ok) {
+          const data=await response.json()
         Swal.fire({
           title: 'Success!',
           text: 'Profile information saved successfully',
           icon: 'success',
           confirmButtonText: 'OK'
         }).then(() => {
-          navigate("/doctor-profile");
+          navigate("/doctor-profile",{state:{data}});
         });
       }
     } catch (error) {

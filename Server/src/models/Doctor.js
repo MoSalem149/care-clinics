@@ -37,7 +37,8 @@ const doctorSchema = new mongoose.Schema({
     },
   ],
   fees: {
-    consultation: { type: Number },
+     type: Number,
+     required:true 
   },
   isApproved: { type: Boolean, default: false },
   bio: { type: String },

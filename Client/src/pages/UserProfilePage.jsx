@@ -8,8 +8,10 @@ import "../styles/UserProfilePage.css";
 import { useEffect, useState } from "react";
 import Swal from 'sweetalert2';
 import { ClipLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 function UserProfilePage() {
+  const navigate=useNavigate()
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -28,17 +30,16 @@ function UserProfilePage() {
         const result = await response.json();
         const data = result.data.userProfile;
   
-        // Update state with fetched data
         setFullName(data.fullName);
         setDateOfBirth(data.dateOfBirth);
         setLastCheckupDate(data.lastCheckupDate);
         setBloodType(data.bloodType);
-        setFamilyHistory(data.familyHistory);
+        setFamilyMedicalHistory(data.familyMedicalHistory);
         setChronicConditions(data.chronicConditions);
         setPhoneNumber(data.phoneNumber);
         setSurgicalHistory(data.surgicalHistory);
         setAppointments(data.appointments);
-       
+        setEmail(data.email)
   
   
       } catch (error) {
@@ -48,14 +49,12 @@ function UserProfilePage() {
   
     fetchUserData();
   
-    // Set body styles
     document.body.style.backgroundColor = '#E6F7FF';
     document.body.style.marginTop = '20px';
     document.body.style.backgroundImage = "url('../../public/Vector.png'),url('../../public/Vector (1).png')";
     document.body.style.backgroundPosition = 'top right, top left';
     document.body.style.backgroundRepeat = 'no-repeat, no-repeat';
   
-    // Cleanup function
     return () => {
       document.body.style.backgroundColor = '';
       document.body.style.marginTop = '';
@@ -64,9 +63,7 @@ function UserProfilePage() {
       document.body.style.backgroundRepeat = '';
     };
   }, []);
-  
-  
-  
+   
   const [isEditing, setIsEditing] = useState(false);
   const [isModifying, setIsModifying] = useState(false);
   const [fullName, setFullName] = useState("John Doe");
@@ -75,7 +72,7 @@ function UserProfilePage() {
   const [lastCheckupDate, setLastCheckupDate] = useState("2023-10-01");
   const [phoneNumber, setPhoneNumber] = useState("+20 123456789");
   const [bloodType, setBloodType] = useState("O+");
-  const [familyHistory, setFamilyHistory] = useState(["No significant history"]);
+  const [familyMedicalHistory, setFamilyMedicalHistory] = useState(["No significant history"]);
   const [chronicConditions, setChronicConditions] = useState(["None"]);
   const [surgicalHistory, setSurgicalHistory] = useState(["Appendectomy"]);
   const [appointments, setAppointments] = useState([]);
@@ -83,7 +80,16 @@ function UserProfilePage() {
   const [selectedTime, setSelectedTime] = useState([]);
   const [appointmentId, setAppointmentId] = useState("");
   const [loading, setLoading] = useState(false);
-  
+   
+  function formatDate(dateString) { 
+    const date = new Date(dateString); 
+    const day = ('0' + date.getDate()).slice(-2);
+     const month = ('0' + (date.getMonth() + 1)).slice(-2); 
+     const year = date.getFullYear();
+      return `${day}-${month}-${year}`; 
+    }
+
+   
   const times = [];
   for (let hour = 0; hour < 24; hour++) {
     const suffix = hour < 12 ? "AM" : "PM";
@@ -145,14 +151,13 @@ function UserProfilePage() {
         const deleteResult = await deleteResponse.json();
         console.log(deleteResult);
   
-        // Show success message with SweetAlert
         Swal.fire(
           'Deleted!',
           'Your account has been deleted.',
           'success'
         );
-  
-        // Handle any additional logic here, e.g., logging out or redirecting
+
+  navigate('/signup')
   
       }
   
@@ -168,10 +173,8 @@ function UserProfilePage() {
     }
   };
 
-  const handleCancelAppointment = async ({ appointmentID }) => { // Destructure parameter here
-    console.log("Canceling appointment with ID:", appointmentID); // Log the appointmentID
+  const handleCancelAppointment = async ({ appointmentID }) => { 
     try {
-      // Show SweetAlert confirmation popup
       const result = await Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to recover this appointment!",
@@ -190,20 +193,6 @@ function UserProfilePage() {
           return;
         }
   
-        // Check user data
-        const response = await fetch('http://localhost:5000/users/profile', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-        });
-  
-        if (!response.ok) {
-          console.error('Failed to fetch user data');
-          return;
-        }
-  
-        // Delete appointment
         const deleteResponse = await fetch(`http://localhost:5000/users/profile/deleteAppointment/${appointmentID}`, {
           method: 'DELETE',
           headers: {
@@ -227,7 +216,6 @@ function UserProfilePage() {
     } catch (error) {
       console.error('Error deleting appointment:', error);
   
-      // Show error message with SweetAlert
       Swal.fire(
         'Error!',
         'Something went wrong while deleting your appointment.',
@@ -235,7 +223,6 @@ function UserProfilePage() {
       );
     }
   };
-  
 
   const handleSaveChanges = async () => {
     setLoading(true);
@@ -294,6 +281,11 @@ function UserProfilePage() {
           icon: "success",
           confirmButtonText: "OK",
         });
+
+        
+        setAppointmentDate('');
+        setSelectedTime('');
+
       } else {
         console.error("Failed to update appointment", result.message, response.status, response.statusText);
         Swal.fire({
@@ -319,19 +311,16 @@ function UserProfilePage() {
     }
   };
   
-  
-
   const handleSave = async () => {
     setIsEditing(false);
 
     const updatedData = {
       fullName,
       dateOfBirth,
-      email,
       lastCheckupDate,
       phoneNumber,
       bloodType,
-      familyHistory,
+      familyMedicalHistory,
       chronicConditions,
       surgicalHistory,
     };
@@ -367,11 +356,9 @@ function UserProfilePage() {
       ) :
       (
       <div className="user-profile-page">
-        {/* Helmet */}
         <Helmet>
           <title>User Profile Page</title>
         </Helmet>
-        {/* Header */}
         <Header />
         <div className="container user-profile-page">
           <div className="row patient-container">
@@ -397,23 +384,19 @@ function UserProfilePage() {
                         <strong>Date Of Birth:</strong>
                         <input
                           type="date"
-                          value={dateOfBirth}
+                          value={formatDate(dateOfBirth)}
                           onChange={(e) => setDateOfBirth(e.target.value)}
                         />
                       </p>
                       <p>
                         <strong>Email:</strong>
-                        <input
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                        />
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} readOnly />
                       </p>
                       <p>
                         <strong>Last Checkup Date:</strong>
                         <input
                           type="date"
-                          value={lastCheckupDate}
+                          value={formatDate(lastCheckupDate)}
                           onChange={(e) => setLastCheckupDate(e.target.value)}
                         />
                       </p>
@@ -437,8 +420,8 @@ function UserProfilePage() {
                         <strong>Family Medical History:</strong>
                         <input
                           type="text"
-                          value={familyHistory}
-                          onChange={(e) => setFamilyHistory(e.target.value)}
+                          value={familyMedicalHistory}
+                          onChange={(e) => setFamilyMedicalHistory(e.target.value)}
                         />
                       </p>
                       <p>
@@ -461,12 +444,12 @@ function UserProfilePage() {
                   ) : (
                     <>
                       <p><strong>Full Name:</strong> {fullName}</p>
-                      <p><strong>Date Of Birth:</strong> {dateOfBirth}</p>
+                      <p><strong>Date Of Birth:</strong> {formatDate(dateOfBirth)}</p>
                       <p><strong>Email:</strong> {email}</p>
-                      <p><strong>Last Checkup Date:</strong> {lastCheckupDate}</p>
+                      <p><strong>Last Checkup Date:</strong> {formatDate(lastCheckupDate)}</p>
                       <p><strong>Phone Number:</strong> {phoneNumber}</p>
                       <p><strong>Blood Type:</strong> {bloodType}</p>
-                      <p><strong>Family Medical History:</strong> {familyHistory}</p>
+                      <p><strong>Family Medical History:</strong> {familyMedicalHistory}</p>
                       <p><strong>Chronic Conditions:</strong> {chronicConditions}</p>
                       <p><strong>Surgical History:</strong> {surgicalHistory}</p>
                     </>
@@ -498,14 +481,16 @@ function UserProfilePage() {
               className="styled-date-input"
               value={appointmentDate}
               onChange={(e) => setAppointmentDate(e.target.value)}
+              required
             />
             <select
               className="time-select"
               required
               value={selectedTime}
               onChange={(e) => setSelectedTime(e.target.value)}
+              
             >
-              <option value="" disabled>
+              <option value={""} disabled>
                 Choose time
               </option>
               {times.map((time) => (
@@ -542,9 +527,7 @@ function UserProfilePage() {
                     hour12: true,
                   });
             
-                  const { appointmentId, doctorName } = appointment;
-                  console.log(appointmentId,"ccf",doctorName);
-                  
+                  const { appointmentId, doctorName } = appointment;                  
             
                   return (
                     <li key={index} className="appointment-item">

@@ -8,12 +8,13 @@ import timeImage from "../../public/Vector12.png";
 import Swal from "sweetalert2";
 import { ClipLoader } from "react-spinners";
 import Header from "../components/Header";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../components/Context/userContext";
 import { useContext } from "react";
 function DoctorProfile() {
+  const navigate=useNavigate()
   const location = useLocation();
-  const { doctor } = location.state;
+  const { doctor } = location.state || {};
   const { currentUser } = useContext(UserContext);
   const [isOwnerOfPof, setIsOwnerOfPof] = useState(false);
 
@@ -36,12 +37,11 @@ function DoctorProfile() {
       setDay(doctor.availability.day);
       setStartTime(doctor.availability.startTime);
       setEndTime(doctor.availability.endTime);
-      setFees(doctor.fees.consultation);
+      setFees(doctor.fees);
       setAppointments(doctor.appointments);
       setBio(doctor.bio);
       setImage(doctor.profileImage || doctor.ProfileImage);
     }
-    console.log(doctor);
 
     document.body.style.backgroundColor = "#E6F7FF";
     document.body.style.marginTop = "20px";
@@ -85,7 +85,8 @@ function DoctorProfile() {
   const [appointments, setAppointments] = useState([]);
   const [appointmentTime, setAppointmentTime] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(doctor._id);
+  console.log("doctor is ",doctor);
+  
 
   const handleAddDay = () => {
     if (!day || !startTime || !endTime) {
@@ -158,6 +159,7 @@ function DoctorProfile() {
         }
 
         Swal.fire("Deleted!", "Your account has been deleted.", "success");
+        navigate('/signup')
 
       }
     } catch (error) {
@@ -576,7 +578,7 @@ function DoctorProfile() {
                   <div className="availability-section">
                     <strong>Available Days :</strong>
                     {availability.length === 0 ? (
-                      <p>Please add available days.</p>
+                      <p>No available days.</p>
                     ) : (
                       availability.map((slot, index) => (
                         <div key={index}>
@@ -717,7 +719,7 @@ function DoctorProfile() {
                     <div className="booking-fees">
                       <img src={feesImage} alt="fees image" />
                       <span>
-                        <span className="fees-txt">{fees.consultation}</span>{" "}
+                        <span className="fees-txt">{fees}</span>
                         EGP
                       </span>
                     </div>

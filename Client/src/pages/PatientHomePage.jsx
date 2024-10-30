@@ -7,11 +7,11 @@ import Header from "../components/Header";
 /* Import CSS */
 import "../styles/PatientHomePage.css";
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
 
 function PatientHomePage() {
   /* JSX */
   return (
-    /* Patient Home Page */
     <HelmetProvider>
       {/* Container */}
       <div className="patient-home-page">
@@ -35,10 +35,10 @@ function PatientHomePage() {
               and expert medical services, ensuring you receive the attention
               you deserve.
             </p>
-            <a href="#" className="hero-btn">
+            <Link to="/department" className="hero-btn">
               <span>Book Appointment</span>
               <img src={blueArrowImage} alt="Arrow" />
-            </a>
+            </Link>
           </div>
           <div className="hero-image">
             <img

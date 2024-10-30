@@ -30,10 +30,14 @@ import { GetUsersProvider } from "./components/Context/GetUsersContext";
 import "./App.css";
 import DepartmentParent from "./components/Departments/DepartmentParent";
 import Booking from "./components/Booking";
+import { AppointmentsProvider } from "./components/Context/appointmentsContext";
+import { DoctorProvider } from "./components/Doctor-details/DoctorContext";
 
 const App = () => {
   return (
     <GetUsersProvider>
+      <DoctorProvider>
+      <AppointmentsProvider>
       <Router>
         <Routes>
           <Route path="/" element={<SignUpPage />} />
@@ -109,6 +113,8 @@ const App = () => {
           <Route path="/patient-home" element={<PatientHomePage />} />
         </Routes>
       </Router>
+    </AppointmentsProvider>
+    </DoctorProvider>
     </GetUsersProvider>
 
     // <DepartmentsPage />

@@ -134,6 +134,7 @@ const compeleteDoctorProfile = async (req, res) => {
       phoneNumber,
       specialty,
       yearsOfExperience,
+      fees
     } = req.body;
 
     const foundDepartment = await departmentModel.findOne({ name: department });
@@ -153,6 +154,7 @@ const compeleteDoctorProfile = async (req, res) => {
       phoneNumber,
       specialty,
       yearsOfExperience,
+      fees,
       availability,
       department: foundDepartment._id,
     });
