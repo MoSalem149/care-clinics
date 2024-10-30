@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const departmentModel = require("../models/Departments");
 const sendResetPasswordEmail = require("../Tools/SendEmailToDoctors");
-const UserProfile=require("../models/userProfileModel")
+const UserProfile = require("../models/userProfileModel");
 require(`dotenv`).config();
 
 const getAllUsers = async (req, res) => {
@@ -115,7 +115,7 @@ const login = async (req, res, next) => {
         status: httpstatus.SUCCESS,
         message: "User logged in successfully",
         token,
-        hasProfile: Boolean(hasProfile), 
+        hasProfile: Boolean(hasProfile),
       });
     } else {
       return res.json({

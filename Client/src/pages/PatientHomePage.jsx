@@ -4,11 +4,13 @@ import blueArrowImage from "../assets/images/Patient-Home-Page-img/blue-arrow-ic
 import mainBgImage from "../assets/images/Patient-Home-Page-img/main-bg-img.png";
 /* Import Components */
 import Header from "../components/Header";
+import HeaderParent from "../components/HeaderParent";
 /* Import CSS */
 import "../styles/PatientHomePage.css";
 import Footer from "../components/Footer";
-
+import { useUsersProfileContext } from "../components/Context/GetUsersProfile";
 function PatientHomePage() {
+  const { currentUserProfile } = useUsersProfileContext();
   /* JSX */
   return (
     /* Patient Home Page */

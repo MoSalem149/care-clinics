@@ -1,10 +1,11 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 import { FaUpload } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 /* Import CSS */
 import "../styles/patientForm.css";
+import { ProfileImageContext } from "./Context/profileImageContext";
 function PatientForm() {
   const navigate = useNavigate();
   useEffect(() => {
@@ -35,7 +36,8 @@ function PatientForm() {
   const [chronicConditions, setChronicConditions] = useState("");
   const [familyMedicalHistory, setFamilyMedicalHistory] = useState("");
   const [profileImage, setProfileImage] = useState(null);
-
+  const { theProfileImage, setTheProfileImage } =
+    useContext(ProfileImageContext);
   const handleDivClick = () => {
     fileInputRef.current.click();
   };
@@ -46,95 +48,99 @@ function PatientForm() {
 
   const handleFileChange = (e) => {
     setProfileImage(e.target.files[0] || null);
+    setTheProfileImage(profileImage);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const formData = new FormData();
     formData.append("fullName", fullName);
-  
+
     // Validate dateOfBirth
     const parsedDateOfBirth = new Date(dateOfBirth);
     if (!isNaN(parsedDateOfBirth)) {
       formData.append("dateOfBirth", parsedDateOfBirth.toISOString());
     } else {
       Swal.fire({
-        title: 'Invalid Date of Birth',
-        text: 'Please provide a valid date of birth.',
-        icon: 'error',
-        confirmButtonText: 'OK'
+        title: "Invalid Date of Birth",
+        text: "Please provide a valid date of birth.",
+        icon: "error",
+        confirmButtonText: "OK",
       });
       return;
     }
-  
+
     formData.append("phoneNumber", phoneNumber);
     formData.append("gender", gender);
     formData.append("bloodType", bloodType);
-  
+
     // Validate lastCheckupDate
     const parsedLastCheckupDate = new Date(lastCheckupDate);
     if (!isNaN(parsedLastCheckupDate)) {
       formData.append("lastCheckupDate", parsedLastCheckupDate.toISOString());
     } else {
       Swal.fire({
-        title: 'Invalid Last Checkup Date',
-        text: 'Please provide a valid last checkup date.',
-        icon: 'error',
-        confirmButtonText: 'OK'
+        title: "Invalid Last Checkup Date",
+        text: "Please provide a valid last checkup date.",
+        icon: "error",
+        confirmButtonText: "OK",
       });
       return;
     }
-  
+
     formData.append("surgicalHistory", surgicalHistory);
     formData.append("familyMedicalHistory", familyMedicalHistory);
     formData.append("chronicConditions", chronicConditions);
-  
+
     if (profileImage) {
       formData.append("profileImage", profileImage);
     }
-  
+
     try {
       const token = localStorage.getItem("token");
-  
-      const response = await fetch("http://localhost:5000/users/profile/add-info", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-  
+
+      const response = await fetch(
+        "http://localhost:5000/users/profile/add-info",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
       const result = await response.json();
+      console.log(result);
+
       if (response.ok) {
         Swal.fire({
-          title: 'Success!',
-          text: 'Profile information saved successfully',
-          icon: 'success',
-          confirmButtonText: 'OK'
+          title: "Success!",
+          text: "Profile information saved successfully",
+          icon: "success",
+          confirmButtonText: "OK",
         }).then(() => {
           navigate("/user-profile");
         });
       } else {
         Swal.fire({
-          title: 'Error',
+          title: "Error",
           text: result.message || "Failed to save profile information",
-          icon: 'error',
-          confirmButtonText: 'OK'
+          icon: "error",
+          confirmButtonText: "OK",
         });
       }
     } catch (error) {
       console.error("Error saving profile information:", error);
       Swal.fire({
-        title: 'Error',
-        text: 'An error occurred while saving profile information',
-        icon: 'error',
-        confirmButtonText: 'OK'
+        title: "Error",
+        text: "An error occurred while saving profile information",
+        icon: "error",
+        confirmButtonText: "OK",
       });
     }
   };
-  
-  
 
   const handleConfirmClick = (e) => {
     e.preventDefault();

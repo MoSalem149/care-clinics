@@ -12,7 +12,7 @@ const addProfileInfo = async (req, res) => {
     const additionalInfo = req.body;
 
     if (req.file) {
-      additionalInfo.profileImage = req.file.firebaseUrl;
+      additionalInfo.profileImage = req.body.ProfileImage;
     }
     let userProfile;
 
@@ -34,9 +34,9 @@ const addProfileInfo = async (req, res) => {
       status: "SUCCESS",
       message: "Profile information saved successfully",
       data: { user: userProfile },
-    });   
+    });
   } catch (error) {
-    console.error('Error details:', error);
+    console.error("Error details:", error);
     res.status(500).json({
       status: "ERROR",
       message: error.message,
@@ -47,9 +47,16 @@ const addProfileInfo = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const userId = req.user.id;
-    const updatedData = req.body;
+    const currentUserProfile = await UserProfile.findOne({ user: userId });
+    if (!currentUserProfile) {
+      return res.status(404).json({
+        status: "FAIL",
+        message: "User profile not found",
+      });
+    }
+    const updatedData = { ...currentUserProfile._doc, ...req.body };
     if (req.file) {
-      updatedData.profileImage = req.file.firebaseUrl;
+      updatedData.profileImage = req.body.ProfileImage;
     }
 
     const userProfile = await UserProfile.findOneAndUpdate(
@@ -64,13 +71,6 @@ const updateUser = async (req, res) => {
         select: "name",
       },
     });
-
-    if (!userProfile) {
-      return res.status(404).json({
-        status: "FAIL",
-        message: "User profile not found",
-      });
-    }
 
     res.status(200).json({
       status: "SUCCESS",
@@ -158,11 +158,10 @@ const isOverlappingAppointment = async (
         appointmentTime: { $lte: appointmentStart },
         appointmentEndTime: { $gte: appointmentEnd },
       },
-    ], 
+    ],
   });
   return overlappingAppointment ? true : false;
-}; 
- 
+};
 
 const bookAppointment = async (req, res) => {
   try {
@@ -259,20 +258,24 @@ const bookAppointment = async (req, res) => {
       appointmentTime: appointmentDate,
       appointmentDuration: appointmentDuration,
       appointmentEndTime: appointmentEndTime,
-      doctorName:doctor.name
+      doctorName: doctor.name,
     });
 
     await appointment.save();
 
     const updatedUserProfile = await UserProfile.findOneAndUpdate(
       { user: userId },
-      { $push: {  appointments: { 
-        appointmentId: appointment.appointmentId,
-        appointmentTime: appointmentDate,
-        appointmentDuration: appointmentDuration,
-        appointmentEndTime: appointmentEndTime,
-        doctorName: doctor.name, // إضافة اسم الطبيب هنا
-      }  } },
+      {
+        $push: {
+          appointments: {
+            appointmentId: appointment.appointmentId,
+            appointmentTime: appointmentDate,
+            appointmentDuration: appointmentDuration,
+            appointmentEndTime: appointmentEndTime,
+            doctorName: doctor.name, // إضافة اسم الطبيب هنا
+          },
+        },
+      },
       { new: true }
     ).populate("appointments");
 
@@ -292,7 +295,12 @@ const bookAppointment = async (req, res) => {
     res.status(201).json({
       status: "SUCCESS",
       message: "Appointment booked successfully",
-      data: { appointment, updatedUserProfile, updatedDoctorProfile,doctorName:doctor.name },
+      data: {
+        appointment,
+        updatedUserProfile,
+        updatedDoctorProfile,
+        doctorName: doctor.name,
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -322,7 +330,8 @@ const updateAppointment = async (req, res) => {
     if (!appointment || appointment.user.toString() !== userId) {
       return res.status(404).json({
         status: "FAIL",
-        message: "Appointment not found or you do not have permission to update it.",
+        message:
+          "Appointment not found or you do not have permission to update it.",
       });
     }
 
@@ -364,7 +373,9 @@ const updateAppointment = async (req, res) => {
 
     const doctorStartTimeByMinutes = convertTimeToMinutes(doctorStartTime);
     const doctorEndTimeByMinutes = convertTimeToMinutes(doctorEndTime);
-    const appointmentTimeByMinutes = convertTimeToMinutes(appointmentHoursMinutes);
+    const appointmentTimeByMinutes = convertTimeToMinutes(
+      appointmentHoursMinutes
+    );
 
     if (
       appointmentTimeByMinutes < doctorStartTimeByMinutes ||
@@ -377,7 +388,9 @@ const updateAppointment = async (req, res) => {
     }
 
     // Calculate new appointment end time as 30 minutes after the appointment time
-    let newAppointmentEndTime = new Date(appointmentDate.getTime() + 30 * 60000);
+    let newAppointmentEndTime = new Date(
+      appointmentDate.getTime() + 30 * 60000
+    );
 
     // Check for overlapping appointments
     const overlappingAppointments = await Appointment.find({
@@ -393,7 +406,8 @@ const updateAppointment = async (req, res) => {
     if (overlappingAppointments.length > 0) {
       return res.status(400).json({
         status: "ERROR",
-        message: "The appointment time overlaps with another appointment. Please choose a different time.",
+        message:
+          "The appointment time overlaps with another appointment. Please choose a different time.",
       });
     }
 
@@ -404,24 +418,38 @@ const updateAppointment = async (req, res) => {
 
     const userProfileUpdate = await UserProfile.findOneAndUpdate(
       { user: userId, "appointments.appointmentId": appointmentId },
-      { $set: { "appointments.$.appointmentTime": appointmentDate, "appointments.$.appointmentEndTime": newAppointmentEndTime } },
+      {
+        $set: {
+          "appointments.$.appointmentTime": appointmentDate,
+          "appointments.$.appointmentEndTime": newAppointmentEndTime,
+        },
+      },
       { new: true }
     );
 
     if (!userProfileUpdate) {
-      console.error(`UserProfile not found or appointment not found for user ID: ${userId}`);
+      console.error(
+        `UserProfile not found or appointment not found for user ID: ${userId}`
+      );
     } else {
       console.log("User profile updated:", userProfileUpdate);
     }
 
     const doctorUpdate = await Doctor.findOneAndUpdate(
       { _id: appointment.doctor, "appointments.appointmentId": appointmentId },
-      { $set: { "appointments.$.appointmentTime": appointmentDate, "appointments.$.appointmentEndTime": newAppointmentEndTime } },
+      {
+        $set: {
+          "appointments.$.appointmentTime": appointmentDate,
+          "appointments.$.appointmentEndTime": newAppointmentEndTime,
+        },
+      },
       { new: true }
     );
 
     if (!doctorUpdate) {
-      console.error(`Doctor not found or appointment not found for ID: ${appointment.doctor}`);
+      console.error(
+        `Doctor not found or appointment not found for ID: ${appointment.doctor}`
+      );
     } else {
       console.log("Doctor profile updated:", doctorUpdate);
     }
@@ -440,11 +468,6 @@ const updateAppointment = async (req, res) => {
   }
 };
 
-
-
-
-
-
 const deleteAppointment = async (req, res) => {
   try {
     const userId = req.user.id; // Get the user ID from the request
@@ -456,24 +479,31 @@ const deleteAppointment = async (req, res) => {
     // Find the appointment by ID
     const appointment = await Appointment.findById(appointmentId);
     if (!appointment || appointment.user.toString() !== userId) {
-      console.error(`Appointment not found or permission denied for ID: ${appointmentId}`);
+      console.error(
+        `Appointment not found or permission denied for ID: ${appointmentId}`
+      );
       return res.status(404).json({
         status: "FAIL",
-        message: "Appointment not found or you do not have permission to delete it.",
+        message:
+          "Appointment not found or you do not have permission to delete it.",
       });
     }
 
     // Remove the appointment from the user's profile
     const userProfileUpdate = await UserProfile.findOneAndUpdate(
       { user: userId },
-      { $pull: { appointments: { appointmentId: appointmentId } } }, 
+      { $pull: { appointments: { appointmentId: appointmentId } } },
       { new: true } // Return the updated document
     );
 
     if (!userProfileUpdate) {
       console.error(`UserProfile not found for user ID: ${userId}`);
     } else {
-      console.log(`Removed appointment from UserProfile: ${JSON.stringify(userProfileUpdate)}`);
+      console.log(
+        `Removed appointment from UserProfile: ${JSON.stringify(
+          userProfileUpdate
+        )}`
+      );
     }
 
     // Remove the appointment from the doctor's profile
@@ -486,12 +516,18 @@ const deleteAppointment = async (req, res) => {
     if (!doctorUpdate) {
       console.error(`Doctor not found for ID: ${appointment.doctor}`);
     } else {
-      console.log(`Removed appointment from Doctor's profile: ${JSON.stringify(doctorUpdate)}`);
+      console.log(
+        `Removed appointment from Doctor's profile: ${JSON.stringify(
+          doctorUpdate
+        )}`
+      );
     }
 
     // Delete the appointment
     await Appointment.findByIdAndDelete(appointmentId);
-    console.log(`Appointment with ID: ${appointmentId} deleted from appointments table.`);
+    console.log(
+      `Appointment with ID: ${appointmentId} deleted from appointments table.`
+    );
 
     res.status(200).json({
       status: "SUCCESS",
@@ -505,22 +541,18 @@ const deleteAppointment = async (req, res) => {
     });
   }
 };
- 
- 
-
-
 
 const getUserProfile = async (req, res) => {
   try {
     const userId = req.user.id;
 
     const userProfile = await UserProfile.findOne({ user: userId })
-      .populate('appointments')
+      .populate("appointments")
       .populate({
-        path: 'appointments',
+        path: "appointments",
         populate: {
-          path: 'doctor',
-          select: 'name specialization',
+          path: "doctor",
+          select: "name specialization",
         },
       });
 
@@ -582,7 +614,14 @@ const getDoctorProfile = async (req, res) => {
     });
   }
 };
-
+const getAllUsers = async (req, res) => {
+  try {
+    const getAllUsersProfile = await UserProfile.find();
+    res.status(201).json(getAllUsersProfile);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
 module.exports = {
   addProfileInfo,
@@ -593,4 +632,5 @@ module.exports = {
   deleteAppointment,
   getUserProfile,
   getDoctorProfile,
+  getAllUsers,
 };

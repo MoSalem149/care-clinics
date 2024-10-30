@@ -8,7 +8,8 @@
   margin: 0;
 }
 
-.user-card, .appointment-card {
+.user-card,
+.appointment-card {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -25,12 +26,15 @@
   flex-wrap: wrap;
 }
 
-.patient-img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+.patient-img-holder {
+  width: 100px;
+  height: 100px;
+  display: flex;
 }
-
+.patient-img {
+  width: 100%;
+  border-radius: 50px;
+}
 .card-content {
   display: flex;
   flex-direction: column;
@@ -121,19 +125,20 @@ textarea {
     gap: 20px;
   }
 
-  .user-card, .appointment-card {
+  .user-card,
+  .appointment-card {
     width: 100%;
   }
 }
-.appointment-container{
+.appointment-container {
   background-color: white;
   border-radius: 19px;
 }
-.user-profile-page{
+.user-profile-page {
   margin-top: 10px;
 }
-.form-header h2{
-  color: #1E84B5;
+.form-header h2 {
+  color: #1e84b5;
 }
 .appointment-list {
   display: flex;
@@ -182,29 +187,29 @@ textarea {
 .edit-bio-btn:hover {
   background-color: #0056b3;
 }
-.book-modify-btn{
+.book-modify-btn {
   width: 80px;
-    display: flex;
-    justify-content: center;
-    background-color: #1e84b5;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px
+  display: flex;
+  justify-content: center;
+  background-color: #1e84b5;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
 }
-.book-cancel-btn{
+.book-cancel-btn {
   width: 80px;
-    display: flex;
-    justify-content: center;
-    background-color: #d02525;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px
+  display: flex;
+  justify-content: center;
+  background-color: #d02525;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 /* Media query for smaller screens */
@@ -218,7 +223,7 @@ textarea {
     margin-top: 8px;
   }
 }
-.booking-info-span{
+.booking-info-span {
   color: #585050;
 }
 .modification-inputs {
@@ -226,11 +231,11 @@ textarea {
   gap: 70px; /* Optional spacing between inputs */
 }
 
-.update-appointment-container{
+.update-appointment-container {
   display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .update-appointments-btn {

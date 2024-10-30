@@ -10,18 +10,16 @@ import Header from "../components/Header";
 /* Import CSS */
 import "../styles/ContactUsPage.css";
 import Footer from "../components/Footer";
-
+import { useUsersProfileContext } from "../components/Context/GetUsersProfile";
 function ContactUsPage() {
-  /* JSX */
+  const { currentUserProfile } = useUsersProfileContext();
+
   return (
-    /* Contact Us Page */
     <HelmetProvider>
-      {/* Container */}
       <div className="contact-us-container">
         <Helmet>
           <title>Contact Us</title>
         </Helmet>
-        {/* Header */}
         <Header />
         <h2>Contact Us</h2>
         <h3>

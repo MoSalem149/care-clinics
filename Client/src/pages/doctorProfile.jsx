@@ -8,7 +8,7 @@ import timeImage from "../../public/Vector12.png";
 import Swal from "sweetalert2";
 import { ClipLoader } from "react-spinners";
 import Header from "../components/Header";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { UserContext } from "../components/Context/userContext";
 import { useContext } from "react";
 function DoctorProfile() {
@@ -39,7 +39,7 @@ function DoctorProfile() {
       setFees(doctor.fees.consultation);
       setAppointments(doctor.appointments);
       setBio(doctor.bio);
-      setImage(doctor.profileImage || doctor.ProfileImage);
+      setProfileImage(doctor.ProfileImage);
     }
     console.log(doctor);
 
@@ -68,7 +68,7 @@ function DoctorProfile() {
   const [name, setName] = useState("");
   const [specialty, setSpecialty] = useState("");
   const [bio, setBio] = useState("");
-  const [image, setImage] = useState(avatarImage);
+  const [profileImage, setProfileImage] = useState("");
 
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
@@ -152,11 +152,12 @@ function DoctorProfile() {
             },
           }
         );
-
         const doctorResult = await doctorResponse.json();
 
         if (!doctorResponse.ok) {
           throw new Error("Failed to delete account");
+        } else {
+          Navigate("/signup");
         }
 
         Swal.fire("Deleted!", "Your account has been deleted.", "success");
@@ -178,13 +179,13 @@ function DoctorProfile() {
 
   const handleSaveCard1 = async () => {
     setIsEditingCard1(false);
-
-    const updatedData = {
-      name,
-      specialty,
-      bio,
-      image,
-    };
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("specialty", specialty);
+    formData.append("bio", bio);
+    if (profileImage) {
+      formData.append("ProfileImage", profileImage);
+    }
 
     try {
       const token = localStorage.getItem("token");
@@ -210,7 +211,6 @@ function DoctorProfile() {
 
       const doctorResult = await doctorResponse.json();
       console.log(doctorResult);
-
       const doctorId = doctorResult.data.doctor._id;
 
       const response = await fetch(
@@ -218,10 +218,9 @@ function DoctorProfile() {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(updatedData),
+          body: formData,
         }
       );
 
@@ -229,10 +228,12 @@ function DoctorProfile() {
         const result = await response.json();
         console.log("Card updated successfully", result);
       } else {
+        const errorText = await response.text();
         console.error(
           "Failed to update card",
           response.status,
-          response.statusText
+          response.statusText,
+          errorText
         );
       }
     } catch (error) {
@@ -286,7 +287,6 @@ function DoctorProfile() {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(updatedData),
@@ -391,11 +391,7 @@ function DoctorProfile() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      setProfileImage(file);
     }
   };
   return (
@@ -434,13 +430,16 @@ function DoctorProfile() {
                         <input
                           id="profile-picture"
                           type="file"
-                          accept="image/*"
                           onChange={handleImageChange}
                           className="profile-input"
                         />
                       </>
                     ) : (
-                      <img src={image} alt="Profile" className="profile-img" />
+                      <img
+                        src={profileImage}
+                        alt="Profile"
+                        className="profile-img"
+                      />
                     )}
                   </div>
 

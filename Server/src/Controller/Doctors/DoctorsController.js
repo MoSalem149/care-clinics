@@ -142,15 +142,14 @@ const compeleteDoctorProfile = async (req, res) => {
         .status(400)
         .json({ error: `Department '${department}' does not exist.` });
     }
-    if (typeof availability === "string") {
-      // Only parse if it's a string
-      availability = JSON.parse(availability);
-    }
 
     const newDoctor = new doctorModel({
       user: user._id,
       ProfileImage: req.body.ProfileImage,
-      availability: availability,
+      availability:
+        typeof availability === "string"
+          ? JSON.parse(availability)
+          : availability,
       name,
       age,
       gender,

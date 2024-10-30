@@ -128,4 +128,7 @@ router.post("/forgot-password", userController.ForgetPasswordForm);
 router.post("/reset-password", userController.ResetPassword);
 
 router.get("/departments", userController.GetDepartments);
+
+router.get("/get-all-users-profile", userProfile.getAllUsers);
+
 module.exports = router;

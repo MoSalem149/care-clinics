@@ -6,7 +6,10 @@ import Header from "../Header";
 import Footer from "../Footer";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import HeaderParent from "../HeaderParent";
+import { useUsersProfileContext } from "../Context/GetUsersProfile";
 const DoctorForUser = () => {
+  const { currentUsersProfile } = useUsersProfileContext();
   const { doctors } = useContext(DoctorContext);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
@@ -20,7 +23,7 @@ const DoctorForUser = () => {
   };
   return (
     <>
-      <Header />
+      <HeaderParent ProfileImage={currentUsersProfile?.ProfileImage} />
       <div>
         <h1>Doctors List</h1>
         <input
