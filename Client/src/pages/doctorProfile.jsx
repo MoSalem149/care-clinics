@@ -154,6 +154,8 @@ function DoctorProfile() {
           }
         );
 
+        const doctorResult = await doctorResponse.json();
+
         if (!doctorResponse.ok) {
           throw new Error("Failed to delete account");
         }
@@ -311,24 +313,24 @@ function DoctorProfile() {
 
   const handleBooking = async () => {
     setLoading(true);
-    
+
     const [time, modifier] = selectedAppointmentTime.split(" ");
     let [hours, minutes] = time.split(":");
-  
+
     if (hours === "12") {
       hours = modifier === "AM" ? "00" : "12";
     } else if (modifier === "PM") {
       hours = String(Number(hours) + 12);
     }
-  
+
     hours = hours.padStart(2, "0");
     minutes = minutes.padStart(2, "0");
-  
+
     const appointmentTime = `${appointmentDay}T${hours}:${minutes}:00Z`;
     setAppointmentTime(appointmentTime);
-  
+
     const formData = { appointmentTime };
-  
+
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -336,7 +338,7 @@ function DoctorProfile() {
         setLoading(false);
         return;
       }
-  
+
       const response = await fetch(
         `http://localhost:5000/users/profile/book/${doctor._id}`,
         {
@@ -348,13 +350,14 @@ function DoctorProfile() {
           body: JSON.stringify(formData),
         }
       );
-  
+
       const result = await response.json();
-  
+
       if (response.ok) {
         console.log(result.data.doctorName);
+
         console.log("Appointment booked successfully", result);
-        
+
         Swal.fire({
           title: "Appointment Booked!",
           text: result.message,
@@ -387,7 +390,6 @@ function DoctorProfile() {
       setLoading(false);
     }
   };
-  
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -402,178 +404,190 @@ function DoctorProfile() {
   return (
     <>
       {<Header />}
-       {loading ? (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      {loading ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
           <ClipLoader color="#3085d6" loading={loading} size={50} />
         </div>
-      ) :
-      (
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-lg-6 col-md-6 col-sm-12">
-            <div className="doc-card mb-4">
-              <div
-                className={`doctor-card ${
-                  isEditingCard1 ? "card-editing" : ""
-                }`}
-              >
-                <div className="doctor-img">
-                  {isEditingCard1 ? (
-                    <>
-                      <label
-                        htmlFor="profile-picture"
-                        className="profile-label"
-                      >
-                        Choose Profile Picture
-                      </label>
-                      <input
-                        id="profile-picture"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        className="profile-input"
-                      />
-                    </>
-                  ) : (
-                    <img src={image} alt="Profile" className="profile-img" />
-                  )}
-                </div>
-
-                <div className="doctor-info">
-                  {isEditingCard1 ? (
-                    <>
-                      <label htmlFor="name">Name</label>
-                      <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="edit-input"
-                      />
-                      <label htmlFor="">Specialty</label>
-                      <input
-                        type="text"
-                        value={specialty}
-                        onChange={(e) => setSpecialty(e.target.value)}
-                        className="edit-input"
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <span className="doctor-name">{name}</span>
-                      <span className="doctor-specialty">{specialty}</span>
-                    </>
-                  )}
-                </div>
-              </div>
-
-              <div className="doctor-bio">
-                {isEditingCard1 ? (
-                  <textarea
-                    className="bio-input"
-                    value={bio}
-                    onChange={(e) => setBio(e.target.value)}
-                    placeholder="Write your bio here..."
-                  ></textarea>
-                ) : (
-                  <div>{bio === "" ? "Please write your bio." : bio}</div>
-                )}
-              </div>
-
-              {isOwnerOfPof && (
-                <div className="card-actions">
-                  {isEditingCard1 ? (
-                    <button className="edit-bio-btn" onClick={handleSaveCard1}>
-                      Save
-                    </button>
-                  ) : (
-                    <button className="edit-bio-btn" onClick={handleEditCard1}>
-                      Edit
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
+      ) : (
+        <div className="container-fluid">
+          <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12">
               <div className="doc-card mb-4">
-                <div className="about-doctor-card">
-                  <div className="about-header">
-                    <a href="#" className="info-icon">
-                      <img src={infoImage} alt="Profile" />
-                    </a>
-                    <span className="about-text">About The Doctor</span>
+                <div
+                  className={`doctor-card ${
+                    isEditingCard1 ? "card-editing" : ""
+                  }`}
+                >
+                  <div className="doctor-img">
+                    {isEditingCard1 ? (
+                      <>
+                        <label
+                          htmlFor="profile-picture"
+                          className="profile-label"
+                        >
+                          Choose Profile Picture
+                        </label>
+                        <input
+                          id="profile-picture"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          className="profile-input"
+                        />
+                      </>
+                    ) : (
+                      <img src={image} alt="Profile" className="profile-img" />
+                    )}
                   </div>
 
-                  <div className="doctor-details">
-                    {isEditingCard2 ? (
+                  <div className="doctor-info">
+                    {isEditingCard1 ? (
                       <>
-                        <p>
-                          <strong>Age:</strong>
-                          <input
-                            type="text"
-                            value={age}
-                            onChange={(e) => setAge(e.target.value)}
-                            className="edit-input"
-                          />
-                        </p>
-                        <p>
-                          <strong>Gender:</strong>
-                          <input
-                            type="text"
-                            value={gender}
-                            onChange={(e) => setGender(e.target.value)}
-                            className="edit-input"
-                          />
-                        </p>
-                        <p>
-                          <strong>Experience:</strong>
-                          <input
-                            type="text"
-                            value={yearsOfExperience}
-                            onChange={(e) =>
-                              setYearsOfExperience(e.target.value)
-                            }
-                            className="edit-input"
-                          />
-                        </p>
-                        <p>
-                          <strong>Phone Number:</strong>
-                          <input
-                            type="text"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                            className="edit-input"
-                          />
-                        </p>
-                        <p>
-                          <strong>Languages:</strong>
-                          <input
-                            type="text"
-                            value={languages}
-                            onChange={(e) => setLanguages(e.target.value)}
-                            className="edit-input"
-                          />
-                        </p>
+                        <label htmlFor="name">Name</label>
+                        <input
+                          type="text"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="edit-input"
+                        />
+                        <label htmlFor="">Specialty</label>
+                        <input
+                          type="text"
+                          value={specialty}
+                          onChange={(e) => setSpecialty(e.target.value)}
+                          className="edit-input"
+                        />
                       </>
                     ) : (
                       <>
-                        <p>
-                          <strong>Age:</strong> {age}
-                        </p>
-                        <p>
-                          <strong>Gender:</strong> {gender}
-                        </p>
-                        <p>
-                          <strong>Experience:</strong> {yearsOfExperience}
-                        </p>
-                        <p>
-                          <strong>Phone Number:</strong> {phoneNumber}
-                        </p>
-                        <p>
-                          <strong>Languages:</strong> {languages}
-                        </p>
+                        <span className="doctor-name">{name}</span>
+                        <span className="doctor-specialty">{specialty}</span>
                       </>
                     )}
                   </div>
+                </div>
+
+                <div className="doctor-bio">
+                  {isEditingCard1 ? (
+                    <textarea
+                      className="bio-input"
+                      value={bio}
+                      onChange={(e) => setBio(e.target.value)}
+                      placeholder="Write your bio here..."
+                    ></textarea>
+                  ) : (
+                    <div>{bio === "" ? "Please write your bio." : bio}</div>
+                  )}
+                </div>
+
+                {isOwnerOfPof && (
+                  <div className="card-actions">
+                    {isEditingCard1 ? (
+                      <button
+                        className="edit-bio-btn"
+                        onClick={handleSaveCard1}
+                      >
+                        Save
+                      </button>
+                    ) : (
+                      <button
+                        className="edit-bio-btn"
+                        onClick={handleEditCard1}
+                      >
+                        Edit
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-12">
+                <div className="doc-card mb-4">
+                  <div className="about-doctor-card">
+                    <div className="about-header">
+                      <a href="#" className="info-icon">
+                        <img src={infoImage} alt="Profile" />
+                      </a>
+                      <span className="about-text">About The Doctor</span>
+                    </div>
+
+                    <div className="doctor-details">
+                      {isEditingCard2 ? (
+                        <>
+                          <p>
+                            <strong>Age:</strong>
+                            <input
+                              type="text"
+                              value={age}
+                              onChange={(e) => setAge(e.target.value)}
+                              className="edit-input"
+                            />
+                          </p>
+                          <p>
+                            <strong>Gender:</strong>
+                            <input
+                              type="text"
+                              value={gender}
+                              onChange={(e) => setGender(e.target.value)}
+                              className="edit-input"
+                            />
+                          </p>
+                          <p>
+                            <strong>Experience:</strong>
+                            <input
+                              type="text"
+                              value={yearsOfExperience}
+                              onChange={(e) =>
+                                setYearsOfExperience(e.target.value)
+                              }
+                              className="edit-input"
+                            />
+                          </p>
+                          <p>
+                            <strong>Phone Number:</strong>
+                            <input
+                              type="text"
+                              value={phoneNumber}
+                              onChange={(e) => setPhoneNumber(e.target.value)}
+                              className="edit-input"
+                            />
+                          </p>
+                          <p>
+                            <strong>Languages:</strong>
+                            <input
+                              type="text"
+                              value={languages}
+                              onChange={(e) => setLanguages(e.target.value)}
+                              className="edit-input"
+                            />
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p>
+                            <strong>Age:</strong> {age}
+                          </p>
+                          <p>
+                            <strong>Gender:</strong> {gender}
+                          </p>
+                          <p>
+                            <strong>Experience:</strong> {yearsOfExperience}
+                          </p>
+                          <p>
+                            <strong>Phone Number:</strong> {phoneNumber}
+                          </p>
+                          <p>
+                            <strong>Languages:</strong> {languages}
+                          </p>
+                        </>
+                      )}
+                    </div>
 
                   <div className="availability-section">
                     <strong>Available Days :</strong>
@@ -590,123 +604,129 @@ function DoctorProfile() {
                       ))
                     )}
 
-                    {isEditingCard2 && (
-                      <div className="add-day-form">
-                        <select
-                          required
-                          value={day}
-                          onChange={(e) => setDay(e.target.value)}
-                        >
-                          <option value="" disabled>
-                            Select a day
-                          </option>
-                          {daysOfWeek.map((d) => (
-                            <option key={d} value={d}>
-                              {d}
+                      {isEditingCard2 && (
+                        <div className="add-day-form">
+                          <select
+                            required
+                            value={day}
+                            onChange={(e) => setDay(e.target.value)}
+                          >
+                            <option value="" disabled>
+                              Select a day
                             </option>
-                          ))}
-                        </select>
-                        <select
-                          required
-                          value={startTime}
-                          onChange={(e) => setStartTime(e.target.value)}
-                        >
-                          <option value="" disabled>
-                            Select start time
-                          </option>
-                          {times.map((time) => (
-                            <option key={time} value={time}>
-                              {time}
+                            {daysOfWeek.map((d) => (
+                              <option key={d} value={d}>
+                                {d}
+                              </option>
+                            ))}
+                          </select>
+                          <select
+                            required
+                            value={startTime}
+                            onChange={(e) => setStartTime(e.target.value)}
+                          >
+                            <option value="" disabled>
+                              Select start time
                             </option>
-                          ))}
-                        </select>
-                        <select
-                          required
-                          value={endTime}
-                          onChange={(e) => setEndTime(e.target.value)}
-                        >
-                          <option value="" disabled>
-                            Select end time
-                          </option>
-                          {times.map((time) => (
-                            <option key={time} value={time}>
-                              {time}
+                            {times.map((time) => (
+                              <option key={time} value={time}>
+                                {time}
+                              </option>
+                            ))}
+                          </select>
+                          <select
+                            required
+                            value={endTime}
+                            onChange={(e) => setEndTime(e.target.value)}
+                          >
+                            <option value="" disabled>
+                              Select end time
                             </option>
-                          ))}
-                        </select>
-                        <button onClick={handleAddDay}>Add Day</button>
+                            {times.map((time) => (
+                              <option key={time} value={time}>
+                                {time}
+                              </option>
+                            ))}
+                          </select>
+                          <button onClick={handleAddDay}>Add Day</button>
+                        </div>
+                      )}
+                    </div>
+                    {isOwnerOfPof && (
+                      <div className="card-actions">
+                        {isEditingCard2 ? (
+                          <button
+                            className="edit-bio-btn"
+                            onClick={handleSaveCard2}
+                          >
+                            Save
+                          </button>
+                        ) : (
+                          <button
+                            className="edit-bio-btn"
+                            onClick={handleEditCard2}
+                          >
+                            Edit
+                          </button>
+                        )}
                       </div>
                     )}
                   </div>
-                  {isOwnerOfPof && (
-                    <div className="card-actions">
-                      {isEditingCard2 ? (
-                        <button
-                          className="edit-bio-btn"
-                          onClick={handleSaveCard2}
-                        >
-                          Save
-                        </button>
+                </div>
+              </div>
+              {isOwnerOfPof && (
+                <div className="col-lg-6 col-md-6 col-sm-12">
+                  <div className="doc-card mb-4">
+                    <div className="about-doctor-card">
+                      <div className="about-header">
+                        <span className="about-text">
+                          Booked Appointments :{" "}
+                        </span>
+                      </div>
+                      {appointments.length > 0 ? (
+                        <ol>
+                          {appointments
+                            .sort(
+                              (a, b) =>
+                                new Date(a.appointmentTime) -
+                                new Date(b.appointmentTime)
+                            )
+                            .map((appointment, index) => {
+                              let appointmentDate = new Date(
+                                appointment.appointmentTime
+                              );
+
+                              const timezoneOffset =
+                                appointmentDate.getTimezoneOffset();
+                              appointmentDate.setMinutes(
+                                appointmentDate.getMinutes() + timezoneOffset
+                              );
+
+                              const formattedDate =
+                                appointmentDate.toLocaleString("en-US", {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  hour12: true,
+                                });
+
+                              return (
+                                <li key={index}>
+                                  {userName} Date: {formattedDate}
+                                </li>
+                              );
+                            })}
+                        </ol>
                       ) : (
-                        <button
-                          className="edit-bio-btn"
-                          onClick={handleEditCard2}
-                        >
-                          Edit
-                        </button>
+                        <p>No appointments available.</p>
                       )}
                     </div>
-                  )}
-                </div>
-              </div>
-            </div>
-            {isOwnerOfPof && (
-              <div className="col-lg-6 col-md-6 col-sm-12">
-                <div className="doc-card mb-4">
-                  <div className="about-doctor-card">
-                    <div className="about-header">
-                      <span className="about-text">Booked Appointments : </span>
-                    </div>
-                    {appointments.length > 0 ? (
-                      <ol>
-                        {appointments
-                          .sort(
-                            (a, b) =>
-                              new Date(a.appointmentTime) -
-                              new Date(b.appointmentTime)
-                          )
-                          .map((appointment, index) => {
-                            let appointmentDate = new Date(
-                              appointment.appointmentTime
-                            );
-
-                            const timezoneOffset =
-                              appointmentDate.getTimezoneOffset();
-                            appointmentDate.setMinutes(
-                              appointmentDate.getMinutes() + timezoneOffset
-                            );
-
-                            const formattedDate =
-                              appointmentDate.toLocaleString("en-US", {
-                                year: "numeric",
-                                month: "2-digit",
-                                day: "2-digit",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                                hour12: true,
-                              });
-
-                            return <li key={index}>Date: {formattedDate}</li>;
-                          })}
-                      </ol>
-                    ) : (
-                      <p>No appointments available.</p>
-                    )}
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
 
           {!isOwnerOfPof && (
             <div className="col-lg-6 col-md-6 col-sm-12">
@@ -736,51 +756,53 @@ function DoctorProfile() {
                     <h5>Select appointment day</h5>
                   </div>
 
-                  <input
-                    type="date"
-                    className="styled-date-input"
-                    value={appointmentDay}
-                    onChange={(e) => setAppointmentDay(e.target.value)}
-                  />
-                </div>
-
-                <div className="appointments-container">
-                  <div className="appointment-txt">
-                    <h5>Select appointment time</h5>
+                    <input
+                      type="date"
+                      className="styled-date-input"
+                      value={appointmentDay}
+                      onChange={(e) => setAppointmentDay(e.target.value)}
+                    />
                   </div>
-                  <select
-                    className="time-select"
-                    required
-                    value={selectedAppointmentTime}
-                    onChange={(e) => setSelectedAppointmentTime(e.target.value)}
-                  >
-                    <option value="" disabled>
-                      choose time
-                    </option>
-                    {times.map((time) => (
-                      <option key={time} value={time}>
-                        {time}
+
+                  <div className="appointments-container">
+                    <div className="appointment-txt">
+                      <h5>Select appointment time</h5>
+                    </div>
+                    <select
+                      className="time-select"
+                      required
+                      value={selectedAppointmentTime}
+                      onChange={(e) =>
+                        setSelectedAppointmentTime(e.target.value)
+                      }
+                    >
+                      <option value="" disabled>
+                        choose time
                       </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="booking-btn-container">
-                  <div className="booking-btn mt-3">
-                    <button className="edit-bio-btn" onClick={handleBooking}>
-                      Book Appointment
-                    </button>
+                      {times.map((time) => (
+                        <option key={time} value={time}>
+                          {time}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="booking-btn-container">
+                    <div className="booking-btn mt-3">
+                      <button className="edit-bio-btn" onClick={handleBooking}>
+                        Book Appointment
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-          {isOwnerOfPof && (
-            <button onClick={handleDeleteAccount} className="delete-btn">
-              Delete account
-            </button>
-          )}
+            )}
+            {isOwnerOfPof && (
+              <button onClick={handleDeleteAccount} className="delete-btn">
+                Delete account
+              </button>
+            )}
+          </div>
         </div>
-      </div>
       )}
     </>
   );

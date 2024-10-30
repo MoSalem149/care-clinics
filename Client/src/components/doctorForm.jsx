@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import "../styles/doctorForm.css";
 import { useNavigate } from "react-router-dom";
 function DoctorProfile() {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     document.body.style.backgroundColor = "#E6F7FF";
     document.body.style.marginTop = "30px";
@@ -51,7 +51,7 @@ function DoctorProfile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const formData = new FormData();
     formData.append("name", name);
     formData.append("age", age);
@@ -61,7 +61,7 @@ function DoctorProfile() {
     formData.append("yearsOfExperience", yearsOfExperience);
     formData.append("fees", fees);
     formData.append("department", department);
-  
+
     if (profileImage) {
       formData.append("profileImage", profileImage);
       console.log(profileImage);
@@ -84,26 +84,25 @@ function DoctorProfile() {
         if (response.ok) {
           const data=await response.json()
         Swal.fire({
-          title: 'Success!',
-          text: 'Profile information saved successfully',
-          icon: 'success',
-          confirmButtonText: 'OK'
+          title: "Success!",
+          text: "Profile information saved successfully",
+          icon: "success",
+          confirmButtonText: "OK",
         }).then(() => {
           navigate("/doctor-profile",{state:{data}});
         });
       }
     } catch (error) {
       console.error("Error saving profile information:", error);
-  
+
       Swal.fire({
-        title: 'Error!',
-        text: 'An error occurred while saving profile information',
-        icon: 'error',
-        confirmButtonText: 'OK'
+        title: "Error!",
+        text: "An error occurred while saving profile information",
+        icon: "error",
+        confirmButtonText: "OK",
       });
     }
   };
-  
 
   const handleConfirmClick = (e) => {
     e.preventDefault();

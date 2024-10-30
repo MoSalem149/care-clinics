@@ -57,56 +57,56 @@ const App = () => {
           <Route path="/Contact" element={<ContactUsPage />} />
           <Route path="/user-profile" element={<UserProfilePage />} />
 
-          <Route
-            path="/reset-password/:token"
-            element={<ResetPasswordPage />}
-          />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/department" element={<DepartmentParent />} />
-          <Route path="/doctor" element={<DoctorForUser />}></Route>
-          <Route path="/department/doctors" element={<Doctor />} />
+            <Route
+              path="/reset-password/:token"
+              element={<ResetPasswordPage />}
+            />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/department" element={<DepartmentParent />} />
+            <Route path="/doctor" element={<DoctorForUser />}></Route>
+            <Route path="/department/doctors" element={<Doctor />} />
 
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRouteForAdmin>
-                <AdminDashBoard />
-              </ProtectedRouteForAdmin>
-            }
-          />
-          <Route
-            path="/admin/create-department"
-            element={
-              <ProtectedRouteForAdmin>
-                <CreateDepartment />
-              </ProtectedRouteForAdmin>
-            }
-          />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRouteForAdmin>
+                  <AdminDashBoard />
+                </ProtectedRouteForAdmin>
+              }
+            />
+            <Route
+              path="/admin/create-department"
+              element={
+                <ProtectedRouteForAdmin>
+                  <CreateDepartment />
+                </ProtectedRouteForAdmin>
+              }
+            />
 
-          <Route
-            path="/admin/edit-department"
-            element={
-              <ProtectedRouteForAdmin>
-                <EditDepartment />
-              </ProtectedRouteForAdmin>
-            }
-          />
-          <Route
-            path="/admin/edit-doctor-profile"
-            element={
-              <ProtectedRouteForAdmin>
-                <EditDoctorProfile />
-              </ProtectedRouteForAdmin>
-            }
-          />
-          <Route
-            path="/admin/create-doctor"
-            element={
-              <ProtectedRouteForAdmin>
-                <CreateDoctor />
-              </ProtectedRouteForAdmin>
-            }
-          />
+            <Route
+              path="/admin/edit-department"
+              element={
+                <ProtectedRouteForAdmin>
+                  <EditDepartment />
+                </ProtectedRouteForAdmin>
+              }
+            />
+            <Route
+              path="/admin/edit-doctor-profile"
+              element={
+                <ProtectedRouteForAdmin>
+                  <EditDoctorProfile />
+                </ProtectedRouteForAdmin>
+              }
+            />
+            <Route
+              path="/admin/create-doctor"
+              element={
+                <ProtectedRouteForAdmin>
+                  <CreateDoctor />
+                </ProtectedRouteForAdmin>
+              }
+            />
 
           <Route path="/doctor-form" element={<DoctorForm />} />
           <Route path="/user-form" element={<PatientForm />} />

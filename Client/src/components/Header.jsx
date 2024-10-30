@@ -44,6 +44,8 @@ function Header() {
       }
     } else if (userRole === "user") {
       navigate("/user-profile");
+    } else if (userRole === "admin") {
+      navigate("/admin");
     } else {
       console.error("Unknown role, unable to navigate");
     }
