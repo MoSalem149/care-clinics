@@ -13,11 +13,11 @@ const CreateDoctor = () => {
     yearsOfExperience: "",
     bio: "",
     department: "",
+    fees: "",
   });
   const [availability, setAvailability] = useState([
     { day: "", startTime: "", endTime: "" },
   ]);
-  const [fees, setFees] = useState({ consultation: "" });
   const [profileImage, setProfileImage] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -48,9 +48,14 @@ const CreateDoctor = () => {
   const handleAddAvailability = () => {
     setAvailability([...availability, { day: "", startTime: "", endTime: "" }]);
   };
-  const handleFeesChange = (field, value) => {
-    setFees({ ...fees, [field]: value });
+  const handleFeesChange = (e) => {
+    const value = e.target.value;
+    setDoctorData((prevData) => ({
+      ...prevData,
+      fees: value,
+    }));
   };
+
   const handleImageChange = (e) => {
     setProfileImage(e.target.files[0]);
   };
@@ -61,7 +66,6 @@ const CreateDoctor = () => {
       formData.append(key, doctorData[key]);
     }
     formData.append("availability", JSON.stringify(availability));
-    formData.append("fees", JSON.stringify(fees));
     if (profileImage) {
       formData.append("profileImage", profileImage);
     }
@@ -222,9 +226,9 @@ const CreateDoctor = () => {
         <h3 className={styles.Fees}>Fees</h3>
         <input
           type="number"
-          value={fees.consultation}
-          onChange={(e) => handleFeesChange("consultation", e.target.value)}
-          placeholder="Consultation Fee"
+          value={doctorData.fees}
+          onChange={handleFeesChange}
+          placeholder="Fees"
           required
         />
       </div>

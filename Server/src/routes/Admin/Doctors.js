@@ -15,7 +15,7 @@ const {
 const authAdmin = require("../../middleWares/authAdmin.js");
 const { uploadToFirebase } = require("../../middleWares/FireBase.js");
 
-router.get("/", authAdmin, GetAllDoctors);
+router.get("/", GetAllDoctors);
 
 router.get("/:id", authAdmin, GetOneDoctor);
 

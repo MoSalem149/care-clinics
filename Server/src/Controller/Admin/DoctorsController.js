@@ -50,6 +50,8 @@ const GetOneDoctor = async (req, res) => {
 };
 
 const CreateDoctor = async (req, res) => {
+  console.log("Request Body:", req.body);
+
   try {
     const {
       email,
@@ -61,6 +63,10 @@ const CreateDoctor = async (req, res) => {
       fees,
       ...doctorDetails
     } = req.body;
+    const parsedFees = Number(fees);
+    if (isNaN(parsedFees)) {
+      return res.status(400).json({ error: "Invalid fees value." });
+    }
 
     if (!emailRegex.test(email)) {
       return res.status(400).json({
@@ -107,13 +113,14 @@ const CreateDoctor = async (req, res) => {
     const newDoctor = new DoctorModel({
       name: fullName,
       ...doctorDetails,
+      phoneNumber,
       ProfileImage,
+      fees: parsedFees,
       availability:
         typeof availability === "string"
           ? JSON.parse(availability)
           : availability,
       department: foundDepartment._id,
-      fees: typeof fees === "string" ? JSON.parse(fees) : fees,
       user: newUser._id,
       isApproved: true,
     });
@@ -156,6 +163,10 @@ const UpdateDoctor = async (req, res) => {
       phoneNumber,
       ...doctorDetails
     } = req.body;
+    const parsedFees = Number(fees);
+    if (isNaN(parsedFees)) {
+      return res.status(400).json({ error: "Invalid fees value." });
+    }
 
     if (phoneNumber && phoneNumber !== existingDoctorData.phoneNumber) {
       if (!phonePattern.test(phoneNumber)) {
@@ -187,7 +198,7 @@ const UpdateDoctor = async (req, res) => {
         typeof availability === "string"
           ? JSON.parse(availability)
           : availability,
-      fees: typeof fees === "string" ? JSON.parse(fees) : fees,
+      fees: parsedFees,
       ...(foundDepartment ? { department: foundDepartment._id } : {}),
     };
     if (ProfileImage) {

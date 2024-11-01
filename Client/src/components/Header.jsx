@@ -10,11 +10,12 @@ import { jwtDecode } from "jwt-decode";
 import { useUsersProfileContext } from "./Context/GetUsersProfile";
 import "../styles/Header.css";
 import { ProfileImageContext } from "../components/Context/profileImageContext";
-
+import { useDoctorProfile } from "./Context/DoctorProfileContext";
 function Header() {
   const { profileImage, currentUser } = useUsersProfileContext();
   const { theProfileImage, clearProfileImage } =
     useContext(ProfileImageContext);
+  const { doctorProfile, clearDoctorProfile } = useDoctorProfile();
   const { doctors } = useContext(DoctorContext);
   const { clearUserData } = useUsers();
   const [menuActive, setMenuActive] = useState(false);
@@ -22,27 +23,41 @@ function Header() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userId = token ? jwtDecode(token).id : null;
+  console.log(doctors);
 
-  useEffect(() => {
-    console.log("Current profile image:", currentUser);
-  }, [currentUser]);
+  const matchedDoctor =
+    userRole === "doctor"
+      ? doctors.find((doctor) => doctor.user === userId) ||
+        doctorProfile?.newDoctor?.user === userId
+      : null;
+  useEffect(() => {}, [currentUser]);
   useEffect(() => {
     console.log("Current profile image:", theProfileImage);
   }, [theProfileImage]);
+  console.log("Matched Doctors Data : ", matchedDoctor);
 
   const handleMenuToggle = () => {
     setMenuActive(!menuActive);
+  };
+  const profileImageSrc = () => {
+    if (userRole === "doctor") {
+      return (
+        doctorProfile?.newDoctor?.ProfileImage ||
+        matchedDoctor?.ProfileImage ||
+        avatarImage
+      );
+    }
+    return (
+      theProfileImage ||
+      (currentUser && currentUser.profileImage) ||
+      avatarImage
+    );
   };
 
   const handleProfileClick = (e) => {
     e.preventDefault();
     if (userRole === "doctor") {
-      const matchedDoctor = doctors.find((doctor) => doctor.user === userId);
-      if (matchedDoctor) {
-        navigate("/doctor-profile", { state: { doctor: matchedDoctor } });
-      } else {
-        console.error("Doctor not found");
-      }
+      navigate("/doctor-profile");
     } else if (userRole === "user") {
       navigate("/user-profile");
     } else if (userRole === "admin") {
@@ -65,7 +80,7 @@ function Header() {
       if (result.isConfirmed) {
         clearUserData();
         // clearProfileImage();
-
+        clearDoctorProfile();
         Swal.fire({
           title: "Signed Out",
           text: "You have successfully signed out.",
@@ -105,14 +120,7 @@ function Header() {
         </ul>
         <div className="link">
           <a href="#" className="profile-img" onClick={handleProfileClick}>
-            <img
-              src={
-                theProfileImage ||
-                (currentUser && currentUser.profileImage) ||
-                avatarImage
-              }
-              alt="Profile"
-            />
+            <img src={profileImageSrc()} alt="Profile" />
           </a>
           <button className="logout-btn" onClick={handleSignOut}>
             <FaSignOutAlt /> Sign Out

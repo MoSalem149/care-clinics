@@ -10,14 +10,19 @@ const DoctorProvider = ({ children }) => {
     const GetAllDoctors = async () => {
       try {
         const res = await fetch("http://localhost:5000/doctors/GetAllDoctors");
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
         const Doctordata = await res.json();
         setDoctors(Doctordata);
       } catch (error) {
-        // console.error("Error Fetching Doctors", error);
+        console.error("Error Fetching Doctors", error);
       }
     };
     GetAllDoctors();
   }, []);
+
+  console.log("Doctors in Context:", doctors);
 
   return (
     <DoctorContext.Provider

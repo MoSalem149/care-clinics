@@ -13,13 +13,13 @@ const EditDoctorProfile = () => {
     name: state.doctor.name || "",
     age: state.doctor.age || "",
     gender: state.doctor.gender || "",
-    phoneNumber: "",
+    phoneNumber: state.doctor.phoneNumber || "",
     specialty: state.doctor.specialty || "",
     yearsOfExperience: state.doctor.yearsOfExperience || "",
     bio: state.doctor.bio || "",
     department: state.doctor.department || "",
     profileImage: state.doctor.profileImage || "",
-    fees: state.doctor.fees || { consultation: "" },
+    fees: state.doctor.fees || "",
     isApproved: state.doctor?.isApproved || false,
   });
   const handleApprovalChange = (e) => {
@@ -30,7 +30,6 @@ const EditDoctorProfile = () => {
     state.doctor.availability || [{ day: "", startTime: "", endTime: "" }]
   );
 
-  const [fees, setFees] = useState(state.doctor.fees || { consultation: "" });
   const [profileImage, setProfileImage] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -74,10 +73,11 @@ const EditDoctorProfile = () => {
     setAvailability([...availability, { day: "", startTime: "", endTime: "" }]);
   };
 
-  const handleFeesChange = (type, value) => {
-    setFees((prevData) => ({
+  const handleFeesChange = (e) => {
+    const value = e.target.value;
+    setDoctorData((prevData) => ({
       ...prevData,
-      [type]: value,
+      fees: value,
     }));
   };
 
@@ -98,12 +98,9 @@ const EditDoctorProfile = () => {
     for (const key in updatedFields) {
       formData.append(key, updatedFields[key]);
     }
+
     formData.append("availability", JSON.stringify(availability));
-
-    if (JSON.stringify(fees) !== JSON.stringify(state.doctor.fees)) {
-      formData.append("fees", JSON.stringify(fees));
-    }
-
+    formData.append("fees", doctorData.fees);
     if (profileImage) {
       formData.append("profileImage", profileImage);
     }
@@ -209,8 +206,9 @@ const EditDoctorProfile = () => {
         <h3 className={styles.fees}>Fees:</h3>
         <input
           type="number"
-          placeholder={doctorData.fees.consultation || "Enter Consultation Fee"}
-          onChange={(e) => handleFeesChange("consultation", e.target.value)}
+          value={doctorData.fees}
+          placeholder="Enter Consultation Fee"
+          onChange={handleFeesChange}
         />
       </div>
       <div className={styles.EditDoctor_formGroup}>

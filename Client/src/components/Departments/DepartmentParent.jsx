@@ -1,5 +1,5 @@
 import React from "react";
-import HeaderParent from "../../components/HeaderParent";
+import Header from "../../components/Header";
 import Department from "./Department";
 import Footer from "../Footer";
 import { useUsersProfileContext } from "../../components/Context/GetUsersProfile";
@@ -7,7 +7,7 @@ const DepartmentParent = () => {
   const { currentUserProfile } = useUsersProfileContext();
   return (
     <div>
-      <HeaderParent profileImage={currentUserProfile?.profileImage} />
+      <Header />
       <Department />
       <Footer />
     </div>

@@ -9,12 +9,15 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { ClipLoader } from "react-spinners";
 import { useContext } from "react";
-import HeaderParent from "../components/HeaderParent";
 import { useUsersProfileContext } from "../components/Context/GetUsersProfile";
 import { ProfileImageContext } from "../components/Context/profileImageContext";
+import { useNavigate } from "react-router-dom";
+import { UserContext, useUsers } from "../components/Context/userContext";
 function UserProfilePage() {
+  const { clearUserData, logout } = useContext(UserContext);
   const { theProfileImage, setTheProfileImage } =
     useContext(ProfileImageContext);
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -34,17 +37,19 @@ function UserProfilePage() {
         const data = result.data.userProfile;
 
         // Update state with fetched data
+
         setFullName(data.fullName);
         setDateOfBirth(data.dateOfBirth);
         setLastCheckupDate(data.lastCheckupDate);
         setBloodType(data.bloodType);
-        setFamilyHistory(data.familyHistory);
+        setFamilyMedicalHistory(data.familyMedicalHistory);
         setChronicConditions(data.chronicConditions);
         setPhoneNumber(data.phoneNumber);
         setSurgicalHistory(data.surgicalHistory);
         setAppointments(data.appointments);
         setProfileImage(data.profileImage);
         setTheProfileImage(data.profileImage);
+        setEmail(data.email);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -61,6 +66,14 @@ function UserProfilePage() {
     document.body.style.backgroundRepeat = "no-repeat, no-repeat";
 
     // Cleanup function
+
+    document.body.style.backgroundColor = "#E6F7FF";
+    document.body.style.marginTop = "20px";
+    document.body.style.backgroundImage =
+      "url('../../public/Vector.png'),url('../../public/Vector (1).png')";
+    document.body.style.backgroundPosition = "top right, top left";
+    document.body.style.backgroundRepeat = "no-repeat, no-repeat";
+
     return () => {
       document.body.style.backgroundColor = "";
       document.body.style.marginTop = "";
@@ -78,7 +91,7 @@ function UserProfilePage() {
   const [lastCheckupDate, setLastCheckupDate] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [bloodType, setBloodType] = useState("");
-  const [familyHistory, setFamilyHistory] = useState([]);
+  const [familyMedicalHistory, setFamilyMedicalHistory] = useState([]);
   const [chronicConditions, setChronicConditions] = useState([]);
   const [surgicalHistory, setSurgicalHistory] = useState([]);
   const [appointments, setAppointments] = useState([]);
@@ -87,6 +100,19 @@ function UserProfilePage() {
   const [appointmentId, setAppointmentId] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = ("0" + date.getDate()).slice(-2);
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+  const Logout = () => {
+    clearUserData();
+    logout();
+    navigate("/signup");
+  };
 
   const times = [];
   for (let hour = 0; hour < 24; hour++) {
@@ -155,6 +181,10 @@ function UserProfilePage() {
         Swal.fire("Deleted!", "Your account has been deleted.", "success");
 
         // Handle any additional logic here, e.g., logging out or redirecting
+
+        Swal.fire("Deleted!", "Your account has been deleted.", "success");
+
+        Logout();
       }
     } catch (error) {
       console.error("Error deleting account:", error);
@@ -169,10 +199,7 @@ function UserProfilePage() {
   };
 
   const handleCancelAppointment = async ({ appointmentID }) => {
-    // Destructure parameter here
-    console.log("Canceling appointment with ID:", appointmentID); // Log the appointmentID
     try {
-      // Show SweetAlert confirmation popup
       const result = await Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to recover this appointment!",
@@ -191,20 +218,6 @@ function UserProfilePage() {
           return;
         }
 
-        // Check user data
-        const response = await fetch("http://localhost:5000/users/profile", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          console.error("Failed to fetch user data");
-          return;
-        }
-
-        // Delete appointment
         const deleteResponse = await fetch(
           `http://localhost:5000/users/profile/deleteAppointment/${appointmentID}`,
           {
@@ -227,7 +240,6 @@ function UserProfilePage() {
     } catch (error) {
       console.error("Error deleting appointment:", error);
 
-      // Show error message with SweetAlert
       Swal.fire(
         "Error!",
         "Something went wrong while deleting your appointment.",
@@ -293,6 +305,9 @@ function UserProfilePage() {
           icon: "success",
           confirmButtonText: "OK",
         });
+
+        setAppointmentDate("");
+        setSelectedTime("");
       } else {
         console.error(
           "Failed to update appointment",
@@ -349,7 +364,7 @@ function UserProfilePage() {
     updatedData.append("lastCheckupDate", lastCheckupDate);
     updatedData.append("phoneNumber", phoneNumber);
     updatedData.append("bloodType", bloodType);
-    updatedData.append("familyHistory", familyHistory);
+    updatedData.append("familyMediacalHistory", familyMedicalHistory);
     updatedData.append("chronicConditions", chronicConditions);
     updatedData.append("surgicalHistory", surgicalHistory);
 
@@ -443,7 +458,6 @@ function UserProfilePage() {
                             onChange={(e) => setDateOfBirth(e.target.value)}
                           />
                         </p>
-
                         <p>
                           <strong>Last Checkup Date:</strong>
                           <input
@@ -472,8 +486,10 @@ function UserProfilePage() {
                           <strong>Family Medical History:</strong>
                           <input
                             type="text"
-                            value={familyHistory}
-                            onChange={(e) => setFamilyHistory(e.target.value)}
+                            value={familyMedicalHistory}
+                            onChange={(e) =>
+                              setFamilyMedicalHistory(e.target.value)
+                            }
                           />
                         </p>
                         <p>
@@ -509,10 +525,12 @@ function UserProfilePage() {
                           <strong>Full Name:</strong> {fullName}
                         </p>
                         <p>
-                          <strong>Date Of Birth:</strong> {dateOfBirth}
+                          <strong>Date Of Birth:</strong>{" "}
+                          {formatDate(dateOfBirth)}
                         </p>
                         <p>
-                          <strong>Last Checkup Date:</strong> {lastCheckupDate}
+                          <strong>Last Checkup Date:</strong>{" "}
+                          {formatDate(lastCheckupDate)}
                         </p>
                         <p>
                           <strong>Phone Number:</strong> {phoneNumber}
@@ -522,7 +540,7 @@ function UserProfilePage() {
                         </p>
                         <p>
                           <strong>Family Medical History:</strong>{" "}
-                          {familyHistory}
+                          {familyMedicalHistory}
                         </p>
                         <p>
                           <strong>Chronic Conditions:</strong>{" "}
@@ -550,146 +568,132 @@ function UserProfilePage() {
                   </div>
                 </div>
               </div>
+
               <div className="col-lg-6 col-md-6 col-sm-12">
                 <div className="appointment-container">
                   <div className="appointment-header">My Appointments</div>
                   <div className="appointment-details">
                     {isModifying ? (
-                      <>
-                        <div className="update-appointment-container">
-                          <div className="modification-inputs">
-                            <input
-                              type="date"
-                              className="styled-date-input"
-                              value={appointmentDate}
-                              onChange={(e) =>
-                                setAppointmentDate(e.target.value)
-                              }
-                            />
-                            <select
-                              className="time-select"
-                              required
-                              value={selectedTime}
-                              onChange={(e) => setSelectedTime(e.target.value)}
-                            >
-                              <option value="" disabled>
-                                Choose time
-                              </option>
-                              {times.map((time) => (
-                                <option key={time} value={time}>
-                                  {time}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          <button
-                            className="update-appointments-btn"
-                            onClick={handleSaveChanges}
+                      <div className="update-appointment-container">
+                        <div className="modification-inputs">
+                          <input
+                            type="date"
+                            className="styled-date-input"
+                            value={appointmentDate}
+                            onChange={(e) => setAppointmentDate(e.target.value)}
+                          />
+                          <select
+                            className="time-select"
+                            required
+                            value={selectedTime}
+                            onChange={(e) => setSelectedTime(e.target.value)}
                           >
-                            Update Appointment
-                          </button>
+                            <option value="" disabled>
+                              Choose time
+                            </option>
+                            {times.map((time) => (
+                              <option key={time} value={time}>
+                                {time}
+                              </option>
+                            ))}
+                          </select>
                         </div>
-                      </>
+                        <button
+                          className="update-appointments-btn"
+                          onClick={handleSaveChanges}
+                        >
+                          Update Appointment
+                        </button>
+                      </div>
                     ) : (
-                      <>
-                        <div className="appointment-time">
-                          {appointments.length > 0 ? (
-                            <ol className="appointment-list">
-                              {appointments
-                                .sort(
-                                  (a, b) =>
-                                    new Date(a.appointmentTime) -
-                                    new Date(b.appointmentTime)
-                                )
-                                .map((appointment, index) => {
-                                  let appointmentDate = new Date(
-                                    appointment.appointmentTime
-                                  );
-
-                                  const timezoneOffset =
-                                    appointmentDate.getTimezoneOffset();
-                                  appointmentDate.setMinutes(
-                                    appointmentDate.getMinutes() +
-                                      timezoneOffset
-                                  );
-
-                                  const formattedDate =
-                                    appointmentDate.toLocaleString("en-US", {
-                                      year: "numeric",
-                                      month: "2-digit",
-                                      day: "2-digit",
-                                      hour: "2-digit",
-                                      minute: "2-digit",
-                                      hour12: true,
-                                    });
-
-                                  const { appointmentId, doctorName } =
-                                    appointment;
-                                  console.log(appointmentId, "ccf", doctorName);
-
-                                  return (
-                                    <li
-                                      key={index}
-                                      className="appointment-item"
-                                    >
-                                      <div className="appointment-info">
-                                        <span className="appointment-date">
-                                          <span className="booking-info-span">
-                                            Date:{" "}
-                                          </span>{" "}
-                                          {formattedDate}
-                                        </span>
-                                        <span className="booking-doctor-name">
-                                          <span className="booking-info-span">
-                                            with Dr.{" "}
-                                          </span>{" "}
-                                          {doctorName}
-                                        </span>
-                                      </div>
-                                      <div className="appointment-actions">
-                                        <button
-                                          className="book-modify-btn"
-                                          onClick={() => {
-                                            setIsModifying(true);
-                                            setAppointmentDate(
-                                              appointmentDate
-                                                .toISOString()
-                                                .split("T")[0]
-                                            );
-                                            setAppointmentId(appointmentId);
-                                          }}
-                                        >
-                                          Modify
-                                        </button>
-                                        <button
-                                          className="book-cancel-btn"
-                                          onClick={() =>
-                                            handleCancelAppointment({
-                                              appointmentID: appointmentId,
-                                            })
-                                          }
-                                        >
-                                          Cancel
-                                        </button>
-                                      </div>
-                                    </li>
-                                  );
-                                })}
-                            </ol>
-                          ) : (
-                            <p>No appointments available.</p>
-                          )}
-                        </div>
-                      </>
+                      <div className="appointment-time">
+                        {appointments.length > 0 ? (
+                          <ol className="appointment-list">
+                            {appointments
+                              .sort(
+                                (a, b) =>
+                                  new Date(a.appointmentTime) -
+                                  new Date(b.appointmentTime)
+                              )
+                              .map((appointment, index) => {
+                                let appointmentDate = new Date(
+                                  appointment.appointmentTime
+                                );
+                                const timezoneOffset =
+                                  appointmentDate.getTimezoneOffset();
+                                appointmentDate.setMinutes(
+                                  appointmentDate.getMinutes() + timezoneOffset
+                                );
+                                const formattedDate =
+                                  appointmentDate.toLocaleString("en-US", {
+                                    year: "numeric",
+                                    month: "2-digit",
+                                    day: "2-digit",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    hour12: true,
+                                  });
+                                const { appointmentId, doctorName } =
+                                  appointment;
+                                return (
+                                  <li key={index} className="appointment-item">
+                                    <div className="appointment-info">
+                                      <span className="appointment-date">
+                                        <span className="booking-info-span">
+                                          Date:{" "}
+                                        </span>{" "}
+                                        {formattedDate}
+                                      </span>
+                                      <span className="booking-doctor-name">
+                                        <span className="booking-info-span">
+                                          with Dr.{" "}
+                                        </span>{" "}
+                                        {doctorName}
+                                      </span>
+                                    </div>
+                                    <div className="appointment-actions">
+                                      <button
+                                        className="book-modify-btn"
+                                        onClick={() => {
+                                          setIsModifying(true);
+                                          setAppointmentDate(
+                                            appointmentDate
+                                              .toISOString()
+                                              .split("T")[0]
+                                          );
+                                          setAppointmentId(appointmentId);
+                                        }}
+                                      >
+                                        Modify
+                                      </button>
+                                      <button
+                                        className="book-cancel-btn"
+                                        onClick={() =>
+                                          handleCancelAppointment({
+                                            appointmentID: appointmentId,
+                                          })
+                                        }
+                                      >
+                                        Cancel
+                                      </button>
+                                    </div>
+                                  </li>
+                                );
+                              })}
+                          </ol>
+                        ) : (
+                          <p>No appointments available.</p>
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>
               </div>
             </div>
-            <button onClick={handleDeleteAccount} className="delete-btn">
-              Delete account
-            </button>
           </div>
+          <button onClick={handleDeleteAccount} className="delete-btn">
+            Delete account
+          </button>
         </div>
       )}
     </HelmetProvider>

@@ -9,21 +9,37 @@ import Swal from "sweetalert2";
 import { ClipLoader } from "react-spinners";
 import Header from "../components/Header";
 import { Navigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../components/Context/userContext";
 import { useContext } from "react";
+import { useDoctorProfile } from "../components/Context/DoctorProfileContext";
+import { DoctorContext } from "../components/Doctor-details/DoctorContext";
+
 function DoctorProfile() {
-  const location = useLocation();
-  const { doctor } = location.state;
+  const { doctorProfile } = useDoctorProfile();
+  const navigate = useNavigate();
+  const { doctors } = useContext(DoctorContext);
   const { currentUser } = useContext(UserContext);
   const [isOwnerOfPof, setIsOwnerOfPof] = useState(false);
+  const [doctor, setDoctor] = useState(null);
+
+  console.log(doctors);
+  console.log(currentUser);
 
   useEffect(() => {
-    if (currentUser && doctor) {
-      if (currentUser.id === doctor.user) {
+    if (currentUser && doctors) {
+      const matchedDoctor = doctors.find(
+        (doc) =>
+          doc.user === currentUser.id ||
+          (doctorProfile?.newDoctor &&
+            doctorProfile.newDoctor.user === currentUser.id)
+      );
+      if (matchedDoctor) {
+        setDoctor(matchedDoctor);
         setIsOwnerOfPof(true);
       }
     }
-  }, [currentUser, doctor]);
+  }, [currentUser, doctors]);
   useEffect(() => {
     if (doctor) {
       setName(doctor.name);
@@ -36,12 +52,11 @@ function DoctorProfile() {
       setDay(doctor.availability.day);
       setStartTime(doctor.availability.startTime);
       setEndTime(doctor.availability.endTime);
-      setFees(doctor.fees.consultation);
+      setFees(doctor.fees);
       setAppointments(doctor.appointments);
       setBio(doctor.bio);
       setProfileImage(doctor.ProfileImage);
     }
-    console.log(doctor);
 
     document.body.style.backgroundColor = "#E6F7FF";
     document.body.style.marginTop = "20px";
@@ -58,6 +73,8 @@ function DoctorProfile() {
       document.body.style.backgroundRepeat = "";
     };
   }, [doctor]);
+
+  console.log(doctor);
 
   const [menuActive, setMenuActive] = useState(false);
   const handleMenuToggle = () => {
@@ -85,7 +102,7 @@ function DoctorProfile() {
   const [appointments, setAppointments] = useState([]);
   const [appointmentTime, setAppointmentTime] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(doctor._id);
+  console.log(JSON.stringify(doctorProfile, null, 2));
 
   const handleAddDay = () => {
     if (!day || !startTime || !endTime) {
@@ -161,6 +178,7 @@ function DoctorProfile() {
         }
 
         Swal.fire("Deleted!", "Your account has been deleted.", "success");
+        navigate("/signup");
       }
     } catch (error) {
       console.error("Error deleting account:", error);
@@ -435,11 +453,16 @@ function DoctorProfile() {
                         />
                       </>
                     ) : (
-                      <img
-                        src={profileImage}
-                        alt="Profile"
-                        className="profile-img"
-                      />
+                      <div className="Image-Holder-For-DoctorProfile">
+                        <img
+                          className="profile-img-for-Doctor-Profile"
+                          src={
+                            doctorProfile?.newDoctor?.ProfileImage ||
+                            profileImage
+                          }
+                          alt="Profile"
+                        />
+                      </div>
                     )}
                   </div>
 
@@ -479,7 +502,11 @@ function DoctorProfile() {
                       placeholder="Write your bio here..."
                     ></textarea>
                   ) : (
-                    <div>{bio === "" ? "Please write your bio." : bio}</div>
+                    <div>
+                      {bio === "undefined"
+                        ? bio === "Please write your bio."
+                        : bio}
+                    </div>
                   )}
                 </div>
 
@@ -567,19 +594,22 @@ function DoctorProfile() {
                       ) : (
                         <>
                           <p>
-                            <strong>Age:</strong> {age}
+                            <strong>Age:</strong>{" "}
+                            {doctorProfile?.newDoctor?.age || age}
                           </p>
                           <p>
-                            <strong>Gender:</strong> {gender}
+                            <strong>Gender:</strong>{" "}
+                            {doctorProfile?.newDoctor?.gender || gender}
                           </p>
                           <p>
-                            <strong>Experience:</strong> {yearsOfExperience}
+                            <strong>Experience:</strong>{" "}
+                            {doctorProfile?.newDoctor?.yearsOfExperience ||
+                              yearsOfExperience}
                           </p>
                           <p>
-                            <strong>Phone Number:</strong> {phoneNumber}
-                          </p>
-                          <p>
-                            <strong>Languages:</strong> {languages}
+                            <strong>Phone Number:</strong>{" "}
+                            {doctorProfile?.newDoctor?.phoneNumber ||
+                              phoneNumber}
                           </p>
                         </>
                       )}
@@ -588,7 +618,7 @@ function DoctorProfile() {
                     <div className="availability-section">
                       <strong>Available Days :</strong>
                       {availability.length === 0 ? (
-                        <p>Please add available days.</p>
+                        <p>No available days.</p>
                       ) : (
                         availability.map((slot, index) => (
                           <div key={index}>
@@ -708,11 +738,7 @@ function DoctorProfile() {
                                   hour12: true,
                                 });
 
-                              return (
-                                <li key={index}>
-                                  {userName} Date: {formattedDate}
-                                </li>
-                              );
+                              return <li key={index}>Date: {formattedDate}</li>;
                             })}
                         </ol>
                       ) : (
@@ -735,7 +761,7 @@ function DoctorProfile() {
                       <div className="booking-fees">
                         <img src={feesImage} alt="fees image" />
                         <span>
-                          <span className="fees-txt">{fees.consultation}</span>{" "}
+                          <span className="fees-txt">{fees}</span>
                           EGP
                         </span>
                       </div>

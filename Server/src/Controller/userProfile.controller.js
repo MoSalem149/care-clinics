@@ -9,17 +9,31 @@ const addProfileInfo = async (req, res) => {
   try {
     const userId = req.user.id;
     const userRole = req.user.role;
+    const user = await User.findById(userId);
+    const email = user.email;
     const additionalInfo = req.body;
+
+    if (additionalInfo.lastCheckupDate) {
+      const date = new Date(additionalInfo.lastCheckupDate);
+      const formattedDate =
+        date.getFullYear() +
+        "-" +
+        ("0" + (date.getMonth() + 1)).slice(-2) +
+        "-" +
+        ("0" + date.getDate()).slice(-2);
+      additionalInfo.lastCheckupDate = formattedDate;
+    }
 
     if (req.file) {
       additionalInfo.profileImage = req.body.ProfileImage;
     }
-    let userProfile;
 
+    let userProfile;
     if (userRole === "user") {
       userProfile = new UserProfile({
         ...additionalInfo,
         user: userId,
+        email: email,
       });
     } else {
       return res.status(403).json({
@@ -29,7 +43,6 @@ const addProfileInfo = async (req, res) => {
     }
 
     await userProfile.save();
-
     res.status(200).json({
       status: "SUCCESS",
       message: "Profile information saved successfully",
@@ -268,7 +281,7 @@ const bookAppointment = async (req, res) => {
       {
         $push: {
           appointments: {
-            appointmentId: appointment.appointmentId,
+            appointmentId: appointment._id,
             appointmentTime: appointmentDate,
             appointmentDuration: appointmentDuration,
             appointmentEndTime: appointmentEndTime,
@@ -387,12 +400,10 @@ const updateAppointment = async (req, res) => {
       });
     }
 
-    // Calculate new appointment end time as 30 minutes after the appointment time
     let newAppointmentEndTime = new Date(
       appointmentDate.getTime() + 30 * 60000
     );
 
-    // Check for overlapping appointments
     const overlappingAppointments = await Appointment.find({
       doctor: appointment.doctor,
       appointmentTime: {
@@ -436,7 +447,7 @@ const updateAppointment = async (req, res) => {
     }
 
     const doctorUpdate = await Doctor.findOneAndUpdate(
-      { _id: appointment.doctor, "appointments.appointmentId": appointmentId },
+      { _id: appointment.doctor, "appointments._id": appointmentId },
       {
         $set: {
           "appointments.$.appointmentTime": appointmentDate,
@@ -509,7 +520,7 @@ const deleteAppointment = async (req, res) => {
     // Remove the appointment from the doctor's profile
     const doctorUpdate = await Doctor.findByIdAndUpdate(
       appointment.doctor,
-      { $pull: { appointments: { appointmentId: appointmentId } } }, // Ensure you are matching by _id
+      { $pull: { appointments: { _id: appointmentId } } }, // Ensure you are matching by _id
       { new: true } // Return the updated document
     );
 
@@ -574,6 +585,7 @@ const getUserProfile = async (req, res) => {
     });
   }
 };
+
 const getDoctorProfile = async (req, res) => {
   try {
     const userId = req.user.id;
