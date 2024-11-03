@@ -71,6 +71,10 @@ Care Clinics is a full-stack application designed to manage clinic appointments 
 
 ![Footer](./README-Assets/Screens/Footer.png)
 
+### Landing Page
+
+![Landing-Page](./README-Assets/Screens/Landin-Page.png)
+
 ### Patient Home Page
 
 ![Patient-Home-Page](./README-Assets/Screens/Patient-Home-Page.png)
