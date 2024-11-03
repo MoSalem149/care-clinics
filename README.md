@@ -73,7 +73,7 @@ Care Clinics is a full-stack application designed to manage clinic appointments 
 
 ### Landing Page
 
-![Landing-Page](./README-Assets/Screens/Landin-Page.png)
+![Landing-Page](./README-Assets/Screens/Landing-Page.png)
 
 ### Patient Home Page
 
@@ -106,6 +106,18 @@ Care Clinics is a full-stack application designed to manage clinic appointments 
 ### User Profile Page
 
 ![User-Profile-Page](./README-Assets/Screens/User-Profile-Page.png)
+
+### Departments Dashboard
+
+![Departments-Dashboard](./README-Assets/Screens/Departments-Dashboard.jpg)
+
+### Doctors Dashboard
+
+![Doctors-Dashboard](./README-Assets/Screens/Doctors-Dashboard.jpg)
+
+### Appointments Dashboard
+
+![Appointments-Dashboard](./README-Assets/Screens/Appointments-Dashboard.jpg)
 
 ## Getting Started
 
