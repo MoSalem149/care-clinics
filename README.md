@@ -8,6 +8,14 @@
 
 > Full-Stack MERN Application - Front-end(React.js) & Back-end(Node.js, MongoDB, and Express.js)
 
+# Project Drive
+
+> The project-related documentation, including the presentation and project requirements, is available on the following Google Drive:
+
+<div align="center">
+  <a href="https://drive.google.com/drive/folders/1ttctTR2dimfqJ0kXtuORBY1usuXFe_e1?usp=drive_link">Project Drive Link</a>
+</div>
+
 ## Overview
 
 Care Clinics is a full-stack application designed to manage clinic appointments and patient information. The project consists of a React-based frontend (client) and a Node.js/Express-based backend (server) with a MongoDB database.
